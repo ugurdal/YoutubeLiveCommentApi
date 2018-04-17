@@ -14,5 +14,6 @@ namespace derinYouTube.ViewModels
         public DateTime? PublishedDate { get; set; }
         public string TextOriginal { get; set; }
         public int RepliesCount { get; set; }
+        public string RepliedCommentId { get; set; }
     }
 }

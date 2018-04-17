@@ -9,6 +9,7 @@ using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using derinYouTube.ViewModels;
 
 namespace derinYouTube
@@ -40,6 +41,20 @@ namespace derinYouTube
             return service;
         }
 
+        public static string ParseChannelId(object channelId)
+        {
+            try
+            {
+                return channelId.ToString()
+                .Split(':')[1].Trim().Replace(Convert.ToChar(34), Convert.ToChar(125))
+                .Replace("}", "");
+            }
+            catch (Exception)
+            {
+                return channelId?.ToString() ?? "";
+            }
+        }
+
         public static LinkedList<CommentModel> GetCommentsByVideoId(string videoId)
         {
             var requestList = "snippet,replies";
@@ -61,10 +76,28 @@ namespace derinYouTube
                     var comment = new CommentModel();
                     comment.Id = item.Id;
                     comment.DisplayName = item.Snippet.TopLevelComment.Snippet.AuthorDisplayName;
-                    comment.UserChannelId = item.Snippet.TopLevelComment.Snippet.AuthorChannelId.ToString();
+                    comment.UserChannelId = ParseChannelId(item.Snippet.TopLevelComment.Snippet.AuthorChannelId);
                     comment.PublishedDate = item.Snippet.TopLevelComment.Snippet.PublishedAt.Value;
                     comment.TextOriginal = item.Snippet.TopLevelComment.Snippet.TextOriginal;
                     comment.RepliesCount = item.Replies?.Comments.Count ?? 0;
+                    comment.RepliedCommentId = "";
+
+                    if (comment.RepliesCount > 0)
+                    {
+                        foreach (var comm in item.Replies.Comments)
+                        {
+                            var replyComm = new CommentModel();
+                            replyComm.RepliedCommentId = item.Id;
+                            replyComm.Id = comm.Id;
+                            replyComm.DisplayName = comm.Snippet.AuthorDisplayName;
+                            replyComm.UserChannelId = ParseChannelId(comm.Snippet.AuthorChannelId);
+                            replyComm.PublishedDate = comm.Snippet.PublishedAt.Value;
+                            replyComm.TextOriginal = comm.Snippet.TextOriginal;
+                            replyComm.RepliesCount = 0;
+
+                            comments.AddLast(replyComm);
+                        }
+                    }
 
                     comments.AddLast(comment);
                 }
@@ -97,7 +130,7 @@ namespace derinYouTube
                         var video = new VideoModel();
                         video.Title = item.Snippet.Title;
                         video.Description = item.Snippet.Description;
-                        video.PublishedData = item.Snippet.PublishedAt.Value;
+                        video.PublishedDate = item.Snippet.PublishedAt.Value;
                         video.ChannelId = item.Snippet.ChannelId;
                         video.ChannelTitle = item.Snippet.ChannelTitle;
 
@@ -117,25 +150,71 @@ namespace derinYouTube
 
         public static VideoModel GetVideInfoById(string videoId)
         {
-            var request = ytService.Videos.List("snippet");
-            request.Id = videoId;
-            var video = new VideoModel();
+            try
+            {
+                var request = ytService.Videos.List("snippet");
+                request.Id = videoId;
+                var video = new VideoModel();
 
-            var response = request.Execute();
-            if (response.Items.Count == 0)
-            {
-                // Video not found...
-            }
-            else
-            {
+                var response = request.Execute();
+                if (response.Items.Count == 0)
+                {
+                    MessageBox.Show("Video bulunamadı.", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return null;
+                }
+
                 video.Id = videoId;
                 video.Title = response.Items[0].Snippet.Title;
                 video.Description = response.Items[0].Snippet.Description;
-                video.PublishedData = response.Items[0].Snippet.PublishedAt.Value;
+                video.PublishedDate = response.Items[0].Snippet.PublishedAt.Value;
                 video.ChannelId = response.Items[0].Snippet.ChannelId;
                 video.ChannelTitle = response.Items[0].Snippet.ChannelTitle;
+
+                return video;
             }
-            return video;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Video sorgulanırken hata alındı.\r\n" + ex.Message + ex.InnerException?.Message, "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public static LinkedList<CommentModel> GetLiveCommentsByVideoId(string liveChatId)
+        {
+            var requestList = "snippet,authorDetails";
+            var request = ytService.LiveChatMessages.List(liveChatId, requestList);
+
+
+            request.MaxResults = 200;
+
+            var comments = new LinkedList<CommentModel>();
+            var nextPage = "";
+
+            while (nextPage != null)
+            {
+                request.PageToken = nextPage;
+                var response = request.Execute();
+
+                var i = 0;
+                foreach (var item in response.Items)
+                {
+                    var comment = new CommentModel();
+                    comment.Id = item.Id;
+                    //comment.DisplayName = item.Snippet.TopLevelComment.Snippet.AuthorDisplayName;
+                    //comment.UserChannelId = item.Snippet.TopLevelComment.Snippet.AuthorChannelId.ToString()
+                    //                            .Split(':')[1].Trim().Replace(Convert.ToChar(34), Convert.ToChar(125))
+                    //                            .Replace("}", "");
+                    //comment.PublishedDate = item.Snippet.TopLevelComment.Snippet.PublishedAt.Value;
+                    //comment.TextOriginal = item.Snippet.TopLevelComment.Snippet.TextOriginal;
+                    //comment.RepliesCount = item.Replies?.Comments.Count ?? 0;
+
+                    comments.AddLast(comment);
+                }
+                nextPage = response.NextPageToken;
+            }
+
+            return comments;
         }
 
 
