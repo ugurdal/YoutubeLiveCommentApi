@@ -11,6 +11,9 @@ namespace derinYouTube
         public DateTime? PublishedDate { get; set; }
         public string ChannelId { get; set; }
         public string ChannelTitle { get; set; }
-        
+        public DateTime? ActualStartTime { get; set; }
+        public DateTime? ActualEndTime { get; set; }
+        public string LiveStatus { get; set; }
+        public string LiveChatId { get; set; }
     }
 }

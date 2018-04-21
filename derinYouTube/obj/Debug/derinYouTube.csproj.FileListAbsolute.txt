@@ -44,3 +44,5 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.cspro
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmMain.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.Properties.Resources.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.GenerateResource.Cache
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.CoreCompileInputs.cache
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.CopyComplete

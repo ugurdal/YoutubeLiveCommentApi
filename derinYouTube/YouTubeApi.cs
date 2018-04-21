@@ -11,6 +11,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using derinYouTube.ViewModels;
+using LiveBroadcastsResource = Google.Apis.YouTube.v3.LiveBroadcastsResource;
 
 namespace derinYouTube
 {
@@ -26,10 +27,11 @@ namespace derinYouTube
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     new[] { YouTubeService.Scope.YoutubeReadonly, YouTubeService.Scope.YoutubeForceSsl },
-                        "user",
-                        CancellationToken.None,
-                        new FileDataStore("YouTubeCommentAPI") // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
-                    ).Result;
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(
+                        "YouTubeCommentAPI") // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
+                ).Result;
             }
 
             var service = new YouTubeService(new BaseClientService.Initializer()
@@ -46,8 +48,8 @@ namespace derinYouTube
             try
             {
                 return channelId.ToString()
-                .Split(':')[1].Trim().Replace(Convert.ToChar(34), Convert.ToChar(125))
-                .Replace("}", "");
+                    .Split(':')[1].Trim().Replace(Convert.ToChar(34), Convert.ToChar(125))
+                    .Replace("}", "");
             }
             catch (Exception)
             {
@@ -101,6 +103,7 @@ namespace derinYouTube
 
                     comments.AddLast(comment);
                 }
+
                 nextPage = response.NextPageToken;
             }
 
@@ -122,7 +125,6 @@ namespace derinYouTube
                 request.PageToken = nextPage;
                 var response = request.Execute();
 
-                var i = 0;
                 foreach (var item in response.Items)
                 {
                     if (requestList.Contains("snippet"))
@@ -141,6 +143,7 @@ namespace derinYouTube
                         videos.AddLast(GetVideInfoById(item.ContentDetails.VideoId));
                     }
                 }
+
                 nextPage = response.NextPageToken;
             }
 
@@ -180,43 +183,179 @@ namespace derinYouTube
             }
         }
 
-        public static LinkedList<CommentModel> GetLiveCommentsByVideoId(string liveChatId)
+        public static LinkedList<VideoModel> GetLiveBroadCasts(bool activeOnly = false)
         {
-            var requestList = "snippet,authorDetails";
-            var request = ytService.LiveChatMessages.List(liveChatId, requestList);
-
-
-            request.MaxResults = 200;
-
-            var comments = new LinkedList<CommentModel>();
-            var nextPage = "";
-
-            while (nextPage != null)
+            var videos = new LinkedList<VideoModel>();
+            try
             {
-                request.PageToken = nextPage;
-                var response = request.Execute();
+                var request = ytService.LiveBroadcasts.List("id, snippet, contentDetails, status");
+                request.Mine = true;
+                request.MaxResults = 50;
 
-                var i = 0;
-                foreach (var item in response.Items)
+                var nextPage = "";
+                while (nextPage != null)
                 {
-                    var comment = new CommentModel();
-                    comment.Id = item.Id;
-                    //comment.DisplayName = item.Snippet.TopLevelComment.Snippet.AuthorDisplayName;
-                    //comment.UserChannelId = item.Snippet.TopLevelComment.Snippet.AuthorChannelId.ToString()
-                    //                            .Split(':')[1].Trim().Replace(Convert.ToChar(34), Convert.ToChar(125))
-                    //                            .Replace("}", "");
-                    //comment.PublishedDate = item.Snippet.TopLevelComment.Snippet.PublishedAt.Value;
-                    //comment.TextOriginal = item.Snippet.TopLevelComment.Snippet.TextOriginal;
-                    //comment.RepliesCount = item.Replies?.Comments.Count ?? 0;
+                    request.PageToken = nextPage;
+                    var response = request.Execute();
 
-                    comments.AddLast(comment);
+                    foreach (var item in response.Items)
+                    {
+                        if (activeOnly && item.Status.LifeCycleStatus != "live")
+                            continue;
+                        var video = new VideoModel()
+                        {
+                            Id = item.Id,
+                            Title = item.Snippet.Title,
+                            ChannelId = item.Snippet.ChannelId ?? "",
+                            LiveChatId = item.Snippet.LiveChatId ?? "",
+                            Description = item.Snippet.Description,
+                            LiveStatus = item.Status.LifeCycleStatus,
+                            ChannelTitle = "",
+                            PublishedDate = item.Snippet.PublishedAt,
+                            ActualStartTime = item.Snippet.ActualStartTime,
+                            ActualEndTime = item.Snippet.ActualEndTime
+                        };
+
+
+                        videos.AddLast(video);
+                    }
+
+                    nextPage = response.NextPageToken;
                 }
-                nextPage = response.NextPageToken;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return videos;
+        }
+
+        public static LinkedList<LiveChatModel> GetLiveCommentsByChatId(string liveChatId)
+        {
+            var comments = new LinkedList<LiveChatModel>();
+            try
+            {
+                var requestList = "id,snippet,authorDetails";
+                var request = ytService.LiveChatMessages.List(liveChatId, requestList);
+                request.MaxResults = 500; //Acceptable values are 200 to 2000, inclusive. The default value is 500.
+
+                var nextPage = "";
+
+                while (nextPage != null)
+                {
+                    request.PageToken = nextPage;
+                    var response = request.Execute();
+                    if (response.Items.Count == 0)
+                    {
+                        nextPage = null;
+                        break;
+                    }
+
+                    foreach (var item in response.Items)
+                    {
+                        var comment = new LiveChatModel
+                        {
+                            MessageId = item.Id,
+                            PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                            ChannelUrl = item.AuthorDetails.ChannelUrl,
+                            DisplayMessage = item.Snippet.DisplayMessage,
+                            DisplayName = item.AuthorDetails.DisplayName,
+                            IsVerified = item.AuthorDetails.IsVerified ?? false,
+                            IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
+                            IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
+                            IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false
+                        };
+
+                        comments.AddLast(comment);
+                    }
+
+                    nextPage = response.NextPageToken;
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
 
             return comments;
         }
 
+        public static void AsyncGetLiveCommentsByChatId(string liveChatId, string videoId)
+        {
+            try
+            {
+                while (IsVideoLive(videoId))
+                {
+                    var requestList = "id,snippet,authorDetails";
+                    var request = ytService.LiveChatMessages.List(liveChatId, requestList);
+                    request.MaxResults = 500; //Acceptable values are 200 to 2000, inclusive. The default value is 500.
 
+                    var nextPage = "";
+
+                    while (nextPage != null)
+                    {
+                        request.PageToken = nextPage;
+                        var response = request.ExecuteAsync(CancellationToken.None);
+                        if (response.Result.Items.Count == 0)
+                        {
+                            nextPage = null;
+                            break;
+                        }
+
+                        foreach (var item in response.Result.Items)
+                        {
+                            var chat = new LiveChatModel
+                            {
+                                MessageId = item.Id,
+                                PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                                ChannelUrl = item.AuthorDetails.ChannelUrl,
+                                DisplayMessage = item.Snippet.DisplayMessage,
+                                DisplayName = item.AuthorDetails.DisplayName,
+                                IsVerified = item.AuthorDetails.IsVerified ?? false,
+                                IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
+                                IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
+                                IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false
+                            };
+
+                            if (Helper.LiveChatModels.All(x => x.MessageId != chat.MessageId))
+                            {
+                                Helper.LiveChatModels.AddLast(chat);
+                                Helper.DtLiveChats.Rows.Add(chat.MessageId, chat.PublishedAt, chat.DisplayMessage,
+                                    chat.DisplayName, chat.ChannelUrl, chat.IsVerified, chat.IsChatOwner,
+                                    chat.IsChatSponsor, chat.IsChatModerator);
+
+                                //DtLiveChats.Columns.Add("MessageId", typeof(string));
+                                //DtLiveChats.Columns.Add("PublishedAt", typeof(string));
+                                //DtLiveChats.Columns.Add("DisplayMessage", typeof(string));
+                                //DtLiveChats.Columns.Add("DisplayName", typeof(string));
+                                //DtLiveChats.Columns.Add("ChannelUrl", typeof(string));
+                                //DtLiveChats.Columns.Add("IsVerified", typeof(bool));
+                                //DtLiveChats.Columns.Add("IsChatOwner", typeof(bool));
+                                //DtLiveChats.Columns.Add("IsChatSponsor", typeof(bool));
+                                //DtLiveChats.Columns.Add("IsChatModerator", typeof(bool));
+                            }
+                        }
+
+                        nextPage = response.Result.NextPageToken;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public static bool IsVideoLive(string videoId)
+        {
+            var request = ytService.LiveBroadcasts.List("status");
+            request.Id = videoId;
+
+            var response = request.Execute();
+
+            return response.Items[0].Status.LifeCycleStatus == "live";
+        }
     }
 }
