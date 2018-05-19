@@ -40,9 +40,15 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Google.Apis.Core.x
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Google.Apis.YouTube.v3.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Newtonsoft.Json.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\System.Net.Http.Formatting.xml
-C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojResolveAssemblyReference.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmMain.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.Properties.Resources.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.GenerateResource.Cache
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.CoreCompileInputs.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csproj.CopyComplete
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.dll
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.SimpleCRUD.dll
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.pdb
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.xml
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.SimpleCRUD.pdb
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.SimpleCRUD.xml
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache

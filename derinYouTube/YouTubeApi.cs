@@ -12,6 +12,8 @@ using System.Threading;
 using System.Windows.Forms;
 using derinYouTube.ViewModels;
 using LiveBroadcastsResource = Google.Apis.YouTube.v3.LiveBroadcastsResource;
+using Google.Apis.YouTube.v3.Data;
+using derinYouTube.Model;
 
 namespace derinYouTube
 {
@@ -282,69 +284,80 @@ namespace derinYouTube
             return comments;
         }
 
-        public static void AsyncGetLiveCommentsByChatId(string liveChatId, string videoId)
+        public static async Task<LinkedList<LiveChatModel>> GetLiveChatsAsync(string liveChatId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
         {
             try
             {
-                while (IsVideoLive(videoId))
+                var isOnline = true;
+                var report = new ReportChatModel();
+                var output = new LinkedList<LiveChatModel>();
+
+                while (isOnline)
                 {
+                    var nextPage = "";
                     var requestList = "id,snippet,authorDetails";
                     var request = ytService.LiveChatMessages.List(liveChatId, requestList);
-                    request.MaxResults = 500; //Acceptable values are 200 to 2000, inclusive. The default value is 500.
 
-                    var nextPage = "";
+                    request.MaxResults = 500;
 
                     while (nextPage != null)
                     {
                         request.PageToken = nextPage;
-                        var response = request.ExecuteAsync(CancellationToken.None);
-                        if (response.Result.Items.Count == 0)
+
+                        var response = await request.ExecuteAsync(cancellationToken);
+
+                        await Task.Delay(2000, cancellationToken);
+
+                        await Task.Run(() =>
                         {
-                            nextPage = null;
-                            break;
-                        }
-
-                        foreach (var item in response.Result.Items)
-                        {
-                            var chat = new LiveChatModel
+                            Parallel.ForEach<LiveChatMessage>(response.Items, (item) =>
                             {
-                                MessageId = item.Id,
-                                PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
-                                ChannelUrl = item.AuthorDetails.ChannelUrl,
-                                DisplayMessage = item.Snippet.DisplayMessage,
-                                DisplayName = item.AuthorDetails.DisplayName,
-                                IsVerified = item.AuthorDetails.IsVerified ?? false,
-                                IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
-                                IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
-                                IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false
-                            };
+                                try
+                                {
+                                    cancellationToken.ThrowIfCancellationRequested();
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    return;
+                                }
 
-                            if (Helper.LiveChatModels.All(x => x.MessageId != chat.MessageId))
-                            {
-                                Helper.LiveChatModels.AddLast(chat);
-                                Helper.DtLiveChats.Rows.Add(chat.MessageId, chat.PublishedAt, chat.DisplayMessage,
-                                    chat.DisplayName, chat.ChannelUrl, chat.IsVerified, chat.IsChatOwner,
-                                    chat.IsChatSponsor, chat.IsChatModerator);
+                                var chat = new LiveChatModel
+                                {
+                                    MessageId = item.Id,
+                                    PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                                    ChannelUrl = item.AuthorDetails.ChannelUrl,
+                                    DisplayMessage = item.Snippet.DisplayMessage,
+                                    DisplayName = item.AuthorDetails.DisplayName,
+                                    IsVerified = item.AuthorDetails.IsVerified ?? false,
+                                    IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
+                                    IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
+                                    IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false
+                                };
 
-                                //DtLiveChats.Columns.Add("MessageId", typeof(string));
-                                //DtLiveChats.Columns.Add("PublishedAt", typeof(string));
-                                //DtLiveChats.Columns.Add("DisplayMessage", typeof(string));
-                                //DtLiveChats.Columns.Add("DisplayName", typeof(string));
-                                //DtLiveChats.Columns.Add("ChannelUrl", typeof(string));
-                                //DtLiveChats.Columns.Add("IsVerified", typeof(bool));
-                                //DtLiveChats.Columns.Add("IsChatOwner", typeof(bool));
-                                //DtLiveChats.Columns.Add("IsChatSponsor", typeof(bool));
-                                //DtLiveChats.Columns.Add("IsChatModerator", typeof(bool));
-                            }
-                        }
+                                output.AddLast(chat);
+                                report.LiveChats = output;
+                                progress.Report(report);
 
-                        nextPage = response.Result.NextPageToken;
+                                //if (Helper.LiveChatModels.All(x => x.MessageId != chat.MessageId))
+                                //{
+                                //    Helper.LiveChatModels.AddLast(chat);
+                                //    report.LiveChats = Helper.LiveChatModels;
+                                //    progress.Report(report);
+                                //}
+
+                            });
+                        }, cancellationToken);
+
+                        nextPage = response.NextPageToken;
+                        isOnline = !response.OfflineAt.HasValue;
                     }
                 }
+
+                return output;
             }
             catch (Exception ex)
             {
-
+                throw;
             }
         }
 

@@ -63,9 +63,9 @@ namespace derinYouTube.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap FindHS {
+        internal static System.Drawing.Bitmap ajax_loader {
             get {
-                object obj = ResourceManager.GetObject("FindHS", resourceCulture);
+                object obj = ResourceManager.GetObject("ajax-loader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace derinYouTube.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mail_imza {
+        internal static System.Drawing.Bitmap FindHS {
             get {
-                object obj = ResourceManager.GetObject("mail_imza", resourceCulture);
+                object obj = ResourceManager.GetObject("FindHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
