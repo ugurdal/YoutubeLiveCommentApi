@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="YoutubeCommentDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="YoutubeCommentDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="liveBroadcasts" EntityType="YoutubeCommentDbModel.liveBroadcasts" />
+    <EntitySet Name="liveChatMessages" EntityType="YoutubeCommentDbModel.liveChatMessages" />
+  </EntityContainer>
+  <EntityType Name="liveBroadcasts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="BroadcastId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="LiveStatus" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ChannelTitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="PublishedDate" Type="DateTime" Precision="3" />
+    <Property Name="ActualStartTime" Type="DateTime" Precision="3" />
+    <Property Name="ActualEndTime" Type="DateTime" Precision="3" />
+    <Property Name="ScheduledStartTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="liveChatMessages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MessageId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorChannelUrl" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorDisplayName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="PublishedAt" Type="DateTime" Precision="3" />
+    <Property Name="HasDisplayContent" Type="Boolean" />
+    <Property Name="MessageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="IsVerified" Type="Boolean" />
+    <Property Name="IsChatOwner" Type="Boolean" />
+    <Property Name="IsChatSponsor" Type="Boolean" />
+    <Property Name="IsChatModerator" Type="Boolean" />
+  </EntityType>
+</Schema>

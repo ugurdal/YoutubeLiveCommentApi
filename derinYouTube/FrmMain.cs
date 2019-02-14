@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace derinYouTube
     {
         CancellationTokenSource _tokenSource = new CancellationTokenSource();
         LinkedList<LiveChatModel> _liveChats;
+        private DateTime _lastChatTime;
 
         public FrmMain()
         {
@@ -33,7 +35,7 @@ namespace derinYouTube
         private void FrmMain_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
-            Helper.GenerateDataTableColumns();
+            //Helper.GenerateDataTableColumns();
             Temizle();
             dgw.DoubleBuffered(true);
             dgwLiveVideos.DoubleBuffered(true);
@@ -110,7 +112,7 @@ namespace derinYouTube
 
         private async void AddChatToDataGridView(LinkedList<LiveChatModel> liveChats)
         {
-            await Task.Delay(500);
+            await Task.Delay(50);
             //Parallel.ForEach<LiveChatModel>(liveChats.ToList(), (chat) =>
             //{
             //    if (_liveChats.All(x => x.MessageId != chat.MessageId))
@@ -125,12 +127,14 @@ namespace derinYouTube
             var chats = liveChats;
             foreach (var chat in chats)
             {
+                //_lastChatTime = chat.PublishedTime.Value;
+
                 if (_liveChats.All(x => x.MessageId != chat.MessageId))
                 {
                     _liveChats.AddLast(chat);
                     dgw.Rows.Add(chat.MessageId, chat.PublishedAt, chat.DisplayMessage,
-                                    chat.DisplayName, chat.ChannelUrl, chat.IsVerified, chat.IsChatOwner,
-                                    chat.IsChatSponsor, chat.IsChatModerator);
+                        chat.DisplayName, chat.ChannelUrl, chat.IsVerified, chat.IsChatOwner,
+                        chat.IsChatSponsor, chat.IsChatModerator);
 
                     labelCount.Text = dgw.RowCount.ToString();
                     dgw.Sort(this.dgw.Columns["PublishedAt"], ListSortDirection.Descending);
@@ -139,6 +143,56 @@ namespace derinYouTube
                     //    this.dgw.Sort(this.dgw.Columns["PublishedAt"], ListSortDirection.Descending);
                     //    this.dgw.Refresh();
                     //});
+
+                    using (var db = new YoutubeCommentDbEntities())
+                    {
+                        var data = db.liveChatMessages.FirstOrDefault(x => x.MessageId == chat.MessageId);
+                        if (data == null)
+                        {
+                            try
+                            {
+                                data = new liveChatMessages
+                                {
+                                    MessageId = chat.MessageId,
+                                    AuthorChannelId = chat.AuthorChannelId,
+                                    AuthorChannelUrl = chat.ChannelUrl,
+                                    AuthorDisplayName = chat.DisplayName,
+                                    LiveChatId = chat.LiveChatId,
+                                    PublishedAt = chat.PublishedTime,
+                                    HasDisplayContent = false,
+                                    MessageText = chat.DisplayMessage,
+                                    IsVerified = false,
+                                    IsChatModerator = false,
+                                    IsChatSponsor = false,
+                                    Id = 0,
+                                    IsChatOwner = false
+                                };
+                                db.liveChatMessages.Add(data);
+                                db.SaveChanges();
+                            }
+                            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                            {
+                                var errorMessage = "";
+                                foreach (var eve in ex.EntityValidationErrors)
+                                {
+                                    errorMessage =
+                                        $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
+                                    foreach (var ve in eve.ValidationErrors)
+                                    {
+                                        errorMessage += $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+                                    }
+                                }
+
+                                MessageBox.Show(errorMessage);
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", "",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            
+                        }
+                    }
                 }
             }
         }
@@ -152,6 +206,7 @@ namespace derinYouTube
             richTextBoxPuslishedAt.Text = "";
             richTextBoxStartTime.Text = "";
             richTextBoxEndTime.Text = "";
+            richTextBoxScheduledStartTime.Text = "";
             linkLabelChannelId.Text = "Channel ID";
         }
 
@@ -185,7 +240,8 @@ namespace derinYouTube
 
         private void linkLabelChannelId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //TODO: Kanala gidelim
+            var channel = $"http://www.youtube.com/channel/{linkLabelChannelId.Text}";
+            Process.Start(channel);
         }
 
         private void buttonGetLiveBroadCasts_Click(object sender, EventArgs e)
@@ -193,7 +249,67 @@ namespace derinYouTube
             Cursor = Cursors.WaitCursor;
             var videos = YouTubeApi.GetLiveBroadCasts(checkBoxLiveOnly.Checked);
             dgwLiveVideos.DataSource = new SortableBindingList<VideoModel>(videos);
+            //dgwLiveVideos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            //dgwLiveVideos.Columns["Description"].Width = 100;
+
             Cursor = Cursors.Default;
+            SaveLiveBroadcasts();
+        }
+
+        private async void SaveLiveBroadcasts()
+        {
+            await Task.Delay(500);
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var db = new YoutubeCommentDbEntities())
+                    {
+                        foreach (DataGridViewRow row in dgwLiveVideos.Rows)
+                        {
+                            var data = row.DataBoundItem as VideoModel;
+                            var video = db.liveBroadcasts.FirstOrDefault(x => x.BroadcastId == data.Id) ??
+                                        new liveBroadcasts();
+                            video.BroadcastId = data.Id;
+                            video.Title = data.Title ?? "";
+                            video.ChannelId = data.ChannelId ?? "";
+                            video.LiveChatId = data.LiveChatId ?? "";
+                            video.Description = data.Description ?? "";
+                            video.LiveStatus = data.LiveStatus ?? "";
+                            video.ChannelTitle = data.ChannelTitle ?? "";
+                            video.PublishedDate = data.PublishedDate;
+                            video.ActualStartTime = data.ActualStartTime;
+                            video.ActualEndTime = data.ActualEndTime;
+                            video.ScheduledStartTime = data.ScheduledStartTime;
+
+                            if (video.Id == 0)
+                                db.liveBroadcasts.Add(video);
+
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                {
+                    var errorMessage = "";
+                    foreach (var eve in ex.EntityValidationErrors)
+                    {
+                        errorMessage =
+                            $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            errorMessage += $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+                        }
+                    }
+
+                    MessageBox.Show(errorMessage);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", "",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            });
         }
 
         private void dgwLiveVideos_SelectionChanged(object sender, EventArgs e)
@@ -229,6 +345,7 @@ namespace derinYouTube
                     richTextBoxStartTime.Text = model.ActualStartTime?.ToString() ?? "";
                     richTextBoxEndTime.Text = model.ActualEndTime?.ToString() ?? "";
                     linkLabelChannelId.Text = model.ChannelId;
+                    richTextBoxScheduledStartTime.Text = model.ScheduledStartTime?.ToString() ?? "";
                 }
             }
             catch (Exception ex)
@@ -272,7 +389,6 @@ namespace derinYouTube
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-
         }
 
         private void textBoxLiveChatId_TextChanged(object sender, EventArgs e)
@@ -319,7 +435,7 @@ namespace derinYouTube
                 if (int.TryParse(rw.Cells["DisplayMessage"].Value.ToString(), out ix))
                 {
                     var cevap = new AnswerModel
-                    { 
+                    {
                         UserName = rw.Cells["DisplayName"].Value.ToString(),
                         Message = ix,
                         PublishedAt = DateTime.Parse(rw.Cells["PublishedAt"].Value.ToString())
@@ -329,7 +445,18 @@ namespace derinYouTube
             }
 
             dgwCevap.DataSource = cevaplar.OrderBy(x => x.PublishedAt).ToList();
+        }
 
+        private void textBoxStartAt_TextChanged(object sender, EventArgs e)
+        {
+            buttonFindWinner.Enabled =
+                !string.IsNullOrEmpty(textBoxStartAt.Text) && !string.IsNullOrEmpty(textBoxStopAt.Text);
+        }
+
+        private void btnClearAnswers_Click(object sender, EventArgs e)
+        {
+            textBoxStartAt.Text = string.Empty;
+            textBoxStopAt.Text = string.Empty;
         }
     }
 }

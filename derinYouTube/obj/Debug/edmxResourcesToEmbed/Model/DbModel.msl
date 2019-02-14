@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="YoutubeCommentDbModelStoreContainer" CdmEntityContainer="YoutubeCommentDbEntities">
+    <EntitySetMapping Name="liveBroadcasts">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveBroadcasts">
+        <MappingFragment StoreEntitySet="liveBroadcasts">
+          <ScalarProperty Name="ScheduledStartTime" ColumnName="ScheduledStartTime" />
+          <ScalarProperty Name="ActualEndTime" ColumnName="ActualEndTime" />
+          <ScalarProperty Name="ActualStartTime" ColumnName="ActualStartTime" />
+          <ScalarProperty Name="PublishedDate" ColumnName="PublishedDate" />
+          <ScalarProperty Name="ChannelTitle" ColumnName="ChannelTitle" />
+          <ScalarProperty Name="LiveStatus" ColumnName="LiveStatus" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="BroadcastId" ColumnName="BroadcastId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="liveChatMessages">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveChatMessages">
+        <MappingFragment StoreEntitySet="liveChatMessages">
+          <ScalarProperty Name="IsChatModerator" ColumnName="IsChatModerator" />
+          <ScalarProperty Name="IsChatSponsor" ColumnName="IsChatSponsor" />
+          <ScalarProperty Name="IsChatOwner" ColumnName="IsChatOwner" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+          <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+          <ScalarProperty Name="HasDisplayContent" ColumnName="HasDisplayContent" />
+          <ScalarProperty Name="PublishedAt" ColumnName="PublishedAt" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="AuthorDisplayName" ColumnName="AuthorDisplayName" />
+          <ScalarProperty Name="AuthorChannelUrl" ColumnName="AuthorChannelUrl" />
+          <ScalarProperty Name="AuthorChannelId" ColumnName="AuthorChannelId" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

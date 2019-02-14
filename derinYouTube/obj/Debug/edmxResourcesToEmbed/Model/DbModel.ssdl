@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="YoutubeCommentDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="liveBroadcasts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="BroadcastId" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Title" Type="varchar(max)" Nullable="false" />
+    <Property Name="ChannelId" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="LiveChatId" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" Nullable="false" />
+    <Property Name="LiveStatus" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="ChannelTitle" Type="varchar(max)" Nullable="false" />
+    <Property Name="PublishedDate" Type="datetime" />
+    <Property Name="ActualStartTime" Type="datetime" />
+    <Property Name="ActualEndTime" Type="datetime" />
+    <Property Name="ScheduledStartTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="liveChatMessages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MessageId" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="AuthorChannelId" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="AuthorChannelUrl" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="AuthorDisplayName" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="LiveChatId" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="PublishedAt" Type="datetime" />
+    <Property Name="HasDisplayContent" Type="bit" />
+    <Property Name="MessageText" Type="varchar(max)" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" />
+    <Property Name="IsChatOwner" Type="bit" />
+    <Property Name="IsChatSponsor" Type="bit" />
+    <Property Name="IsChatModerator" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="YoutubeCommentDbModelStoreContainer">
+    <EntitySet Name="liveBroadcasts" EntityType="Self.liveBroadcasts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="liveChatMessages" EntityType="Self.liveChatMessages" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

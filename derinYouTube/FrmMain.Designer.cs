@@ -68,6 +68,18 @@
             this.checkBoxLiveOnly = new System.Windows.Forms.CheckBox();
             this.buttonGetLiveBroadCasts = new System.Windows.Forms.Button();
             this.dgwLiveVideos = new System.Windows.Forms.DataGridView();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnClearAnswers = new System.Windows.Forms.Button();
+            this.dgwCevap = new System.Windows.Forms.DataGridView();
+            this.buttonFindWinner = new System.Windows.Forms.Button();
+            this.textBoxStopAt = new System.Windows.Forms.TextBox();
+            this.textBoxStartAt = new System.Windows.Forms.TextBox();
+            this.buttonCampStop = new System.Windows.Forms.Button();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBoxAnswer = new System.Windows.Forms.TextBox();
+            this.buttonCampStart = new System.Windows.Forms.Button();
+            this.richTextBoxScheduledStartTime = new System.Windows.Forms.RichTextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Description = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -78,15 +90,7 @@
             this.LiveChatId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChannelId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ChannelTitle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.buttonFindWinner = new System.Windows.Forms.Button();
-            this.textBoxStopAt = new System.Windows.Forms.TextBox();
-            this.textBoxStartAt = new System.Windows.Forms.TextBox();
-            this.buttonCampStop = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.textBoxAnswer = new System.Windows.Forms.TextBox();
-            this.buttonCampStart = new System.Windows.Forms.Button();
-            this.dgwCevap = new System.Windows.Forms.DataGridView();
+            this.ScheduledStartTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -110,9 +114,9 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 53);
+            this.label1.Location = new System.Drawing.Point(34, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
+            this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "Video ID";
             // 
@@ -137,7 +141,7 @@
             this.dgw.Location = new System.Drawing.Point(0, 0);
             this.dgw.Name = "dgw";
             this.dgw.ReadOnly = true;
-            this.dgw.Size = new System.Drawing.Size(570, 407);
+            this.dgw.Size = new System.Drawing.Size(570, 392);
             this.dgw.TabIndex = 7;
             this.dgw.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgw_RowsAdded);
             // 
@@ -260,6 +264,8 @@
             // tabPageVideo
             // 
             this.tabPageVideo.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageVideo.Controls.Add(this.label10);
+            this.tabPageVideo.Controls.Add(this.richTextBoxScheduledStartTime);
             this.tabPageVideo.Controls.Add(this.textBoxLiveChatId);
             this.tabPageVideo.Controls.Add(this.textBoxVideoId);
             this.tabPageVideo.Controls.Add(this.label11);
@@ -291,11 +297,11 @@
             // textBoxLiveChatId
             // 
             this.textBoxLiveChatId.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.textBoxLiveChatId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxLiveChatId.Location = new System.Drawing.Point(82, 82);
+            this.textBoxLiveChatId.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxLiveChatId.Location = new System.Drawing.Point(90, 37);
             this.textBoxLiveChatId.Name = "textBoxLiveChatId";
             this.textBoxLiveChatId.ReadOnly = true;
-            this.textBoxLiveChatId.Size = new System.Drawing.Size(156, 25);
+            this.textBoxLiveChatId.Size = new System.Drawing.Size(156, 23);
             this.textBoxLiveChatId.TabIndex = 31;
             this.textBoxLiveChatId.Text = "";
             this.textBoxLiveChatId.TextChanged += new System.EventHandler(this.textBoxLiveChatId_TextChanged);
@@ -303,11 +309,11 @@
             // textBoxVideoId
             // 
             this.textBoxVideoId.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.textBoxVideoId.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBoxVideoId.Location = new System.Drawing.Point(82, 51);
+            this.textBoxVideoId.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxVideoId.Location = new System.Drawing.Point(90, 10);
             this.textBoxVideoId.Name = "textBoxVideoId";
             this.textBoxVideoId.ReadOnly = true;
-            this.textBoxVideoId.Size = new System.Drawing.Size(156, 25);
+            this.textBoxVideoId.Size = new System.Drawing.Size(156, 23);
             this.textBoxVideoId.TabIndex = 30;
             this.textBoxVideoId.Text = "";
             // 
@@ -316,7 +322,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(12, 396);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(66, 13);
+            this.label11.Size = new System.Drawing.Size(62, 13);
             this.label11.TabIndex = 29;
             this.label11.Text = "Chat Count";
             // 
@@ -355,68 +361,71 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 84);
+            this.label2.Location = new System.Drawing.Point(18, 43);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 24;
             this.label2.Text = "Live Chat ID";
             // 
             // richTextBoxEndTime
             // 
             this.richTextBoxEndTime.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxEndTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxEndTime.Location = new System.Drawing.Point(81, 334);
+            this.richTextBoxEndTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxEndTime.Location = new System.Drawing.Point(90, 274);
             this.richTextBoxEndTime.Name = "richTextBoxEndTime";
             this.richTextBoxEndTime.ReadOnly = true;
-            this.richTextBoxEndTime.Size = new System.Drawing.Size(157, 28);
+            this.richTextBoxEndTime.Size = new System.Drawing.Size(156, 23);
             this.richTextBoxEndTime.TabIndex = 22;
             this.richTextBoxEndTime.Text = "";
             // 
             // richTextBoxStartTime
             // 
             this.richTextBoxStartTime.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxStartTime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxStartTime.Location = new System.Drawing.Point(82, 300);
+            this.richTextBoxStartTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxStartTime.Location = new System.Drawing.Point(90, 245);
             this.richTextBoxStartTime.Name = "richTextBoxStartTime";
             this.richTextBoxStartTime.ReadOnly = true;
-            this.richTextBoxStartTime.Size = new System.Drawing.Size(156, 28);
+            this.richTextBoxStartTime.Size = new System.Drawing.Size(156, 23);
             this.richTextBoxStartTime.TabIndex = 21;
             this.richTextBoxStartTime.Text = "";
             // 
             // richTextBoxPuslishedAt
             // 
             this.richTextBoxPuslishedAt.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxPuslishedAt.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxPuslishedAt.Location = new System.Drawing.Point(82, 265);
+            this.richTextBoxPuslishedAt.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxPuslishedAt.Location = new System.Drawing.Point(90, 216);
             this.richTextBoxPuslishedAt.Name = "richTextBoxPuslishedAt";
             this.richTextBoxPuslishedAt.ReadOnly = true;
-            this.richTextBoxPuslishedAt.Size = new System.Drawing.Size(156, 28);
+            this.richTextBoxPuslishedAt.Size = new System.Drawing.Size(156, 23);
             this.richTextBoxPuslishedAt.TabIndex = 20;
             this.richTextBoxPuslishedAt.Text = "";
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(12, 333);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(31, 278);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(66, 34);
+            this.label8.Size = new System.Drawing.Size(50, 13);
             this.label8.TabIndex = 19;
             this.label8.Text = "End Time";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(12, 298);
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(26, 248);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(66, 34);
+            this.label7.Size = new System.Drawing.Size(56, 13);
             this.label7.TabIndex = 17;
             this.label7.Text = "Start Time";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(12, 263);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 221);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(66, 34);
+            this.label6.Size = new System.Drawing.Size(66, 13);
             this.label6.TabIndex = 15;
             this.label6.Text = "Published At";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -424,9 +433,9 @@
             // linkLabelChannelId
             // 
             this.linkLabelChannelId.AutoSize = true;
-            this.linkLabelChannelId.Location = new System.Drawing.Point(79, 374);
+            this.linkLabelChannelId.Location = new System.Drawing.Point(87, 338);
             this.linkLabelChannelId.Name = "linkLabelChannelId";
-            this.linkLabelChannelId.Size = new System.Drawing.Size(64, 13);
+            this.linkLabelChannelId.Size = new System.Drawing.Size(60, 13);
             this.linkLabelChannelId.TabIndex = 13;
             this.linkLabelChannelId.TabStop = true;
             this.linkLabelChannelId.Text = "Channel ID";
@@ -435,26 +444,26 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(14, 374);
+            this.label5.Location = new System.Drawing.Point(22, 338);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 13);
+            this.label5.Size = new System.Drawing.Size(60, 13);
             this.label5.TabIndex = 12;
             this.label5.Text = "Channel ID";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 113);
+            this.label4.Location = new System.Drawing.Point(56, 66);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(28, 13);
+            this.label4.Size = new System.Drawing.Size(27, 13);
             this.label4.TabIndex = 10;
             this.label4.Text = "Title";
             // 
             // richTextBoxDescription
             // 
             this.richTextBoxDescription.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxDescription.Location = new System.Drawing.Point(82, 166);
+            this.richTextBoxDescription.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxDescription.Location = new System.Drawing.Point(90, 118);
             this.richTextBoxDescription.Name = "richTextBoxDescription";
             this.richTextBoxDescription.ReadOnly = true;
             this.richTextBoxDescription.Size = new System.Drawing.Size(156, 93);
@@ -464,20 +473,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 166);
+            this.label3.Location = new System.Drawing.Point(19, 118);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(66, 13);
+            this.label3.Size = new System.Drawing.Size(60, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Description";
             // 
             // richTextBoxTitle
             // 
             this.richTextBoxTitle.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxTitle.Location = new System.Drawing.Point(82, 113);
+            this.richTextBoxTitle.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxTitle.Location = new System.Drawing.Point(90, 66);
             this.richTextBoxTitle.Name = "richTextBoxTitle";
             this.richTextBoxTitle.ReadOnly = true;
-            this.richTextBoxTitle.Size = new System.Drawing.Size(156, 47);
+            this.richTextBoxTitle.Size = new System.Drawing.Size(156, 46);
             this.richTextBoxTitle.TabIndex = 7;
             this.richTextBoxTitle.Text = "";
             // 
@@ -501,17 +510,18 @@
             // 
             this.splitContainerYatay.Panel2.Controls.Add(this.splitContainer1);
             this.splitContainerYatay.Size = new System.Drawing.Size(852, 589);
-            this.splitContainerYatay.SplitterDistance = 176;
+            this.splitContainerYatay.SplitterDistance = 191;
             this.splitContainerYatay.TabIndex = 11;
             // 
             // checkBoxLiveOnly
             // 
+            this.checkBoxLiveOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxLiveOnly.AutoSize = true;
             this.checkBoxLiveOnly.Checked = true;
             this.checkBoxLiveOnly.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxLiveOnly.Location = new System.Drawing.Point(5, 4);
+            this.checkBoxLiveOnly.Location = new System.Drawing.Point(5, 163);
             this.checkBoxLiveOnly.Name = "checkBoxLiveOnly";
-            this.checkBoxLiveOnly.Size = new System.Drawing.Size(163, 17);
+            this.checkBoxLiveOnly.Size = new System.Drawing.Size(157, 17);
             this.checkBoxLiveOnly.TabIndex = 17;
             this.checkBoxLiveOnly.Text = "Get Only Active Broadcasts";
             this.checkBoxLiveOnly.UseVisualStyleBackColor = true;
@@ -520,9 +530,9 @@
             // 
             this.buttonGetLiveBroadCasts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonGetLiveBroadCasts.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(5, 144);
+            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(168, 158);
             this.buttonGetLiveBroadCasts.Name = "buttonGetLiveBroadCasts";
-            this.buttonGetLiveBroadCasts.Size = new System.Drawing.Size(152, 23);
+            this.buttonGetLiveBroadCasts.Size = new System.Drawing.Size(113, 27);
             this.buttonGetLiveBroadCasts.TabIndex = 16;
             this.buttonGetLiveBroadCasts.Text = "Get Live Broadcasts";
             this.buttonGetLiveBroadCasts.UseVisualStyleBackColor = false;
@@ -535,7 +545,7 @@
             this.dgwLiveVideos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgwLiveVideos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgwLiveVideos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.dgwLiveVideos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgwLiveVideos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
@@ -547,18 +557,155 @@
             this.LiveStatus,
             this.LiveChatId,
             this.ChannelId,
-            this.ChannelTitle});
-            this.dgwLiveVideos.Location = new System.Drawing.Point(5, 22);
+            this.ChannelTitle,
+            this.ScheduledStartTime});
+            this.dgwLiveVideos.Location = new System.Drawing.Point(5, 3);
             this.dgwLiveVideos.MultiSelect = false;
             this.dgwLiveVideos.Name = "dgwLiveVideos";
             this.dgwLiveVideos.ReadOnly = true;
             this.dgwLiveVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwLiveVideos.Size = new System.Drawing.Size(840, 116);
+            this.dgwLiveVideos.Size = new System.Drawing.Size(840, 155);
             this.dgwLiveVideos.TabIndex = 11;
             this.dgwLiveVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwLiveVideos_CellEnter);
             this.dgwLiveVideos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgwLiveVideos_DataBindingComplete);
             this.dgwLiveVideos.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwLiveVideos_RowEnter);
             this.dgwLiveVideos.SelectionChanged += new System.EventHandler(this.dgwLiveVideos_SelectionChanged);
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.dgw);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.btnClearAnswers);
+            this.splitContainer1.Panel2.Controls.Add(this.dgwCevap);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonFindWinner);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxStopAt);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxStartAt);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonCampStop);
+            this.splitContainer1.Panel2.Controls.Add(this.label9);
+            this.splitContainer1.Panel2.Controls.Add(this.textBoxAnswer);
+            this.splitContainer1.Panel2.Controls.Add(this.buttonCampStart);
+            this.splitContainer1.Size = new System.Drawing.Size(850, 392);
+            this.splitContainer1.SplitterDistance = 570;
+            this.splitContainer1.TabIndex = 13;
+            // 
+            // btnClearAnswers
+            // 
+            this.btnClearAnswers.Location = new System.Drawing.Point(215, 116);
+            this.btnClearAnswers.Name = "btnClearAnswers";
+            this.btnClearAnswers.Size = new System.Drawing.Size(56, 23);
+            this.btnClearAnswers.TabIndex = 13;
+            this.btnClearAnswers.Text = "Clear";
+            this.btnClearAnswers.UseVisualStyleBackColor = true;
+            this.btnClearAnswers.Click += new System.EventHandler(this.btnClearAnswers_Click);
+            // 
+            // dgwCevap
+            // 
+            this.dgwCevap.AllowUserToAddRows = false;
+            this.dgwCevap.AllowUserToDeleteRows = false;
+            this.dgwCevap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgwCevap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgwCevap.Location = new System.Drawing.Point(9, 145);
+            this.dgwCevap.Name = "dgwCevap";
+            this.dgwCevap.ReadOnly = true;
+            this.dgwCevap.Size = new System.Drawing.Size(262, 244);
+            this.dgwCevap.TabIndex = 12;
+            // 
+            // buttonFindWinner
+            // 
+            this.buttonFindWinner.Enabled = false;
+            this.buttonFindWinner.Location = new System.Drawing.Point(12, 116);
+            this.buttonFindWinner.Name = "buttonFindWinner";
+            this.buttonFindWinner.Size = new System.Drawing.Size(155, 23);
+            this.buttonFindWinner.TabIndex = 11;
+            this.buttonFindWinner.Text = "Find Winner";
+            this.buttonFindWinner.UseVisualStyleBackColor = true;
+            this.buttonFindWinner.Click += new System.EventHandler(this.buttonFindWinner_ClickAsync);
+            // 
+            // textBoxStopAt
+            // 
+            this.textBoxStopAt.Location = new System.Drawing.Point(88, 65);
+            this.textBoxStopAt.Name = "textBoxStopAt";
+            this.textBoxStopAt.ReadOnly = true;
+            this.textBoxStopAt.Size = new System.Drawing.Size(177, 21);
+            this.textBoxStopAt.TabIndex = 9;
+            this.textBoxStopAt.TextChanged += new System.EventHandler(this.textBoxStartAt_TextChanged);
+            // 
+            // textBoxStartAt
+            // 
+            this.textBoxStartAt.Location = new System.Drawing.Point(88, 8);
+            this.textBoxStartAt.Name = "textBoxStartAt";
+            this.textBoxStartAt.ReadOnly = true;
+            this.textBoxStartAt.Size = new System.Drawing.Size(177, 21);
+            this.textBoxStartAt.TabIndex = 8;
+            this.textBoxStartAt.TextChanged += new System.EventHandler(this.textBoxStartAt_TextChanged);
+            // 
+            // buttonCampStop
+            // 
+            this.buttonCampStop.Location = new System.Drawing.Point(9, 65);
+            this.buttonCampStop.Name = "buttonCampStop";
+            this.buttonCampStop.Size = new System.Drawing.Size(73, 23);
+            this.buttonCampStop.TabIndex = 7;
+            this.buttonCampStop.Text = "Stop";
+            this.buttonCampStop.UseVisualStyleBackColor = true;
+            this.buttonCampStop.Click += new System.EventHandler(this.buttonCampStop_Click);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(22, 39);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(43, 13);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Answer";
+            // 
+            // textBoxAnswer
+            // 
+            this.textBoxAnswer.Location = new System.Drawing.Point(88, 36);
+            this.textBoxAnswer.Name = "textBoxAnswer";
+            this.textBoxAnswer.Size = new System.Drawing.Size(177, 21);
+            this.textBoxAnswer.TabIndex = 1;
+            this.textBoxAnswer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
+            // 
+            // buttonCampStart
+            // 
+            this.buttonCampStart.Location = new System.Drawing.Point(9, 8);
+            this.buttonCampStart.Name = "buttonCampStart";
+            this.buttonCampStart.Size = new System.Drawing.Size(73, 23);
+            this.buttonCampStart.TabIndex = 0;
+            this.buttonCampStart.Text = "Start";
+            this.buttonCampStart.UseVisualStyleBackColor = true;
+            this.buttonCampStart.Click += new System.EventHandler(this.buttonCampStart_Click);
+            // 
+            // richTextBoxScheduledStartTime
+            // 
+            this.richTextBoxScheduledStartTime.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.richTextBoxScheduledStartTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxScheduledStartTime.Location = new System.Drawing.Point(90, 303);
+            this.richTextBoxScheduledStartTime.Name = "richTextBoxScheduledStartTime";
+            this.richTextBoxScheduledStartTime.ReadOnly = true;
+            this.richTextBoxScheduledStartTime.Size = new System.Drawing.Size(156, 23);
+            this.richTextBoxScheduledStartTime.TabIndex = 32;
+            this.richTextBoxScheduledStartTime.Text = "";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(22, 302);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(56, 26);
+            this.label10.TabIndex = 33;
+            this.label10.Text = "Scheduled\r\nStart Time";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // Id
             // 
@@ -566,6 +713,7 @@
             this.Id.HeaderText = "Video Id";
             this.Id.Name = "Id";
             this.Id.ReadOnly = true;
+            this.Id.Width = 66;
             // 
             // Title
             // 
@@ -573,6 +721,7 @@
             this.Title.HeaderText = "Title";
             this.Title.Name = "Title";
             this.Title.ReadOnly = true;
+            this.Title.Width = 52;
             // 
             // Description
             // 
@@ -580,6 +729,7 @@
             this.Description.HeaderText = "Description";
             this.Description.Name = "Description";
             this.Description.ReadOnly = true;
+            this.Description.Width = 85;
             // 
             // PublishedDate
             // 
@@ -587,6 +737,7 @@
             this.PublishedDate.HeaderText = "Published At";
             this.PublishedDate.Name = "PublishedDate";
             this.PublishedDate.ReadOnly = true;
+            this.PublishedDate.Width = 84;
             // 
             // StartTime
             // 
@@ -594,6 +745,7 @@
             this.StartTime.HeaderText = "Start Time";
             this.StartTime.Name = "StartTime";
             this.StartTime.ReadOnly = true;
+            this.StartTime.Width = 75;
             // 
             // EndTime
             // 
@@ -601,6 +753,7 @@
             this.EndTime.HeaderText = "End Time";
             this.EndTime.Name = "EndTime";
             this.EndTime.ReadOnly = true;
+            this.EndTime.Width = 69;
             // 
             // LiveStatus
             // 
@@ -608,6 +761,7 @@
             this.LiveStatus.HeaderText = "Live Status";
             this.LiveStatus.Name = "LiveStatus";
             this.LiveStatus.ReadOnly = true;
+            this.LiveStatus.Width = 78;
             // 
             // LiveChatId
             // 
@@ -615,6 +769,7 @@
             this.LiveChatId.HeaderText = "Live Chat Id";
             this.LiveChatId.Name = "LiveChatId";
             this.LiveChatId.ReadOnly = true;
+            this.LiveChatId.Width = 74;
             // 
             // ChannelId
             // 
@@ -632,115 +787,23 @@
             this.ChannelTitle.ReadOnly = true;
             this.ChannelTitle.Visible = false;
             // 
-            // splitContainer1
+            // ScheduledStartTime
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.dgw);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.dgwCevap);
-            this.splitContainer1.Panel2.Controls.Add(this.buttonFindWinner);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxStopAt);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxStartAt);
-            this.splitContainer1.Panel2.Controls.Add(this.buttonCampStop);
-            this.splitContainer1.Panel2.Controls.Add(this.label9);
-            this.splitContainer1.Panel2.Controls.Add(this.textBoxAnswer);
-            this.splitContainer1.Panel2.Controls.Add(this.buttonCampStart);
-            this.splitContainer1.Size = new System.Drawing.Size(850, 407);
-            this.splitContainer1.SplitterDistance = 570;
-            this.splitContainer1.TabIndex = 13;
-            // 
-            // buttonFindWinner
-            // 
-            this.buttonFindWinner.Location = new System.Drawing.Point(12, 116);
-            this.buttonFindWinner.Name = "buttonFindWinner";
-            this.buttonFindWinner.Size = new System.Drawing.Size(155, 23);
-            this.buttonFindWinner.TabIndex = 11;
-            this.buttonFindWinner.Text = "Find Winner";
-            this.buttonFindWinner.UseVisualStyleBackColor = true;
-            this.buttonFindWinner.Click += new System.EventHandler(this.buttonFindWinner_ClickAsync);
-            // 
-            // textBoxStopAt
-            // 
-            this.textBoxStopAt.Location = new System.Drawing.Point(88, 65);
-            this.textBoxStopAt.Name = "textBoxStopAt";
-            this.textBoxStopAt.ReadOnly = true;
-            this.textBoxStopAt.Size = new System.Drawing.Size(177, 22);
-            this.textBoxStopAt.TabIndex = 9;
-            // 
-            // textBoxStartAt
-            // 
-            this.textBoxStartAt.Location = new System.Drawing.Point(88, 8);
-            this.textBoxStartAt.Name = "textBoxStartAt";
-            this.textBoxStartAt.ReadOnly = true;
-            this.textBoxStartAt.Size = new System.Drawing.Size(177, 22);
-            this.textBoxStartAt.TabIndex = 8;
-            // 
-            // buttonCampStop
-            // 
-            this.buttonCampStop.Location = new System.Drawing.Point(9, 65);
-            this.buttonCampStop.Name = "buttonCampStop";
-            this.buttonCampStop.Size = new System.Drawing.Size(73, 23);
-            this.buttonCampStop.TabIndex = 7;
-            this.buttonCampStop.Text = "Stop";
-            this.buttonCampStop.UseVisualStyleBackColor = true;
-            this.buttonCampStop.Click += new System.EventHandler(this.buttonCampStop_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 39);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 13);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Answer";
-            // 
-            // textBoxAnswer
-            // 
-            this.textBoxAnswer.Location = new System.Drawing.Point(88, 36);
-            this.textBoxAnswer.Name = "textBoxAnswer";
-            this.textBoxAnswer.Size = new System.Drawing.Size(177, 22);
-            this.textBoxAnswer.TabIndex = 1;
-            this.textBoxAnswer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
-            // 
-            // buttonCampStart
-            // 
-            this.buttonCampStart.Location = new System.Drawing.Point(9, 8);
-            this.buttonCampStart.Name = "buttonCampStart";
-            this.buttonCampStart.Size = new System.Drawing.Size(73, 23);
-            this.buttonCampStart.TabIndex = 0;
-            this.buttonCampStart.Text = "Start";
-            this.buttonCampStart.UseVisualStyleBackColor = true;
-            this.buttonCampStart.Click += new System.EventHandler(this.buttonCampStart_Click);
-            // 
-            // dgwCevap
-            // 
-            this.dgwCevap.AllowUserToAddRows = false;
-            this.dgwCevap.AllowUserToDeleteRows = false;
-            this.dgwCevap.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgwCevap.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgwCevap.Location = new System.Drawing.Point(9, 145);
-            this.dgwCevap.Name = "dgwCevap";
-            this.dgwCevap.ReadOnly = true;
-            this.dgwCevap.Size = new System.Drawing.Size(262, 259);
-            this.dgwCevap.TabIndex = 12;
+            this.ScheduledStartTime.DataPropertyName = "ScheduledStartTime";
+            this.ScheduledStartTime.HeaderText = "Scheduled Start Time";
+            this.ScheduledStartTime.Name = "ScheduledStartTime";
+            this.ScheduledStartTime.ReadOnly = true;
+            this.ScheduledStartTime.Width = 102;
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ClientSize = new System.Drawing.Size(1117, 589);
             this.Controls.Add(this.splitContainerDikey);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -798,16 +861,6 @@
         private System.Windows.Forms.CheckBox checkBoxLiveOnly;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonAsync;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PublishedDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LiveStatus;
-        private System.Windows.Forms.DataGridViewTextBoxColumn LiveChatId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ChannelId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ChannelTitle;
         private System.Windows.Forms.Button buttonStop;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.PictureBox pbWorking;
@@ -831,5 +884,19 @@
         private System.Windows.Forms.TextBox textBoxStopAt;
         private System.Windows.Forms.Button buttonFindWinner;
         private System.Windows.Forms.DataGridView dgwCevap;
+        private System.Windows.Forms.Button btnClearAnswers;
+        private System.Windows.Forms.RichTextBox richTextBoxScheduledStartTime;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Description;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PublishedDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EndTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LiveStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LiveChatId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChannelId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChannelTitle;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ScheduledStartTime;
     }
 }

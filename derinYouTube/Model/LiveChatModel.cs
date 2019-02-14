@@ -27,5 +27,9 @@ namespace derinYouTube.ViewModels
         public bool IsChatSponsor { get; set; }
         [DisplayName("Moderator")]
         public bool IsChatModerator { get; set; }
+        public DateTime? PublishedTime { get; set; }
+        public string AuthorChannelId { get; set; }
+        public string LiveChatId { get; set; }
+        
     }
 }

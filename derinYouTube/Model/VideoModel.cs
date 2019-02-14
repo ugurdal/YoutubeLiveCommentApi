@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace derinYouTube
 {
@@ -15,5 +16,7 @@ namespace derinYouTube
         public DateTime? ActualEndTime { get; set; }
         public string LiveStatus { get; set; }
         public string LiveChatId { get; set; }
+        public DateTime? ScheduledStartTime { get; set; }
     }
 }
+    

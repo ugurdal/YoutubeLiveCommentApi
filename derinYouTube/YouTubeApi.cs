@@ -32,14 +32,14 @@ namespace derinYouTube
                     "user",
                     CancellationToken.None,
                     new FileDataStore(
-                        "YouTubeCommentAPI") // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
+                        "YouTubeCommentAPI3") // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
                 ).Result;
             }
 
             var service = new YouTubeService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "YouTubeCommentAPI"
+                ApplicationName = "YouTubeCommentAPI3"
             });
 
             return service;
@@ -215,7 +215,8 @@ namespace derinYouTube
                             ChannelTitle = "",
                             PublishedDate = item.Snippet.PublishedAt,
                             ActualStartTime = item.Snippet.ActualStartTime,
-                            ActualEndTime = item.Snippet.ActualEndTime
+                            ActualEndTime = item.Snippet.ActualEndTime,
+                            ScheduledStartTime = item.Snippet.ScheduledStartTime
                         };
 
 
@@ -310,14 +311,15 @@ namespace derinYouTube
 
                         await Task.Run(() =>
                         {
-                            Parallel.ForEach<LiveChatMessage>(response.Items, (item) =>
+                            foreach (LiveChatMessage item in response.Items)
                             {
                                 try
                                 {
                                     cancellationToken.ThrowIfCancellationRequested();
                                 }
-                                catch (OperationCanceledException)
+                                catch (OperationCanceledException e)
                                 {
+                                    MessageBox.Show(e.Message);
                                     return;
                                 }
 
@@ -325,6 +327,42 @@ namespace derinYouTube
                                 {
                                     MessageId = item.Id,
                                     PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                                    PublishedTime = item.Snippet.PublishedAt,
+                                    ChannelUrl = item.AuthorDetails.ChannelUrl,
+                                    DisplayMessage = item.Snippet.DisplayMessage,
+                                    DisplayName = item.AuthorDetails.DisplayName,
+                                    IsVerified = item.AuthorDetails.IsVerified ?? false,
+                                    IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
+                                    IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
+                                    IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false,
+                                    AuthorChannelId = item.Snippet.AuthorChannelId,
+                                    LiveChatId = item.Snippet.LiveChatId
+                                };
+
+                                output.AddLast(chat);
+                            }
+
+                            report.LiveChats = output;
+                            progress.Report(report);
+
+
+                            /*Parallel.ForEach<LiveChatMessage>(response.Items, (item) =>
+                            {
+                                try
+                                {
+                                    cancellationToken.ThrowIfCancellationRequested();
+                                }
+                                catch (OperationCanceledException e)
+                                {
+                                    MessageBox.Show(e.Message);
+                                    return;
+                                }
+
+                                var chat = new LiveChatModel
+                                {
+                                    MessageId = item.Id,
+                                    PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                                    PublishedTime = item.Snippet.PublishedAt,
                                     ChannelUrl = item.AuthorDetails.ChannelUrl,
                                     DisplayMessage = item.Snippet.DisplayMessage,
                                     DisplayName = item.AuthorDetails.DisplayName,
@@ -345,7 +383,8 @@ namespace derinYouTube
                                 //    progress.Report(report);
                                 //}
 
-                            });
+                            });*/
+
                         }, cancellationToken);
 
                         nextPage = response.NextPageToken;
@@ -357,6 +396,7 @@ namespace derinYouTube
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 throw;
             }
         }
