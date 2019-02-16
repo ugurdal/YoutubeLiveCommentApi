@@ -19,33 +19,42 @@ namespace derinYouTube
 {
     public class YouTubeApi
     {
-        private static YouTubeService ytService = Auth();
+        private readonly string _jsonFilePath;
+        private readonly string _applicationName;
+        private readonly YouTubeService _service;
 
-        private static YouTubeService Auth()
+        public YouTubeApi(string jsonFilePath, string applicationName)
+        {
+            _jsonFilePath = jsonFilePath;
+            _applicationName = applicationName;
+
+            _service = Auth();
+        }
+        
+        private YouTubeService Auth()
         {
             UserCredential credential;
-            using (var stream = new FileStream("client_secret.json", FileMode.Open, FileAccess.Read))
+            using (var stream = new FileStream(_jsonFilePath, FileMode.Open, FileAccess.Read))
             {
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
                     new[] { YouTubeService.Scope.YoutubeReadonly, YouTubeService.Scope.YoutubeForceSsl },
                     "user",
                     CancellationToken.None,
-                    new FileDataStore(
-                        "YouTubeCommentAPI3") // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
+                    new FileDataStore(_applicationName) // Console>Credentials>ProductName ile aynı olmalı yoksa Api 403 Forbidden dönüyor
                 ).Result;
             }
 
             var service = new YouTubeService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
-                ApplicationName = "YouTubeCommentAPI3"
+                ApplicationName = _applicationName
             });
 
             return service;
         }
 
-        public static string ParseChannelId(object channelId)
+        public string ParseChannelId(object channelId)
         {
             try
             {
@@ -59,10 +68,10 @@ namespace derinYouTube
             }
         }
 
-        public static LinkedList<CommentModel> GetCommentsByVideoId(string videoId)
+        public LinkedList<CommentModel> GetCommentsByVideoId(string videoId)
         {
             var requestList = "snippet,replies";
-            var request = ytService.CommentThreads.List(requestList);
+            var request = _service.CommentThreads.List(requestList);
             request.VideoId = videoId;
             request.MaxResults = 100;
 
@@ -112,10 +121,10 @@ namespace derinYouTube
             return comments;
         }
 
-        public static LinkedList<VideoModel> GetPlayListById(string playListId)
+        public LinkedList<VideoModel> GetPlayListById(string playListId)
         {
             var requestList = "snippet,contentDetails";
-            var request = ytService.PlaylistItems.List(requestList);
+            var request = _service.PlaylistItems.List(requestList);
             request.PlaylistId = playListId;
             request.MaxResults = 50;
 
@@ -153,11 +162,11 @@ namespace derinYouTube
 
         }
 
-        public static VideoModel GetVideInfoById(string videoId)
+        public VideoModel GetVideInfoById(string videoId)
         {
             try
             {
-                var request = ytService.Videos.List("snippet");
+                var request = _service.Videos.List("snippet");
                 request.Id = videoId;
                 var video = new VideoModel();
 
@@ -185,12 +194,12 @@ namespace derinYouTube
             }
         }
 
-        public static LinkedList<VideoModel> GetLiveBroadCasts(bool activeOnly = false)
+        public LinkedList<VideoModel> GetLiveBroadCasts(bool activeOnly = false)
         {
             var videos = new LinkedList<VideoModel>();
             try
             {
-                var request = ytService.LiveBroadcasts.List("id, snippet, contentDetails, status");
+                var request = _service.LiveBroadcasts.List("id, snippet, contentDetails, status");
                 request.Mine = true;
                 request.MaxResults = 50;
 
@@ -235,13 +244,13 @@ namespace derinYouTube
             return videos;
         }
 
-        public static LinkedList<LiveChatModel> GetLiveCommentsByChatId(string liveChatId)
+        public LinkedList<LiveChatModel> GetLiveCommentsByChatId(string liveChatId)
         {
             var comments = new LinkedList<LiveChatModel>();
             try
             {
                 var requestList = "id,snippet,authorDetails";
-                var request = ytService.LiveChatMessages.List(liveChatId, requestList);
+                var request = _service.LiveChatMessages.List(liveChatId, requestList);
                 request.MaxResults = 500; //Acceptable values are 200 to 2000, inclusive. The default value is 500.
 
                 var nextPage = "";
@@ -285,7 +294,7 @@ namespace derinYouTube
             return comments;
         }
 
-        public static async Task<LinkedList<LiveChatModel>> GetLiveChatsAsync(string liveChatId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
+        public async Task<LinkedList<LiveChatModel>> GetLiveChatsAsync(string liveChatId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
         {
             try
             {
@@ -297,7 +306,7 @@ namespace derinYouTube
                 {
                     var nextPage = "";
                     var requestList = "id,snippet,authorDetails";
-                    var request = ytService.LiveChatMessages.List(liveChatId, requestList);
+                    var request = _service.LiveChatMessages.List(liveChatId, requestList);
 
                     request.MaxResults = 500;
 
@@ -401,9 +410,9 @@ namespace derinYouTube
             }
         }
 
-        public static bool IsVideoLive(string videoId)
+        public bool IsVideoLive(string videoId)
         {
-            var request = ytService.LiveBroadcasts.List("status");
+            var request = _service.LiveBroadcasts.List("status");
             request.Id = videoId;
 
             var response = request.Execute();

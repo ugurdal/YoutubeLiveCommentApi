@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using derinYouTube.ViewModels;
 
@@ -27,6 +28,22 @@ namespace derinYouTube
         //}
 
         public static string ConnectionString = "Data Source=[.];Initial Catalog=[YoutubeCommentDb];User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
+
+
+        public static bool IsNumeric(string s)
+        {
+            return Regex.Match(s, @"^\d+$").Success;
+        }
+
+        public static bool IsNumericArti(string s)
+        {
+            var value = Regex.Match(s, @"^\d+$").Success;
+            if (value)
+            {
+                return Convert.ToDecimal(s) > 0;
+            }
+            return false;
+        }
     }
 }
 

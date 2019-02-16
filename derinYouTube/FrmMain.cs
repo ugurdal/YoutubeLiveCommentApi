@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
@@ -26,64 +27,79 @@ namespace derinYouTube
         CancellationTokenSource _tokenSource = new CancellationTokenSource();
         LinkedList<LiveChatModel> _liveChats;
         private DateTime _lastChatTime;
+        private readonly string MessageHeader;
+        private readonly YouTubeApi _youtubeApi;
 
         public FrmMain()
         {
             InitializeComponent();
+            dgw.DoubleBuffered(true);
+            dgwLiveVideos.DoubleBuffered(true);
+            dgwAnswers.DoubleBuffered(true);
+            dgwCompetitionHeader.DoubleBuffered(true);
+            dgwCompetitionDetail.DoubleBuffered(true);
+            dgwWinnerOfDay.DoubleBuffered(true);
+
+            MessageHeader = this.Text;
+            this.DoubleBuffered = true;
+
+
+            _youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
+            //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
         }
 
-        private void FrmMain_Load(object sender, EventArgs e)
+        private async void FrmMain_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             //Helper.GenerateDataTableColumns();
-            Temizle();
-            dgw.DoubleBuffered(true);
-            dgwLiveVideos.DoubleBuffered(true);
+            await Temizle();
             pbWorking.Visible = false;
             buttonAsync.Enabled = false;
+            NewQuestion();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            dgw.DataSource = null;
-            labelCount.Text = "0";
+            //dgw.DataSource = null;
+            //labelCount.Text = "0";
 
-            var videoId = textBoxVideoId.Text;
-            var comments = YouTubeApi.GetCommentsByVideoId(videoId);
-            dgw.DataSource = comments.ToList();
+            //var videoId = textBoxVideoId.Text;
+            //var comments = YouTubeApi.GetCommentsByVideoId(videoId);
+            //dgw.DataSource = comments.ToList();
 
-            labelCount.Text = comments.Count.ToString();
+            //labelCount.Text = comments.Count.ToString();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
-            {
-                MessageBox.Show("Videoya ait Live Chat ID okunamadı!", this.Text, MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
-                return;
-            }
+            //if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
+            //{
+            //    MessageBox.Show("Videoya ait Live Chat ID okunamadı!", this.Text, MessageBoxButtons.OK,
+            //        MessageBoxIcon.Exclamation);
+            //    return;
+            //}
 
-            dgw.DataSource = null;
-            labelCount.Text = "0";
+            //dgw.DataSource = null;
+            //labelCount.Text = "0";
 
-            var comments = YouTubeApi.GetLiveCommentsByChatId(textBoxLiveChatId.Text);
-            dgw.DataSource = new SortableBindingList<LiveChatModel>(comments);
-            dgw.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgw.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            //var comments = YouTubeApi.GetLiveCommentsByChatId(textBoxLiveChatId.Text);
+            //dgw.DataSource = new SortableBindingList<LiveChatModel>(comments);
+            //dgw.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            //dgw.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
-            labelCount.Text = comments.Count.ToString();
+            //labelCount.Text = comments.Count.ToString();
         }
 
         private async void buttonAsync_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
             {
-                MessageBox.Show("Live Chat ID okunamadı!", this.Text, MessageBoxButtons.OK,
+                MessageBox.Show("Live Chat ID okunamadı!", MessageHeader, MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
                 return;
             }
 
+            _tokenSource = new CancellationTokenSource();
             _liveChats = new LinkedList<LiveChatModel>();
             buttonAsync.Enabled = false;
             dgwLiveVideos.Enabled = false;
@@ -95,13 +111,13 @@ namespace derinYouTube
 
             try
             {
-                var result = await YouTubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, _tokenSource.Token, progress);
+                var result = await _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, _tokenSource.Token, progress);
                 await Task.Delay(100);
                 AddChatToDataGridView(result);
             }
             catch (OperationCanceledException)
             {
-                MessageBox.Show("Servis durduruldu.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Servis durduruldu.", MessageHeader, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -112,7 +128,7 @@ namespace derinYouTube
 
         private async void AddChatToDataGridView(LinkedList<LiveChatModel> liveChats)
         {
-            await Task.Delay(50);
+            await Task.Delay(100);
             //Parallel.ForEach<LiveChatModel>(liveChats.ToList(), (chat) =>
             //{
             //    if (_liveChats.All(x => x.MessageId != chat.MessageId))
@@ -158,6 +174,7 @@ namespace derinYouTube
                                     AuthorChannelUrl = chat.ChannelUrl,
                                     AuthorDisplayName = chat.DisplayName,
                                     LiveChatId = chat.LiveChatId,
+                                    VideoId = textBoxVideoId.Text,
                                     PublishedAt = chat.PublishedTime,
                                     HasDisplayContent = false,
                                     MessageText = chat.DisplayMessage,
@@ -183,59 +200,63 @@ namespace derinYouTube
                                     }
                                 }
 
-                                MessageBox.Show(errorMessage);
+                                MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{errorMessage}", MessageHeader,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                             catch (Exception e)
                             {
-                                MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", "",
+                                MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", MessageHeader,
                                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
-                            
+
                         }
                     }
                 }
             }
         }
 
-        private void Temizle()
+        private async Task Temizle()
         {
-            textBoxVideoId.Text = "";
-            textBoxLiveChatId.Text = "";
-            richTextBoxTitle.Text = "";
-            richTextBoxDescription.Text = "";
-            richTextBoxPuslishedAt.Text = "";
-            richTextBoxStartTime.Text = "";
-            richTextBoxEndTime.Text = "";
-            richTextBoxScheduledStartTime.Text = "";
-            linkLabelChannelId.Text = "Channel ID";
+            await Task.Run(() =>
+            {
+                textBoxVideoId.Text = "";
+                textBoxLiveChatId.Text = "";
+                richTextBoxTitle.Text = "";
+                richTextBoxDescription.Text = "";
+                richTextBoxPuslishedAt.Text = "";
+                richTextBoxStartTime.Text = "";
+                richTextBoxEndTime.Text = "";
+                richTextBoxScheduledStartTime.Text = "";
+                linkLabelChannelId.Text = "Channel ID";
+            });
         }
 
         private void buttonGetVideo_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(textBoxVideoId.Text))
-            {
-                MessageBox.Show("Bilgileri okunacak videnonun ID'si girilmeli", this.Text, MessageBoxButtons.OK,
-                    MessageBoxIcon.Exclamation);
-                textBoxVideoId.Focus();
-                return;
-            }
+            //if (string.IsNullOrWhiteSpace(textBoxVideoId.Text))
+            //{
+            //    MessageBox.Show("Bilgileri okunacak videnonun ID'si girilmeli", this.Text, MessageBoxButtons.OK,
+            //        MessageBoxIcon.Exclamation);
+            //    textBoxVideoId.Focus();
+            //    return;
+            //}
 
-            Cursor = Cursors.WaitCursor;
+            //Cursor = Cursors.WaitCursor;
 
-            var video = YouTubeApi.GetVideInfoById(textBoxVideoId.Text);
-            if (video == null)
-            {
-                Temizle();
-            }
-            else
-            {
-                richTextBoxTitle.Text = video.Title;
-                richTextBoxDescription.Text = video.Description;
-                linkLabelChannelId.Text = video.ChannelId;
-                richTextBoxPuslishedAt.Text = video.PublishedDate.Value.ToString();
-            }
+            //var video = YouTubeApi.GetVideInfoById(textBoxVideoId.Text);
+            //if (video == null)
+            //{
+            //    Temizle();
+            //}
+            //else
+            //{
+            //    richTextBoxTitle.Text = video.Title;
+            //    richTextBoxDescription.Text = video.Description;
+            //    linkLabelChannelId.Text = video.ChannelId;
+            //    richTextBoxPuslishedAt.Text = video.PublishedDate.Value.ToString();
+            //}
 
-            Cursor = Cursors.Default;
+            //Cursor = Cursors.Default;
         }
 
         private void linkLabelChannelId_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -244,19 +265,16 @@ namespace derinYouTube
             Process.Start(channel);
         }
 
-        private void buttonGetLiveBroadCasts_Click(object sender, EventArgs e)
+        private async void buttonGetLiveBroadCasts_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            var videos = YouTubeApi.GetLiveBroadCasts(checkBoxLiveOnly.Checked);
+            var videos = _youtubeApi.GetLiveBroadCasts(checkBoxLiveOnly.Checked);
             dgwLiveVideos.DataSource = new SortableBindingList<VideoModel>(videos);
-            //dgwLiveVideos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
-            //dgwLiveVideos.Columns["Description"].Width = 100;
-
             Cursor = Cursors.Default;
-            SaveLiveBroadcasts();
+            await SaveLiveBroadcasts();
         }
 
-        private async void SaveLiveBroadcasts()
+        private async Task SaveLiveBroadcasts()
         {
             await Task.Delay(500);
             await Task.Run(() =>
@@ -302,11 +320,12 @@ namespace derinYouTube
                         }
                     }
 
-                    MessageBox.Show(errorMessage);
+                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{errorMessage}", MessageHeader,
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", "",
+                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", MessageHeader,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             });
@@ -330,7 +349,7 @@ namespace derinYouTube
                 VideoBilgileriniOku(e.RowIndex);
         }
 
-        private void VideoBilgileriniOku(int rowIndex)
+        private async void VideoBilgileriniOku(int rowIndex)
         {
             try
             {
@@ -350,14 +369,14 @@ namespace derinYouTube
             }
             catch (Exception ex)
             {
-                Temizle();
+                await Temizle();
             }
         }
 
-        private void dgwLiveVideos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        private async void dgwLiveVideos_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
             if (dgwLiveVideos.RowCount == 0)
-                Temizle();
+                await Temizle();
         }
 
         private void dgw_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
@@ -376,7 +395,7 @@ namespace derinYouTube
             if (_tokenSource.IsCancellationRequested)
                 return;
 
-            if (DialogResult.Yes == MessageBox.Show("Servis durdurulacak, emin misiniz?", this.Text,
+            if (DialogResult.Yes == MessageBox.Show("Servis durdurulacak, emin misiniz?", MessageHeader,
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
                 _tokenSource.Cancel();
@@ -389,6 +408,7 @@ namespace derinYouTube
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+
         }
 
         private void textBoxLiveChatId_TextChanged(object sender, EventArgs e)
@@ -404,59 +424,219 @@ namespace derinYouTube
             }
         }
 
-        private void buttonCampStart_Click(object sender, EventArgs e)
+        private async void buttonQuestionStart_Click(object sender, EventArgs e)
         {
-            //if (!buttonAsync.Enabled)
-            //    return;
-
-            textBoxStartAt.Text = DateTime.Now.ToString();
-        }
-
-        private void buttonCampStop_Click(object sender, EventArgs e)
-        {
-            textBoxStopAt.Text = DateTime.Now.ToString();
-        }
-
-        private async void buttonFindWinner_ClickAsync(object sender, EventArgs e)
-        {
-            await Task.Delay(500);
-
-            var t1 = DateTime.Parse(textBoxStartAt.Text);
-            var t2 = DateTime.Parse(textBoxStopAt.Text);
-
-            var rows = dgw.Rows.Cast<DataGridViewRow>().Where(x =>
-                DateTime.Parse(x.Cells["PublishedAt"].Value.ToString()) >= t1 &&
-                DateTime.Parse(x.Cells["PublishedAt"].Value.ToString()) <= t2);
-
-            var cevaplar = new List<AnswerModel>();
-            foreach (DataGridViewRow rw in rows)
+            if (string.IsNullOrEmpty(textBoxVideoId.Text))
             {
-                var ix = 0;
-                if (int.TryParse(rw.Cells["DisplayMessage"].Value.ToString(), out ix))
-                {
-                    var cevap = new AnswerModel
-                    {
-                        UserName = rw.Cells["DisplayName"].Value.ToString(),
-                        Message = ix,
-                        PublishedAt = DateTime.Parse(rw.Cells["PublishedAt"].Value.ToString())
-                    };
-                    cevaplar.Add(cevap);
-                }
+                MessageBox.Show("Önce yayın seçin!", MessageHeader, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                tabControlMain.SelectTab(tabPageLive);
+                return;
             }
 
-            dgwCevap.DataSource = cevaplar.OrderBy(x => x.PublishedAt).ToList();
+            if (string.IsNullOrEmpty(richTextBoxQuestion.Text) || string.IsNullOrEmpty(richTextBoxAnswers.Text) ||
+                !Helper.IsNumericArti(richTextBoxAnswers.Text))
+            {
+                MessageBox.Show("Soru ve cevap doldurulmalı. Cevap numerik olmalı!", MessageHeader, MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            textBoxQuestionStartAt.Text = DateTime.Now.ToString();
+            await SaveCompetition();
+            buttonQuestionStop.Enabled = true;
+            buttonQuestionStart.Enabled = false;
+            buttonNewQuestions.Enabled = false;
+        }
+
+        private async void buttonQuestionStop_Click(object sender, EventArgs e)
+        {
+            textBoxQuestionStopAt.Text = DateTime.Now.ToString();
+            await SaveCompetition();
+            buttonQuestionStop.Enabled = false;
+            buttonNewQuestions.Enabled = true;
+        }
+
+        private async Task SaveCompetition()
+        {
+            await Task.Delay(100);
+            var showResult = false;
+            var compId = 0;
+            await Task.Run(() =>
+            {
+                if (labelQuestionId.Text == "0")
+                {
+                    var comp = new competitions
+                    {
+                        Id = 0,
+                        LiveChatId = textBoxLiveChatId.Text ?? "",
+                        VideoId = textBoxVideoId.Text,
+                        Question = richTextBoxQuestion.Text,
+                        Answer = richTextBoxAnswers.Text,
+                        Date = Convert.ToDateTime(richTextBoxStartTime.Text),
+                        StartTime = Convert.ToDateTime(textBoxQuestionStartAt.Text),
+                    };
+
+                    using (var db = new YoutubeCommentDbEntities())
+                    {
+                        db.competitions.Add(comp);
+                        db.SaveChanges();
+
+                        labelQuestionId.Text = comp.Id.ToString();
+                    }
+                }
+                else
+                {
+                    using (var db = new YoutubeCommentDbEntities())
+                    {
+                        var id = Convert.ToInt32(labelQuestionId.Text);
+                        compId = id;
+                        var comp = db.competitions.Find(id);
+                        if (comp != null)
+                        {
+                            showResult = true;
+                            comp.EndTime = Convert.ToDateTime(textBoxQuestionStopAt.Text);
+                            db.SaveChanges();
+
+                            db.findAnswers(id);
+                        }
+                    }
+                }
+            });
+
+            if (showResult)
+                await ShowValidAnswers(compId);
+        }
+
+        private async Task ShowValidAnswers(int competitionId)
+        {
+            await Task.Delay(200);
+            dgwAnswers.DataSource = null;
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var result = db.ValidAnswers_vw.Where(x => x.CompetitionId == competitionId).Select(x =>
+                    new CompetitionResultModel
+                    {
+                        Sequence = x.Sequence.Value,
+                        PublishedAt = x.PublishedAt.Value,
+                        DisplayName = x.AuthorDisplayName,
+                        AuthorChannelUrl = x.AuthorChannelUrl,
+                        Answer = x.Answer,
+                        MessageText = x.MessageText,
+                        Score = x.Score,
+                        Gap = x.Gap.Value
+                    }).OrderByDescending(x => x.Score).ToList();
+
+                if (result.Any())
+                {
+                    dgwAnswers.DataSource = result;
+                    dgwAnswers.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                }
+            }
         }
 
         private void textBoxStartAt_TextChanged(object sender, EventArgs e)
         {
-            buttonFindWinner.Enabled =
-                !string.IsNullOrEmpty(textBoxStartAt.Text) && !string.IsNullOrEmpty(textBoxStopAt.Text);
+            //buttonFindWinner.Enabled =
+            //    !string.IsNullOrEmpty(textBoxQuestionStartAt.Text) && !string.IsNullOrEmpty(textBoxQuestionStopAt.Text);
         }
 
-        private void btnClearAnswers_Click(object sender, EventArgs e)
+        private void buttonNewQuestions_Click(object sender, EventArgs e)
         {
-            textBoxStartAt.Text = string.Empty;
-            textBoxStopAt.Text = string.Empty;
+            NewQuestion();
+        }
+
+        private void NewQuestion()
+        {
+            labelQuestionId.Text = "0";
+            richTextBoxQuestion.Text = "";
+            richTextBoxAnswers.Text = "";
+            textBoxQuestionStartAt.Text = "";
+            textBoxQuestionStopAt.Text = "";
+            buttonQuestionStart.Enabled = true;
+            buttonQuestionStop.Enabled = false;
+            dgwAnswers.DataSource = null;
+        }
+
+        private async void buttonReport_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwCompetitionHeader.DataSource = null;
+            dgwWinnerOfDay.DataSource = null;
+
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var result = db.competitions
+                    .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
+                        new CompetitionModel
+                        {
+                            Id = x.Id,
+                            VideoId = x.VideoId,
+                            Question = x.Question,
+                            Answer = x.Answer,
+                            StartTime = x.StartTime,
+                            EndTime = x.EndTime.Value
+                        }).ToSortableGridList();
+
+                if (result.Any())
+                {
+                    dgwCompetitionHeader.DataSource = result;
+                    dgwCompetitionHeader.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                }
+
+
+                var dayDetail = db.WinnerOfDay_vw
+                    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
+                        new WinnerOfDayModel
+                        {
+                            Sequence = x.Sequence.Value,
+                            DisplayName = x.AuthorDisplayName,
+                            AuthorChannelUrl = x.AuthorChannelUrl,
+                            Day = x.Day.Value,
+                            TotalCompetitions = x.TotalCompetition.Value,
+                            TotalScore = x.TotalScore.Value
+                        }).ToSortableGridList();
+
+                if (dayDetail.Any())
+                {
+                    dgwWinnerOfDay.DataSource = dayDetail;
+                    dgwWinnerOfDay.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwCompetitionDetail.DataSource = null;
+
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var data = dgwCompetitionHeader.CurrentRow.DataBoundItem as CompetitionModel;
+                var result = db.ValidAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
+                    new CompetitionResultModel
+                    {
+                        Sequence = x.Sequence.Value,
+                        PublishedAt = x.PublishedAt.Value,
+                        DisplayName = x.AuthorDisplayName,
+                        AuthorChannelUrl = x.AuthorChannelUrl,
+                        Answer = x.Answer,
+                        MessageText = x.MessageText,
+                        Score = x.Score,
+                        Gap = x.Gap.Value
+                    }).OrderByDescending(x => x.Score).ToList();
+
+                if (result.Any())
+                {
+                    dgwCompetitionDetail.DataSource = result;
+                    dgwCompetitionDetail.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                }
+            }
+
+            this.Cursor = Cursors.Default;
         }
     }
 }

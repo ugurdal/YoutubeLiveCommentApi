@@ -12,6 +12,8 @@ namespace derinYouTube.Model
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class YoutubeCommentDbEntities : DbContext
     {
@@ -25,7 +27,20 @@ namespace derinYouTube.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<competitionAnswers> competitionAnswers { get; set; }
+        public virtual DbSet<competitions> competitions { get; set; }
         public virtual DbSet<liveBroadcasts> liveBroadcasts { get; set; }
         public virtual DbSet<liveChatMessages> liveChatMessages { get; set; }
+        public virtual DbSet<ValidAnswers_vw> ValidAnswers_vw { get; set; }
+        public virtual DbSet<WinnerOfDay_vw> WinnerOfDay_vw { get; set; }
+    
+        public virtual int findAnswers(Nullable<int> competitionId)
+        {
+            var competitionIdParameter = competitionId.HasValue ?
+                new ObjectParameter("competitionId", competitionId) :
+                new ObjectParameter("competitionId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("findAnswers", competitionIdParameter);
+        }
     }
 }

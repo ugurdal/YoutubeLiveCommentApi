@@ -30,6 +30,5 @@ namespace derinYouTube.ViewModels
         public DateTime? PublishedTime { get; set; }
         public string AuthorChannelId { get; set; }
         public string LiveChatId { get; set; }
-        
     }
 }

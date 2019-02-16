@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace derinYouTube
+namespace derinYouTube.ViewModels
 {
     public class VideoModel
     {

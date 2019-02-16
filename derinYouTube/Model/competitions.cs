@@ -12,28 +12,22 @@ namespace derinYouTube.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class liveChatMessages
+    public partial class competitions
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public liveChatMessages()
+        public competitions()
         {
             this.competitionAnswers = new HashSet<competitionAnswers>();
         }
     
         public int Id { get; set; }
-        public string MessageId { get; set; }
-        public string AuthorChannelId { get; set; }
-        public string AuthorChannelUrl { get; set; }
-        public string AuthorDisplayName { get; set; }
+        public System.DateTime Date { get; set; }
         public string LiveChatId { get; set; }
         public string VideoId { get; set; }
-        public Nullable<System.DateTime> PublishedAt { get; set; }
-        public Nullable<bool> HasDisplayContent { get; set; }
-        public string MessageText { get; set; }
-        public Nullable<bool> IsVerified { get; set; }
-        public Nullable<bool> IsChatOwner { get; set; }
-        public Nullable<bool> IsChatSponsor { get; set; }
-        public Nullable<bool> IsChatModerator { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
+        public System.DateTime StartTime { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<competitionAnswers> competitionAnswers { get; set; }

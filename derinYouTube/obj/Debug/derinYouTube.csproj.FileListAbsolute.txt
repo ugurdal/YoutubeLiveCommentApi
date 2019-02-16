@@ -51,12 +51,12 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.pdb
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.SimpleCRUD.pdb
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\Dapper.SimpleCRUD.xml
-C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\ClientJsonFiles\ugurrdal@gmail.com.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\ClientJsonFiles\prodemirerdem@gmail.com.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\ClientJsonFiles\iyigelecekelcileri@gmail.com.json
-C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\client_secret.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.dll
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.SqlServer.dll
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.SqlServer.xml
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\migros_client_secret.json
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\client_secret.json

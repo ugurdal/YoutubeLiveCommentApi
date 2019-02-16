@@ -1,18 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="YoutubeCommentDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="YoutubeCommentDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="competitionAnswers" EntityType="YoutubeCommentDbModel.competitionAnswers" />
+    <EntitySet Name="competitions" EntityType="YoutubeCommentDbModel.competitions" />
     <EntitySet Name="liveBroadcasts" EntityType="YoutubeCommentDbModel.liveBroadcasts" />
     <EntitySet Name="liveChatMessages" EntityType="YoutubeCommentDbModel.liveChatMessages" />
+    <AssociationSet Name="FK_competitionAnswers_competitions" Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions">
+      <End Role="competitions" EntitySet="competitions" />
+      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_competitionAnswers_liveChatMessages" Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages">
+      <End Role="liveChatMessages" EntitySet="liveChatMessages" />
+      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+    </AssociationSet>
+    <FunctionImport Name="findAnswers">
+      <Parameter Name="competitionId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="ValidAnswers_vw" EntityType="YoutubeCommentDbModel.ValidAnswers_vw" />
+    <EntitySet Name="WinnerOfDay_vw" EntityType="YoutubeCommentDbModel.WinnerOfDay_vw" />
   </EntityContainer>
+  <EntityType Name="competitionAnswers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fk_Competition" Type="Int32" Nullable="false" />
+    <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+    <Property Name="IsValid" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
+    <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
+  </EntityType>
+  <EntityType Name="competitions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="competitionAnswers" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitions" ToRole="competitionAnswers" />
+  </EntityType>
   <EntityType Name="liveBroadcasts">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="BroadcastId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="BroadcastId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
     <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
     <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="LiveStatus" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="ChannelTitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -26,11 +67,12 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MessageId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="MessageId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="AuthorChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="AuthorChannelUrl" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="AuthorDisplayName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
     <Property Name="PublishedAt" Type="DateTime" Precision="3" />
     <Property Name="HasDisplayContent" Type="Boolean" />
     <Property Name="MessageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -38,5 +80,74 @@
     <Property Name="IsChatOwner" Type="Boolean" />
     <Property Name="IsChatSponsor" Type="Boolean" />
     <Property Name="IsChatModerator" Type="Boolean" />
+    <NavigationProperty Name="competitionAnswers" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="liveChatMessages" ToRole="competitionAnswers" />
+  </EntityType>
+  <Association Name="FK_competitionAnswers_competitions">
+    <End Type="YoutubeCommentDbModel.competitions" Role="competitions" Multiplicity="1" />
+    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="competitions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="competitionAnswers">
+        <PropertyRef Name="Fk_Competition" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_competitionAnswers_liveChatMessages">
+    <End Type="YoutubeCommentDbModel.liveChatMessages" Role="liveChatMessages" Multiplicity="1" />
+    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="liveChatMessages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="competitionAnswers">
+        <PropertyRef Name="Fk_LiveChatMessage" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ValidAnswers_vw">
+    <Key>
+      <PropertyRef Name="CompetitionId" />
+      <PropertyRef Name="AuthorChannelId" />
+      <PropertyRef Name="AuthorChannelUrl" />
+      <PropertyRef Name="AuthorDisplayName" />
+      <PropertyRef Name="Score" />
+      <PropertyRef Name="StartTime" />
+      <PropertyRef Name="LiveChatId" />
+      <PropertyRef Name="VideoId" />
+      <PropertyRef Name="Question" />
+      <PropertyRef Name="Answer" />
+      <PropertyRef Name="MessageText" />
+    </Key>
+    <Property Name="CompetitionId" Type="Int32" Nullable="false" />
+    <Property Name="AuthorChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorChannelUrl" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorDisplayName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+    <Property Name="PublishedAt" Type="DateTime" Precision="3" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <Property Name="LiveChatId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="MessageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Gap" Type="Decimal" Precision="21" Scale="0" />
+    <Property Name="Sequence" Type="Int64" />
+  </EntityType>
+  <EntityType Name="WinnerOfDay_vw">
+    <Key>
+      <PropertyRef Name="AuthorChannelId" />
+      <PropertyRef Name="AuthorChannelUrl" />
+      <PropertyRef Name="AuthorDisplayName" />
+    </Key>
+    <Property Name="Day" Type="DateTime" Precision="0" />
+    <Property Name="AuthorChannelId" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorChannelUrl" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="AuthorDisplayName" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="TotalScore" Type="Int32" />
+    <Property Name="TotalCompetition" Type="Int32" />
+    <Property Name="Sequence" Type="Int64" />
   </EntityType>
 </Schema>
