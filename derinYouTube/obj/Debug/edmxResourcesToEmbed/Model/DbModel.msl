@@ -65,9 +65,25 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <FunctionImportMapping FunctionImportName="findAnswers" FunctionName="YoutubeCommentDbModel.Store.findAnswers" />
-    <EntitySetMapping Name="ValidAnswers_vw">
-      <EntityTypeMapping TypeName="YoutubeCommentDbModel.ValidAnswers_vw">
-        <MappingFragment StoreEntitySet="ValidAnswers_vw">
+    <EntitySetMapping Name="competitions_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions_vw">
+        <MappingFragment StoreEntitySet="competitions_vw">
+          <ScalarProperty Name="TotalUser" ColumnName="TotalUser" />
+          <ScalarProperty Name="TotalAnswers" ColumnName="TotalAnswers" />
+          <ScalarProperty Name="ValidAnswers" ColumnName="ValidAnswers" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="validAnswers_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.validAnswers_vw">
+        <MappingFragment StoreEntitySet="validAnswers_vw">
           <ScalarProperty Name="Sequence" ColumnName="Sequence" />
           <ScalarProperty Name="Gap" ColumnName="Gap" />
           <ScalarProperty Name="MessageText" ColumnName="MessageText" />
@@ -86,9 +102,9 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="WinnerOfDay_vw">
-      <EntityTypeMapping TypeName="YoutubeCommentDbModel.WinnerOfDay_vw">
-        <MappingFragment StoreEntitySet="WinnerOfDay_vw">
+    <EntitySetMapping Name="winnerOfDay_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.winnerOfDay_vw">
+        <MappingFragment StoreEntitySet="winnerOfDay_vw">
           <ScalarProperty Name="Sequence" ColumnName="Sequence" />
           <ScalarProperty Name="TotalCompetition" ColumnName="TotalCompetition" />
           <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />

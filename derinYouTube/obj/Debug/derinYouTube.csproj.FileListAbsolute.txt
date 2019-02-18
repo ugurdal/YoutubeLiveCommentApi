@@ -60,3 +60,4 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.xm
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.SqlServer.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\migros_client_secret.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\client_secret.json
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache

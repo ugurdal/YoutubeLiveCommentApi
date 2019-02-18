@@ -12,7 +12,7 @@ namespace derinYouTube.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class WinnerOfDay_vw
+    public partial class winnerOfDay_vw
     {
         public Nullable<System.DateTime> Day { get; set; }
         public string AuthorChannelId { get; set; }

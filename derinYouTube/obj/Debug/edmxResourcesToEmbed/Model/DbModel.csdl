@@ -16,8 +16,9 @@
     <FunctionImport Name="findAnswers">
       <Parameter Name="competitionId" Mode="In" Type="Int32" />
     </FunctionImport>
-    <EntitySet Name="ValidAnswers_vw" EntityType="YoutubeCommentDbModel.ValidAnswers_vw" />
-    <EntitySet Name="WinnerOfDay_vw" EntityType="YoutubeCommentDbModel.WinnerOfDay_vw" />
+    <EntitySet Name="competitions_vw" EntityType="YoutubeCommentDbModel.competitions_vw" />
+    <EntitySet Name="validAnswers_vw" EntityType="YoutubeCommentDbModel.validAnswers_vw" />
+    <EntitySet Name="winnerOfDay_vw" EntityType="YoutubeCommentDbModel.winnerOfDay_vw" />
   </EntityContainer>
   <EntityType Name="competitionAnswers">
     <Key>
@@ -106,7 +107,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="ValidAnswers_vw">
+  <EntityType Name="competitions_vw">
+    <Key>
+      <PropertyRef Name="Id" />
+      <PropertyRef Name="VideoId" />
+      <PropertyRef Name="Question" />
+      <PropertyRef Name="Answer" />
+      <PropertyRef Name="StartTime" />
+      <PropertyRef Name="ValidAnswers" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Precision="0" />
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <Property Name="ValidAnswers" Type="Int32" Nullable="false" />
+    <Property Name="TotalAnswers" Type="Int32" />
+    <Property Name="TotalUser" Type="Int32" />
+  </EntityType>
+  <EntityType Name="validAnswers_vw">
     <Key>
       <PropertyRef Name="CompetitionId" />
       <PropertyRef Name="AuthorChannelId" />
@@ -136,7 +157,7 @@
     <Property Name="Gap" Type="Decimal" Precision="21" Scale="0" />
     <Property Name="Sequence" Type="Int64" />
   </EntityType>
-  <EntityType Name="WinnerOfDay_vw">
+  <EntityType Name="winnerOfDay_vw">
     <Key>
       <PropertyRef Name="AuthorChannelId" />
       <PropertyRef Name="AuthorChannelUrl" />

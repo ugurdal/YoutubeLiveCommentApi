@@ -114,6 +114,9 @@
     <Compile Include="Model\competitions.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\competitions_vw.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\DbModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -136,10 +139,10 @@
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ReportChatModel.cs" />
-    <Compile Include="Model\ValidAnswers_vw.cs">
+    <Compile Include="Model\validAnswers_vw.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\WinnerOfDay_vw.cs">
+    <Compile Include="Model\winnerOfDay_vw.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />

@@ -65,8 +65,30 @@
           <Property Name="IsChatModerator" Type="bit" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'YoutubeCommentDb.dbo.ValidAnswers_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="ValidAnswers_vw">
+warning 6002: The table/view 'YoutubeCommentDb.dbo.competitions_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="competitions_vw">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="VideoId" />
+            <PropertyRef Name="Question" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="StartTime" />
+            <PropertyRef Name="ValidAnswers" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" />
+          <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
+          <Property Name="Question" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Answer" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="ValidAnswers" Type="int" Nullable="false" />
+          <Property Name="TotalAnswers" Type="int" />
+          <Property Name="TotalUser" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="validAnswers_vw">
           <Key>
             <PropertyRef Name="CompetitionId" />
             <PropertyRef Name="AuthorChannelId" />
@@ -97,8 +119,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.ValidAnswers_vw' does not hav
           <Property Name="Sequence" Type="bigint" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="WinnerOfDay_vw">
+warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="winnerOfDay_vw">
           <Key>
             <PropertyRef Name="AuthorChannelId" />
             <PropertyRef Name="AuthorChannelUrl" />
@@ -144,35 +166,49 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
           <EntitySet Name="competitions" EntityType="Self.competitions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liveBroadcasts" EntityType="Self.liveBroadcasts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liveChatMessages" EntityType="Self.liveChatMessages" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ValidAnswers_vw" EntityType="Self.ValidAnswers_vw" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="competitions_vw" EntityType="Self.competitions_vw" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [ValidAnswers_vw].[CompetitionId] AS [CompetitionId], 
-    [ValidAnswers_vw].[AuthorChannelId] AS [AuthorChannelId], 
-    [ValidAnswers_vw].[AuthorChannelUrl] AS [AuthorChannelUrl], 
-    [ValidAnswers_vw].[AuthorDisplayName] AS [AuthorDisplayName], 
-    [ValidAnswers_vw].[Score] AS [Score], 
-    [ValidAnswers_vw].[PublishedAt] AS [PublishedAt], 
-    [ValidAnswers_vw].[StartTime] AS [StartTime], 
-    [ValidAnswers_vw].[EndTime] AS [EndTime], 
-    [ValidAnswers_vw].[LiveChatId] AS [LiveChatId], 
-    [ValidAnswers_vw].[VideoId] AS [VideoId], 
-    [ValidAnswers_vw].[Question] AS [Question], 
-    [ValidAnswers_vw].[Answer] AS [Answer], 
-    [ValidAnswers_vw].[MessageText] AS [MessageText], 
-    [ValidAnswers_vw].[Gap] AS [Gap], 
-    [ValidAnswers_vw].[Sequence] AS [Sequence]
-    FROM [dbo].[ValidAnswers_vw] AS [ValidAnswers_vw]</DefiningQuery>
+    [competitions_vw].[Id] AS [Id], 
+    [competitions_vw].[Date] AS [Date], 
+    [competitions_vw].[VideoId] AS [VideoId], 
+    [competitions_vw].[Question] AS [Question], 
+    [competitions_vw].[Answer] AS [Answer], 
+    [competitions_vw].[StartTime] AS [StartTime], 
+    [competitions_vw].[EndTime] AS [EndTime], 
+    [competitions_vw].[ValidAnswers] AS [ValidAnswers], 
+    [competitions_vw].[TotalAnswers] AS [TotalAnswers], 
+    [competitions_vw].[TotalUser] AS [TotalUser]
+    FROM [dbo].[competitions_vw] AS [competitions_vw]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="WinnerOfDay_vw" EntityType="Self.WinnerOfDay_vw" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="validAnswers_vw" EntityType="Self.validAnswers_vw" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [WinnerOfDay_vw].[Day] AS [Day], 
-    [WinnerOfDay_vw].[AuthorChannelId] AS [AuthorChannelId], 
-    [WinnerOfDay_vw].[AuthorChannelUrl] AS [AuthorChannelUrl], 
-    [WinnerOfDay_vw].[AuthorDisplayName] AS [AuthorDisplayName], 
-    [WinnerOfDay_vw].[TotalScore] AS [TotalScore], 
-    [WinnerOfDay_vw].[TotalCompetition] AS [TotalCompetition], 
-    [WinnerOfDay_vw].[Sequence] AS [Sequence]
-    FROM [dbo].[WinnerOfDay_vw] AS [WinnerOfDay_vw]</DefiningQuery>
+    [validAnswers_vw].[CompetitionId] AS [CompetitionId], 
+    [validAnswers_vw].[AuthorChannelId] AS [AuthorChannelId], 
+    [validAnswers_vw].[AuthorChannelUrl] AS [AuthorChannelUrl], 
+    [validAnswers_vw].[AuthorDisplayName] AS [AuthorDisplayName], 
+    [validAnswers_vw].[Score] AS [Score], 
+    [validAnswers_vw].[PublishedAt] AS [PublishedAt], 
+    [validAnswers_vw].[StartTime] AS [StartTime], 
+    [validAnswers_vw].[EndTime] AS [EndTime], 
+    [validAnswers_vw].[LiveChatId] AS [LiveChatId], 
+    [validAnswers_vw].[VideoId] AS [VideoId], 
+    [validAnswers_vw].[Question] AS [Question], 
+    [validAnswers_vw].[Answer] AS [Answer], 
+    [validAnswers_vw].[MessageText] AS [MessageText], 
+    [validAnswers_vw].[Gap] AS [Gap], 
+    [validAnswers_vw].[Sequence] AS [Sequence]
+    FROM [dbo].[validAnswers_vw] AS [validAnswers_vw]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="winnerOfDay_vw" EntityType="Self.winnerOfDay_vw" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [winnerOfDay_vw].[Day] AS [Day], 
+    [winnerOfDay_vw].[AuthorChannelId] AS [AuthorChannelId], 
+    [winnerOfDay_vw].[AuthorChannelUrl] AS [AuthorChannelUrl], 
+    [winnerOfDay_vw].[AuthorDisplayName] AS [AuthorDisplayName], 
+    [winnerOfDay_vw].[TotalScore] AS [TotalScore], 
+    [winnerOfDay_vw].[TotalCompetition] AS [TotalCompetition], 
+    [winnerOfDay_vw].[Sequence] AS [Sequence]
+    FROM [dbo].[winnerOfDay_vw] AS [winnerOfDay_vw]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_competitionAnswers_competitions" Association="Self.FK_competitionAnswers_competitions">
             <End Role="competitions" EntitySet="competitions" />
@@ -203,8 +239,9 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
           <FunctionImport Name="findAnswers">
           <Parameter Name="competitionId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="ValidAnswers_vw" EntityType="YoutubeCommentDbModel.ValidAnswers_vw" />
-          <EntitySet Name="WinnerOfDay_vw" EntityType="YoutubeCommentDbModel.WinnerOfDay_vw" />
+          <EntitySet Name="competitions_vw" EntityType="YoutubeCommentDbModel.competitions_vw" />
+          <EntitySet Name="validAnswers_vw" EntityType="YoutubeCommentDbModel.validAnswers_vw" />
+          <EntitySet Name="winnerOfDay_vw" EntityType="YoutubeCommentDbModel.winnerOfDay_vw" />
         </EntityContainer>
         <EntityType Name="competitionAnswers">
           <Key>
@@ -293,7 +330,27 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ValidAnswers_vw">
+        <EntityType Name="competitions_vw">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="VideoId" />
+            <PropertyRef Name="Question" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="StartTime" />
+            <PropertyRef Name="ValidAnswers" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="ValidAnswers" Type="Int32" Nullable="false" />
+          <Property Name="TotalAnswers" Type="Int32" />
+          <Property Name="TotalUser" Type="Int32" />
+        </EntityType>
+        <EntityType Name="validAnswers_vw">
           <Key>
             <PropertyRef Name="CompetitionId" />
             <PropertyRef Name="AuthorChannelId" />
@@ -323,7 +380,7 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
           <Property Name="Gap" Type="Decimal" Precision="21" Scale="0" />
           <Property Name="Sequence" Type="Int64" />
         </EntityType>
-        <EntityType Name="WinnerOfDay_vw">
+        <EntityType Name="winnerOfDay_vw">
           <Key>
             <PropertyRef Name="AuthorChannelId" />
             <PropertyRef Name="AuthorChannelUrl" />
@@ -407,9 +464,25 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="findAnswers" FunctionName="YoutubeCommentDbModel.Store.findAnswers" />
-          <EntitySetMapping Name="ValidAnswers_vw">
-            <EntityTypeMapping TypeName="YoutubeCommentDbModel.ValidAnswers_vw">
-              <MappingFragment StoreEntitySet="ValidAnswers_vw">
+          <EntitySetMapping Name="competitions_vw">
+            <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions_vw">
+              <MappingFragment StoreEntitySet="competitions_vw">
+                <ScalarProperty Name="TotalUser" ColumnName="TotalUser" />
+                <ScalarProperty Name="TotalAnswers" ColumnName="TotalAnswers" />
+                <ScalarProperty Name="ValidAnswers" ColumnName="ValidAnswers" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="Question" ColumnName="Question" />
+                <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="validAnswers_vw">
+            <EntityTypeMapping TypeName="YoutubeCommentDbModel.validAnswers_vw">
+              <MappingFragment StoreEntitySet="validAnswers_vw">
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="Gap" ColumnName="Gap" />
                 <ScalarProperty Name="MessageText" ColumnName="MessageText" />
@@ -428,9 +501,9 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.WinnerOfDay_vw' does not have
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="WinnerOfDay_vw">
-            <EntityTypeMapping TypeName="YoutubeCommentDbModel.WinnerOfDay_vw">
-              <MappingFragment StoreEntitySet="WinnerOfDay_vw">
+          <EntitySetMapping Name="winnerOfDay_vw">
+            <EntityTypeMapping TypeName="YoutubeCommentDbModel.winnerOfDay_vw">
+              <MappingFragment StoreEntitySet="winnerOfDay_vw">
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
                 <ScalarProperty Name="TotalCompetition" ColumnName="TotalCompetition" />
                 <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />

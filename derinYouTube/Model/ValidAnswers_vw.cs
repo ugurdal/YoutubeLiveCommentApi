@@ -12,7 +12,7 @@ namespace derinYouTube.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class ValidAnswers_vw
+    public partial class validAnswers_vw
     {
         public int CompetitionId { get; set; }
         public string AuthorChannelId { get; set; }

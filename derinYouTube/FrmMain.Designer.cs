@@ -100,18 +100,18 @@
             this.dgwAnswers = new System.Windows.Forms.DataGridView();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.dgwWinnerOfDay = new System.Windows.Forms.DataGridView();
+            this.dgwCompetitionDetail = new System.Windows.Forms.DataGridView();
+            this.dgwCompetitionHeader = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
             this.buttonReport = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.dtReport = new System.Windows.Forms.DateTimePicker();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
-            this.dgwCompetitionHeader = new System.Windows.Forms.DataGridView();
-            this.dgwCompetitionDetail = new System.Windows.Forms.DataGridView();
-            this.dgwWinnerOfDay = new System.Windows.Forms.DataGridView();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -135,12 +135,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgwAnswers)).BeginInit();
             this.tabPageAnalysis.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -960,6 +960,44 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(717, 548);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // dgwWinnerOfDay
+            // 
+            this.dgwWinnerOfDay.AllowUserToAddRows = false;
+            this.dgwWinnerOfDay.AllowUserToDeleteRows = false;
+            this.dgwWinnerOfDay.ColumnHeadersHeight = 40;
+            this.dgwWinnerOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwWinnerOfDay.Location = new System.Drawing.Point(3, 439);
+            this.dgwWinnerOfDay.Name = "dgwWinnerOfDay";
+            this.dgwWinnerOfDay.ReadOnly = true;
+            this.dgwWinnerOfDay.Size = new System.Drawing.Size(711, 106);
+            this.dgwWinnerOfDay.TabIndex = 18;
+            // 
+            // dgwCompetitionDetail
+            // 
+            this.dgwCompetitionDetail.AllowUserToAddRows = false;
+            this.dgwCompetitionDetail.AllowUserToDeleteRows = false;
+            this.dgwCompetitionDetail.ColumnHeadersHeight = 40;
+            this.dgwCompetitionDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwCompetitionDetail.Location = new System.Drawing.Point(3, 193);
+            this.dgwCompetitionDetail.Name = "dgwCompetitionDetail";
+            this.dgwCompetitionDetail.ReadOnly = true;
+            this.dgwCompetitionDetail.Size = new System.Drawing.Size(711, 215);
+            this.dgwCompetitionDetail.TabIndex = 17;
+            // 
+            // dgwCompetitionHeader
+            // 
+            this.dgwCompetitionHeader.AllowUserToAddRows = false;
+            this.dgwCompetitionHeader.AllowUserToDeleteRows = false;
+            this.dgwCompetitionHeader.ColumnHeadersHeight = 40;
+            this.dgwCompetitionHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwCompetitionHeader.Location = new System.Drawing.Point(3, 58);
+            this.dgwCompetitionHeader.Name = "dgwCompetitionHeader";
+            this.dgwCompetitionHeader.ReadOnly = true;
+            this.dgwCompetitionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgwCompetitionHeader.Size = new System.Drawing.Size(711, 104);
+            this.dgwCompetitionHeader.TabIndex = 16;
+            this.dgwCompetitionHeader.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompetitionHeader_RowEnter);
+            // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.ControlLight;
@@ -972,6 +1010,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(711, 49);
             this.panel1.TabIndex = 0;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label16.Location = new System.Drawing.Point(3, 31);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(82, 13);
+            this.label16.TabIndex = 36;
+            this.label16.Text = "Competitions";
             // 
             // buttonReport
             // 
@@ -1011,36 +1059,6 @@
             this.panel2.Size = new System.Drawing.Size(711, 19);
             this.panel2.TabIndex = 1;
             // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel3.Controls.Add(this.label17);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 168);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(711, 19);
-            this.panel3.TabIndex = 2;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label16.Location = new System.Drawing.Point(3, 31);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(82, 13);
-            this.label16.TabIndex = 36;
-            this.label16.Text = "Competitions";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.label17.Location = new System.Drawing.Point(3, 3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(157, 13);
-            this.label17.TabIndex = 37;
-            this.label17.Text = "Competition Valid Answers";
-            // 
             // label18
             // 
             this.label18.AutoSize = true;
@@ -1051,43 +1069,25 @@
             this.label18.TabIndex = 38;
             this.label18.Text = "Winner Of Day";
             // 
-            // dgwCompetitionHeader
+            // panel3
             // 
-            this.dgwCompetitionHeader.AllowUserToAddRows = false;
-            this.dgwCompetitionHeader.AllowUserToDeleteRows = false;
-            this.dgwCompetitionHeader.ColumnHeadersHeight = 40;
-            this.dgwCompetitionHeader.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgwCompetitionHeader.Location = new System.Drawing.Point(3, 58);
-            this.dgwCompetitionHeader.Name = "dgwCompetitionHeader";
-            this.dgwCompetitionHeader.ReadOnly = true;
-            this.dgwCompetitionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwCompetitionHeader.Size = new System.Drawing.Size(711, 104);
-            this.dgwCompetitionHeader.TabIndex = 16;
-            this.dgwCompetitionHeader.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompetitionHeader_RowEnter);
+            this.panel3.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel3.Controls.Add(this.label17);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 168);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(711, 19);
+            this.panel3.TabIndex = 2;
             // 
-            // dgwCompetitionDetail
+            // label17
             // 
-            this.dgwCompetitionDetail.AllowUserToAddRows = false;
-            this.dgwCompetitionDetail.AllowUserToDeleteRows = false;
-            this.dgwCompetitionDetail.ColumnHeadersHeight = 40;
-            this.dgwCompetitionDetail.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgwCompetitionDetail.Location = new System.Drawing.Point(3, 193);
-            this.dgwCompetitionDetail.Name = "dgwCompetitionDetail";
-            this.dgwCompetitionDetail.ReadOnly = true;
-            this.dgwCompetitionDetail.Size = new System.Drawing.Size(711, 215);
-            this.dgwCompetitionDetail.TabIndex = 17;
-            // 
-            // dgwWinnerOfDay
-            // 
-            this.dgwWinnerOfDay.AllowUserToAddRows = false;
-            this.dgwWinnerOfDay.AllowUserToDeleteRows = false;
-            this.dgwWinnerOfDay.ColumnHeadersHeight = 40;
-            this.dgwWinnerOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgwWinnerOfDay.Location = new System.Drawing.Point(3, 439);
-            this.dgwWinnerOfDay.Name = "dgwWinnerOfDay";
-            this.dgwWinnerOfDay.ReadOnly = true;
-            this.dgwWinnerOfDay.Size = new System.Drawing.Size(711, 106);
-            this.dgwWinnerOfDay.TabIndex = 18;
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label17.Location = new System.Drawing.Point(3, 3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(172, 13);
+            this.label17.TabIndex = 37;
+            this.label17.Text = "Valid Answers Of Competition";
             // 
             // FrmMain
             // 
@@ -1131,15 +1131,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgwAnswers)).EndInit();
             this.tabPageAnalysis.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).EndInit();
             this.ResumeLayout(false);
 
         }

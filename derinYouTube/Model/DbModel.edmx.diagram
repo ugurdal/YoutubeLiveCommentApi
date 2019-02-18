@@ -11,8 +11,9 @@
         <EntityTypeShape EntityType="YoutubeCommentDbModel.liveChatMessages" Width="1.5" PointX="0.75" PointY="1" />
         <AssociationConnector Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions" />
         <AssociationConnector Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" />
-        <EntityTypeShape EntityType="YoutubeCommentDbModel.ValidAnswers_vw" Width="1.5" PointX="3.375" PointY="5.75" />
-        <EntityTypeShape EntityType="YoutubeCommentDbModel.WinnerOfDay_vw" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.competitions_vw" Width="1.5" PointX="3.375" PointY="5.75" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.validAnswers_vw" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.winnerOfDay_vw" Width="1.5" PointX="7.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

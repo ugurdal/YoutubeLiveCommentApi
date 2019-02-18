@@ -28,6 +28,12 @@ namespace derinYouTube.ViewModels
         {
             get { return this.EndTime.ToString(); }
         }
+        [DisplayName("Total Answers")]
+        public int TotalAnswers { get; set; }
+        [DisplayName("Valid Answers")]
+        public int ValidAnswers { get; set; }
+        [DisplayName("Total Users")]
+        public int UserCount { get; set; }
         public string Duration
         {
             get

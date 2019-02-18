@@ -513,7 +513,7 @@ namespace derinYouTube
             dgwAnswers.DataSource = null;
             using (var db = new YoutubeCommentDbEntities())
             {
-                var result = db.ValidAnswers_vw.Where(x => x.CompetitionId == competitionId).Select(x =>
+                var result = db.validAnswers_vw.Where(x => x.CompetitionId == competitionId).Select(x =>
                     new CompetitionResultModel
                     {
                         Sequence = x.Sequence.Value,
@@ -529,7 +529,7 @@ namespace derinYouTube
                 if (result.Any())
                 {
                     dgwAnswers.DataSource = result;
-                    dgwAnswers.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    dgwAnswers.FormatGrid();
                 }
             }
         }
@@ -566,7 +566,7 @@ namespace derinYouTube
 
             using (var db = new YoutubeCommentDbEntities())
             {
-                var result = db.competitions
+                var result = db.competitions_vw
                     .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
                         new CompetitionModel
                         {
@@ -575,17 +575,20 @@ namespace derinYouTube
                             Question = x.Question,
                             Answer = x.Answer,
                             StartTime = x.StartTime,
-                            EndTime = x.EndTime.Value
+                            EndTime = x.EndTime.Value,
+                            TotalAnswers = x.TotalAnswers ?? 0,
+                            UserCount = x.TotalUser ?? 0,
+                            ValidAnswers = x.ValidAnswers
                         }).ToSortableGridList();
 
                 if (result.Any())
                 {
                     dgwCompetitionHeader.DataSource = result;
-                    dgwCompetitionHeader.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    dgwCompetitionHeader.FormatGrid();
                 }
 
 
-                var dayDetail = db.WinnerOfDay_vw
+                var dayDetail = db.winnerOfDay_vw
                     .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
                         new WinnerOfDayModel
                         {
@@ -600,7 +603,7 @@ namespace derinYouTube
                 if (dayDetail.Any())
                 {
                     dgwWinnerOfDay.DataSource = dayDetail;
-                    dgwWinnerOfDay.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    dgwWinnerOfDay.FormatGrid();
                 }
             }
 
@@ -616,7 +619,7 @@ namespace derinYouTube
             using (var db = new YoutubeCommentDbEntities())
             {
                 var data = dgwCompetitionHeader.CurrentRow.DataBoundItem as CompetitionModel;
-                var result = db.ValidAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
+                var result = db.validAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
                     new CompetitionResultModel
                     {
                         Sequence = x.Sequence.Value,
@@ -632,7 +635,7 @@ namespace derinYouTube
                 if (result.Any())
                 {
                     dgwCompetitionDetail.DataSource = result;
-                    dgwCompetitionDetail.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+                    dgwCompetitionDetail.FormatGrid();
                 }
             }
 
