@@ -42,6 +42,7 @@ namespace derinYouTube.Extensions
                 //column.HeaderCell.Style.Font = new Font("Tahoma", 9F);
             }
 
+
             //for (int i = 0; i < dgv.Rows.Count; i++)
             //{
             //    dgv.Rows[i].Height = 25;

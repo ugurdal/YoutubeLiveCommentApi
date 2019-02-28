@@ -39,13 +39,16 @@ namespace derinYouTube
             dgwCompetitionHeader.DoubleBuffered(true);
             dgwCompetitionDetail.DoubleBuffered(true);
             dgwWinnerOfDay.DoubleBuffered(true);
+            dgwWinnerDetail.DoubleBuffered(true);
+            dgwStreams.DoubleBuffered(true);
+            dgwChats.DoubleBuffered(true);
 
             MessageHeader = this.Text;
             this.DoubleBuffered = true;
 
 
-            _youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
-            //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
+            //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
+            _youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -353,8 +356,7 @@ namespace derinYouTube
         {
             try
             {
-                var model = dgwLiveVideos.Rows[rowIndex].DataBoundItem as VideoModel;
-                if (model != null)
+                if (dgwLiveVideos.Rows[rowIndex].DataBoundItem is VideoModel model)
                 {
                     textBoxVideoId.Text = model.Id;
                     textBoxLiveChatId.Text = model.LiveChatId;
@@ -563,6 +565,8 @@ namespace derinYouTube
             await Task.Delay(200);
             dgwCompetitionHeader.DataSource = null;
             dgwWinnerOfDay.DataSource = null;
+            dgwCompetitionDetail.DataSource = null;
+            dgwWinnerDetail.DataSource = null;
 
             using (var db = new YoutubeCommentDbEntities())
             {
@@ -594,6 +598,7 @@ namespace derinYouTube
                         {
                             Sequence = x.Sequence.Value,
                             DisplayName = x.AuthorDisplayName,
+                            AuthorChannelId = x.AuthorChannelId,
                             AuthorChannelUrl = x.AuthorChannelUrl,
                             Day = x.Day.Value,
                             TotalCompetitions = x.TotalCompetition.Value,
@@ -636,6 +641,109 @@ namespace derinYouTube
                 {
                     dgwCompetitionDetail.DataSource = result;
                     dgwCompetitionDetail.FormatGrid();
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void dgwWinnerOfDay_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwWinnerDetail.DataSource = null;
+
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                if (dgwWinnerOfDay.CurrentRow.DataBoundItem is WinnerOfDayModel data)
+                {
+                    var result = db.validAnswers_vw.Where(x => x.AuthorChannelId == data.AuthorChannelId)
+                        .Where(x => DbFunctions.TruncateTime(x.PublishedAt) == DbFunctions.TruncateTime(dtReport.Value))
+                        .Select(x =>
+                            new WinnerDetailsModel
+                            {
+                                Sequence = x.Sequence.Value,
+                                PublishedAt = x.PublishedAt.Value,
+                                DisplayName = x.AuthorDisplayName,
+                                AuthorChannelUrl = x.AuthorChannelUrl,
+                                Question = x.Question,
+                                Answer = x.Answer,
+                                MessageText = x.MessageText,
+                                Score = x.Score,
+                                Gap = x.Gap.Value
+                            }).OrderByDescending(x => x.Score).ToList();
+
+                    if (result.Any())
+                    {
+                        dgwWinnerDetail.DataSource = result;
+                        dgwWinnerDetail.Columns["AuthorChannelUrl"].Visible = false;
+                        dgwWinnerDetail.FormatGrid();
+                    }
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void buttonShowStreams_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwStreams.DataSource = null;
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var model = db.liveBroadcasts.Select(x => new VideoModel
+                {
+                    Id = x.BroadcastId,
+                    Title = x.Title,
+                    ChannelId = x.ChannelId,
+                    ChannelTitle = x.ChannelTitle,
+                    LiveChatId = x.LiveChatId,
+                    ActualEndTime = x.ActualEndTime,
+                    ActualStartTime = x.ActualStartTime,
+                    Description = x.Description,
+                    LiveStatus = x.LiveStatus,
+                    PublishedDate = x.PublishedDate,
+                    ScheduledStartTime = x.ScheduledStartTime
+                }).ToList();
+
+                if (model.Any())
+                {
+                    dgwStreams.DataSource = model.OrderByDescending(x => x.ActualStartTime).ToSortableGridList();
+                    dgwStreams.Columns["Description"].Visible = false;
+                    dgwStreams.FormatGrid();
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void buttonShowChats_Click(object sender, EventArgs e)
+        {
+            if (dgwStreams.SelectedRows.Count != 1)
+                return;
+
+            var stream = dgwStreams.SelectedRows[0].DataBoundItem as VideoModel;
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwChats.DataSource = null;
+            labelChatCount.Text = "0";
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var model = db.liveChatMessages.Where(x => x.VideoId == stream.Id).Select(x => new ChatsViewModel
+                {
+                    AuthorChannelId = x.AuthorChannelId,
+                    PublishedAt = x.PublishedAt,
+                    AuthorChannelUrl = x.AuthorChannelUrl,
+                    AuthorDisplayName = x.AuthorDisplayName,
+                    MessageText = x.MessageText
+                }).ToList();
+
+                if (model.Any())
+                {
+                    dgwChats.DataSource = model.ToSortableGridList();
+                    dgwChats.FormatGrid();
+                    labelChatCount.Text = model.Count.ToString();
                 }
             }
 

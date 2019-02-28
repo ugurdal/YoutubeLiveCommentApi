@@ -20,5 +20,7 @@ namespace derinYouTube.ViewModels
         public int TotalCompetitions { get; set; }
         [DisplayName("Channel Url")]
         public string AuthorChannelUrl { get; set; }
+        [Browsable(false)]
+        public string AuthorChannelId { get; set; }
     }
 }

@@ -50,8 +50,6 @@
             this.textBoxLiveChatId = new System.Windows.Forms.RichTextBox();
             this.textBoxVideoId = new System.Windows.Forms.RichTextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.pbWorking = new System.Windows.Forms.PictureBox();
-            this.buttonStop = new System.Windows.Forms.Button();
             this.buttonAsync = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.richTextBoxEndTime = new System.Windows.Forms.RichTextBox();
@@ -100,7 +98,6 @@
             this.dgwAnswers = new System.Windows.Forms.DataGridView();
             this.tabPageAnalysis = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dgwWinnerOfDay = new System.Windows.Forms.DataGridView();
             this.dgwCompetitionDetail = new System.Windows.Forms.DataGridView();
             this.dgwCompetitionHeader = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -112,6 +109,22 @@
             this.label18 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label17 = new System.Windows.Forms.Label();
+            this.tableLayoutPanelWinnerOfDay = new System.Windows.Forms.TableLayoutPanel();
+            this.dgwWinnerDetail = new System.Windows.Forms.DataGridView();
+            this.dgwWinnerOfDay = new System.Windows.Forms.DataGridView();
+            this.tabPageChats = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanelChats = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label19 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label20 = new System.Windows.Forms.Label();
+            this.dgwStreams = new System.Windows.Forms.DataGridView();
+            this.dgwChats = new System.Windows.Forms.DataGridView();
+            this.buttonShowChats = new System.Windows.Forms.Button();
+            this.buttonShowStreams = new System.Windows.Forms.Button();
+            this.labelChatCount = new System.Windows.Forms.Label();
+            this.pbWorking = new System.Windows.Forms.PictureBox();
+            this.buttonStop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -119,7 +132,6 @@
             this.splitContainerDikey.SuspendLayout();
             this.tabControlLeftMenu.SuspendLayout();
             this.tabPageVideo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWorking)).BeginInit();
             this.tabControlMain.SuspendLayout();
             this.tabPageLive.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerYatay)).BeginInit();
@@ -135,12 +147,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgwAnswers)).BeginInit();
             this.tabPageAnalysis.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tableLayoutPanelWinnerOfDay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerDetail)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).BeginInit();
+            this.tabPageChats.SuspendLayout();
+            this.tableLayoutPanelChats.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwStreams)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwChats)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWorking)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -385,33 +406,12 @@
             this.label11.TabIndex = 29;
             this.label11.Text = "Chat Count";
             // 
-            // pbWorking
-            // 
-            this.pbWorking.Image = global::derinYouTube.Properties.Resources.ajax_loader;
-            this.pbWorking.Location = new System.Drawing.Point(82, 418);
-            this.pbWorking.Name = "pbWorking";
-            this.pbWorking.Size = new System.Drawing.Size(16, 16);
-            this.pbWorking.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbWorking.TabIndex = 28;
-            this.pbWorking.TabStop = false;
-            // 
-            // buttonStop
-            // 
-            this.buttonStop.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.buttonStop.Location = new System.Drawing.Point(82, 479);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(156, 26);
-            this.buttonStop.TabIndex = 27;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = false;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
-            // 
             // buttonAsync
             // 
             this.buttonAsync.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.buttonAsync.Location = new System.Drawing.Point(81, 448);
+            this.buttonAsync.Location = new System.Drawing.Point(80, 440);
             this.buttonAsync.Name = "buttonAsync";
-            this.buttonAsync.Size = new System.Drawing.Size(157, 25);
+            this.buttonAsync.Size = new System.Drawing.Size(122, 40);
             this.buttonAsync.TabIndex = 25;
             this.buttonAsync.Text = "Get Live Chats";
             this.buttonAsync.UseVisualStyleBackColor = false;
@@ -564,6 +564,7 @@
             this.tabControlMain.Controls.Add(this.tabPageLive);
             this.tabControlMain.Controls.Add(this.tabPageQuestion);
             this.tabControlMain.Controls.Add(this.tabPageAnalysis);
+            this.tabControlMain.Controls.Add(this.tabPageChats);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.ItemSize = new System.Drawing.Size(58, 25);
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
@@ -735,7 +736,7 @@
             this.ChannelId.Name = "ChannelId";
             this.ChannelId.ReadOnly = true;
             this.ChannelId.Visible = false;
-            this.ChannelId.Width = 81;
+            this.ChannelId.Width = 80;
             // 
             // ChannelTitle
             // 
@@ -941,12 +942,12 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.dgwWinnerOfDay, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.dgwCompetitionDetail, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.dgwCompetitionHeader, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanelWinnerOfDay, 0, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -959,18 +960,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(717, 548);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // dgwWinnerOfDay
-            // 
-            this.dgwWinnerOfDay.AllowUserToAddRows = false;
-            this.dgwWinnerOfDay.AllowUserToDeleteRows = false;
-            this.dgwWinnerOfDay.ColumnHeadersHeight = 40;
-            this.dgwWinnerOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgwWinnerOfDay.Location = new System.Drawing.Point(3, 439);
-            this.dgwWinnerOfDay.Name = "dgwWinnerOfDay";
-            this.dgwWinnerOfDay.ReadOnly = true;
-            this.dgwWinnerOfDay.Size = new System.Drawing.Size(711, 106);
-            this.dgwWinnerOfDay.TabIndex = 18;
             // 
             // dgwCompetitionDetail
             // 
@@ -1089,6 +1078,199 @@
             this.label17.TabIndex = 37;
             this.label17.Text = "Valid Answers Of Competition";
             // 
+            // tableLayoutPanelWinnerOfDay
+            // 
+            this.tableLayoutPanelWinnerOfDay.ColumnCount = 2;
+            this.tableLayoutPanelWinnerOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelWinnerOfDay.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelWinnerOfDay.Controls.Add(this.dgwWinnerDetail, 1, 0);
+            this.tableLayoutPanelWinnerOfDay.Controls.Add(this.dgwWinnerOfDay, 0, 0);
+            this.tableLayoutPanelWinnerOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelWinnerOfDay.Location = new System.Drawing.Point(3, 439);
+            this.tableLayoutPanelWinnerOfDay.Name = "tableLayoutPanelWinnerOfDay";
+            this.tableLayoutPanelWinnerOfDay.RowCount = 1;
+            this.tableLayoutPanelWinnerOfDay.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanelWinnerOfDay.Size = new System.Drawing.Size(711, 106);
+            this.tableLayoutPanelWinnerOfDay.TabIndex = 18;
+            // 
+            // dgwWinnerDetail
+            // 
+            this.dgwWinnerDetail.AllowUserToAddRows = false;
+            this.dgwWinnerDetail.AllowUserToDeleteRows = false;
+            this.dgwWinnerDetail.ColumnHeadersHeight = 40;
+            this.dgwWinnerDetail.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwWinnerDetail.Location = new System.Drawing.Point(358, 3);
+            this.dgwWinnerDetail.Name = "dgwWinnerDetail";
+            this.dgwWinnerDetail.ReadOnly = true;
+            this.dgwWinnerDetail.Size = new System.Drawing.Size(350, 100);
+            this.dgwWinnerDetail.TabIndex = 19;
+            // 
+            // dgwWinnerOfDay
+            // 
+            this.dgwWinnerOfDay.AllowUserToAddRows = false;
+            this.dgwWinnerOfDay.AllowUserToDeleteRows = false;
+            this.dgwWinnerOfDay.ColumnHeadersHeight = 40;
+            this.dgwWinnerOfDay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwWinnerOfDay.Location = new System.Drawing.Point(3, 3);
+            this.dgwWinnerOfDay.Name = "dgwWinnerOfDay";
+            this.dgwWinnerOfDay.ReadOnly = true;
+            this.dgwWinnerOfDay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgwWinnerOfDay.Size = new System.Drawing.Size(349, 100);
+            this.dgwWinnerOfDay.TabIndex = 18;
+            this.dgwWinnerOfDay.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwWinnerOfDay_RowEnter);
+            // 
+            // tabPageChats
+            // 
+            this.tabPageChats.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tabPageChats.Controls.Add(this.tableLayoutPanelChats);
+            this.tabPageChats.Location = new System.Drawing.Point(4, 29);
+            this.tabPageChats.Name = "tabPageChats";
+            this.tabPageChats.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageChats.Size = new System.Drawing.Size(723, 554);
+            this.tabPageChats.TabIndex = 3;
+            this.tabPageChats.Text = "Chat Analysis";
+            // 
+            // tableLayoutPanelChats
+            // 
+            this.tableLayoutPanelChats.ColumnCount = 1;
+            this.tableLayoutPanelChats.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanelChats.Controls.Add(this.dgwChats, 0, 3);
+            this.tableLayoutPanelChats.Controls.Add(this.dgwStreams, 0, 1);
+            this.tableLayoutPanelChats.Controls.Add(this.panel4, 0, 0);
+            this.tableLayoutPanelChats.Controls.Add(this.panel5, 0, 2);
+            this.tableLayoutPanelChats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanelChats.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanelChats.Name = "tableLayoutPanelChats";
+            this.tableLayoutPanelChats.RowCount = 4;
+            this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
+            this.tableLayoutPanelChats.Size = new System.Drawing.Size(717, 548);
+            this.tableLayoutPanelChats.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel4.Controls.Add(this.buttonShowStreams);
+            this.panel4.Controls.Add(this.label19);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 3);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(711, 29);
+            this.panel4.TabIndex = 3;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label19.Location = new System.Drawing.Point(3, 5);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(55, 13);
+            this.label19.TabIndex = 37;
+            this.label19.Text = "Streams";
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel5.Controls.Add(this.labelChatCount);
+            this.panel5.Controls.Add(this.buttonShowChats);
+            this.panel5.Controls.Add(this.label20);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(3, 181);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(711, 29);
+            this.panel5.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label20.Location = new System.Drawing.Point(3, 7);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(151, 13);
+            this.label20.TabIndex = 37;
+            this.label20.Text = "Chats Of Selected Stream";
+            // 
+            // dgwStreams
+            // 
+            this.dgwStreams.AllowUserToAddRows = false;
+            this.dgwStreams.AllowUserToDeleteRows = false;
+            this.dgwStreams.ColumnHeadersHeight = 40;
+            this.dgwStreams.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwStreams.Location = new System.Drawing.Point(3, 38);
+            this.dgwStreams.Name = "dgwStreams";
+            this.dgwStreams.ReadOnly = true;
+            this.dgwStreams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgwStreams.Size = new System.Drawing.Size(711, 137);
+            this.dgwStreams.TabIndex = 17;
+            // 
+            // dgwChats
+            // 
+            this.dgwChats.AllowUserToAddRows = false;
+            this.dgwChats.AllowUserToDeleteRows = false;
+            this.dgwChats.ColumnHeadersHeight = 40;
+            this.dgwChats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgwChats.Location = new System.Drawing.Point(3, 216);
+            this.dgwChats.Name = "dgwChats";
+            this.dgwChats.ReadOnly = true;
+            this.dgwChats.Size = new System.Drawing.Size(711, 329);
+            this.dgwChats.TabIndex = 18;
+            // 
+            // buttonShowChats
+            // 
+            this.buttonShowChats.Location = new System.Drawing.Point(160, 2);
+            this.buttonShowChats.Name = "buttonShowChats";
+            this.buttonShowChats.Size = new System.Drawing.Size(169, 23);
+            this.buttonShowChats.TabIndex = 38;
+            this.buttonShowChats.Text = "Show";
+            this.buttonShowChats.UseVisualStyleBackColor = true;
+            this.buttonShowChats.Click += new System.EventHandler(this.buttonShowChats_Click);
+            // 
+            // buttonShowStreams
+            // 
+            this.buttonShowStreams.Location = new System.Drawing.Point(160, 3);
+            this.buttonShowStreams.Name = "buttonShowStreams";
+            this.buttonShowStreams.Size = new System.Drawing.Size(169, 23);
+            this.buttonShowStreams.TabIndex = 39;
+            this.buttonShowStreams.Text = "Show";
+            this.buttonShowStreams.UseVisualStyleBackColor = true;
+            this.buttonShowStreams.Click += new System.EventHandler(this.buttonShowStreams_Click);
+            // 
+            // labelChatCount
+            // 
+            this.labelChatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelChatCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelChatCount.Location = new System.Drawing.Point(604, 7);
+            this.labelChatCount.Name = "labelChatCount";
+            this.labelChatCount.Size = new System.Drawing.Size(104, 13);
+            this.labelChatCount.TabIndex = 39;
+            this.labelChatCount.Text = "0";
+            this.labelChatCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // pbWorking
+            // 
+            this.pbWorking.Image = global::derinYouTube.Properties.Resources.ajax_loader;
+            this.pbWorking.Location = new System.Drawing.Point(82, 418);
+            this.pbWorking.Name = "pbWorking";
+            this.pbWorking.Size = new System.Drawing.Size(16, 16);
+            this.pbWorking.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbWorking.TabIndex = 28;
+            this.pbWorking.TabStop = false;
+            // 
+            // buttonStop
+            // 
+            this.buttonStop.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.buttonStop.Image = global::derinYouTube.Properties.Resources.StopHS;
+            this.buttonStop.Location = new System.Drawing.Point(80, 486);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(122, 41);
+            this.buttonStop.TabIndex = 27;
+            this.buttonStop.Text = "Stop";
+            this.buttonStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.buttonStop.UseVisualStyleBackColor = false;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1113,7 +1295,6 @@
             this.tabControlLeftMenu.ResumeLayout(false);
             this.tabPageVideo.ResumeLayout(false);
             this.tabPageVideo.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbWorking)).EndInit();
             this.tabControlMain.ResumeLayout(false);
             this.tabPageLive.ResumeLayout(false);
             this.splitContainerYatay.Panel1.ResumeLayout(false);
@@ -1131,7 +1312,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgwAnswers)).EndInit();
             this.tabPageAnalysis.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionDetail)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwCompetitionHeader)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -1140,6 +1320,18 @@
             this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tableLayoutPanelWinnerOfDay.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerDetail)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwWinnerOfDay)).EndInit();
+            this.tabPageChats.ResumeLayout(false);
+            this.tableLayoutPanelChats.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwStreams)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwChats)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWorking)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1227,5 +1419,18 @@
         private System.Windows.Forms.DataGridView dgwWinnerOfDay;
         private System.Windows.Forms.DataGridView dgwCompetitionDetail;
         private System.Windows.Forms.DataGridView dgwCompetitionHeader;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelWinnerOfDay;
+        private System.Windows.Forms.DataGridView dgwWinnerDetail;
+        private System.Windows.Forms.TabPage tabPageChats;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanelChats;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.DataGridView dgwChats;
+        private System.Windows.Forms.DataGridView dgwStreams;
+        private System.Windows.Forms.Button buttonShowChats;
+        private System.Windows.Forms.Button buttonShowStreams;
+        private System.Windows.Forms.Label labelChatCount;
     }
 }
