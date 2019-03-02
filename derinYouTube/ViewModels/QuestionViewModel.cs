@@ -7,9 +7,15 @@ using System.Threading.Tasks;
 
 namespace derinYouTube.ViewModels
 {
-    public class WinnerDetailsModel : CompetitionResultModel
+    public class QuestionViewModel
     {
+        [Browsable(false)]
+        public int Id { get; set; }
         [DisplayName("Soru")]
         public string Question { get; set; }
+        [DisplayName("Cevap")]
+        public string Answer { get; set; }
+        [DisplayName("Kayıt Tarihi")]
+        public DateTime InsertDate { get; set; }
     }
 }

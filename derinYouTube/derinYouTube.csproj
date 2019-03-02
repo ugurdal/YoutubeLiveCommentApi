@@ -107,6 +107,18 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmQuestions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmQuestions.Designer.cs">
+      <DependentUpon>FrmQuestions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmShowResult.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmShowResult.Designer.cs">
+      <DependentUpon>FrmShowResult.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper.cs" />
     <Compile Include="Model\competitionAnswers.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
@@ -135,7 +147,13 @@
     <Compile Include="Model\liveBroadcasts.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\liveBroadcastsViewCount.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\liveChatMessages.cs">
+      <DependentUpon>DbModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\questions.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ReportChatModel.cs" />
@@ -152,12 +170,19 @@
     <Compile Include="Model\LiveChatModel.cs" />
     <Compile Include="ViewModels\CompetitionModel.cs" />
     <Compile Include="ViewModels\CompetitionResultModel.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
     <Compile Include="ViewModels\WinnerDetailsModel.cs" />
     <Compile Include="ViewModels\WinnerOfDayModel.cs" />
     <Compile Include="YouTubeApi.cs" />
     <Compile Include="ViewModels\VideoModel.cs" />
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmQuestions.resx">
+      <DependentUpon>FrmQuestions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmShowResult.resx">
+      <DependentUpon>FrmShowResult.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -225,6 +250,16 @@
     </Content>
     <Content Include="Notlar.txt" />
     <None Include="Resources\StopHS.png" />
+    <None Include="Resources\FormRunHS.png" />
+    <None Include="Resources\delete.bmp" />
+    <None Include="Resources\Clearallrequests_8816.png" />
+    <None Include="Resources\saveHS.png" />
+    <None Include="Resources\AddTableHS.png" />
+    <None Include="Resources\OK.png" />
+    <None Include="Resources\Web.png" />
+    <None Include="Resources\FindHS1.png" />
+    <None Include="Resources\CheckBoxHS.png" />
+    <None Include="Resources\EditTableHS.png" />
     <Content Include="youtube.ico" />
   </ItemGroup>
   <ItemGroup />

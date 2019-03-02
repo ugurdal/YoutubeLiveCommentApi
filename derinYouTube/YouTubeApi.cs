@@ -8,6 +8,7 @@ using Google.Apis.YouTube.v3;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Windows.Forms;
 using derinYouTube.ViewModels;
@@ -30,7 +31,7 @@ namespace derinYouTube
 
             _service = Auth();
         }
-        
+
         private YouTubeService Auth()
         {
             UserCredential credential;
@@ -199,7 +200,7 @@ namespace derinYouTube
             var videos = new LinkedList<VideoModel>();
             try
             {
-                var request = _service.LiveBroadcasts.List("id, snippet, contentDetails, status");
+                var request = _service.LiveBroadcasts.List("id, snippet, contentDetails, status, statistics");
                 request.Mine = true;
                 request.MaxResults = 50;
 
@@ -306,17 +307,15 @@ namespace derinYouTube
                 {
                     var nextPage = "";
                     var requestList = "id,snippet,authorDetails";
-                    var request = _service.LiveChatMessages.List(liveChatId, requestList);
-
-                    request.MaxResults = 500;
 
                     while (nextPage != null)
                     {
+                        var request = _service.LiveChatMessages.List(liveChatId, requestList);
+                        request.MaxResults = 500;
                         request.PageToken = nextPage;
 
-                        var response = await request.ExecuteAsync(cancellationToken);
-
                         await Task.Delay(2000, cancellationToken);
+                        var response = await request.ExecuteAsync(cancellationToken);
 
                         await Task.Run(() =>
                         {
@@ -328,7 +327,7 @@ namespace derinYouTube
                                 }
                                 catch (OperationCanceledException e)
                                 {
-                                    MessageBox.Show(e.Message);
+                                    //MessageBox.Show(e.Message);
                                     return;
                                 }
 
@@ -396,6 +395,7 @@ namespace derinYouTube
 
                         }, cancellationToken);
 
+
                         nextPage = response.NextPageToken;
                         isOnline = !response.OfflineAt.HasValue;
                     }
@@ -405,8 +405,29 @@ namespace derinYouTube
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
-                throw;
+                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+        }
+
+        public ulong GetCurrentStreamViewCount(string videoId)
+        {
+            try
+            {
+                ulong count = 0;
+                var request = _service.Videos.List("snippet, liveStreamingDetails");
+                request.Id = videoId;
+
+                var response = request.Execute();
+                if (response.Items.Any())
+                {
+                    count = response.Items[0].LiveStreamingDetails.ConcurrentViewers ?? 0;
+                }
+                return count;
+            }
+            catch (Exception e)
+            {
+                return 0;
             }
         }
 

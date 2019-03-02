@@ -29,11 +29,13 @@ namespace derinYouTube.Model
     
         public virtual DbSet<competitionAnswers> competitionAnswers { get; set; }
         public virtual DbSet<competitions> competitions { get; set; }
-        public virtual DbSet<liveBroadcasts> liveBroadcasts { get; set; }
         public virtual DbSet<liveChatMessages> liveChatMessages { get; set; }
         public virtual DbSet<competitions_vw> competitions_vw { get; set; }
-        public virtual DbSet<validAnswers_vw> validAnswers_vw { get; set; }
         public virtual DbSet<winnerOfDay_vw> winnerOfDay_vw { get; set; }
+        public virtual DbSet<validAnswers_vw> validAnswers_vw { get; set; }
+        public virtual DbSet<questions> questions { get; set; }
+        public virtual DbSet<liveBroadcastsViewCount> liveBroadcastsViewCount { get; set; }
+        public virtual DbSet<liveBroadcasts> liveBroadcasts { get; set; }
     
         public virtual int findAnswers(Nullable<int> competitionId)
         {

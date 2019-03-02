@@ -60,7 +60,6 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.xm
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\EntityFramework.SqlServer.xml
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\migros_client_secret.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\bin\Debug\client_secret.json
-C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
 C:\DerinSISRelease\Youtube\ClientJsonFiles\iyigelecekelcileri@gmail.com.json
 C:\DerinSISRelease\Youtube\ClientJsonFiles\prodemirerdem@gmail.com.json
 C:\DerinSISRelease\Youtube\ClientJsonFiles\ugurrdal@gmail.com.json
@@ -69,3 +68,5 @@ C:\DerinSISRelease\Youtube\migros_client_secret.json
 C:\DerinSISRelease\Youtube\derinYouTube.exe.config
 C:\DerinSISRelease\Youtube\derinYouTube.exe
 C:\DerinSISRelease\Youtube\derinYouTube.pdb
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmShowResult.resources
+C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmQuestions.resources

@@ -40,6 +40,15 @@
     <Property Name="ActualEndTime" Type="datetime" />
     <Property Name="ScheduledStartTime" Type="datetime" />
   </EntityType>
+  <EntityType Name="liveBroadcastsViewCount">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Count" Type="bigint" Nullable="false" />
+  </EntityType>
   <EntityType Name="liveChatMessages">
     <Key>
       <PropertyRef Name="Id" />
@@ -58,6 +67,16 @@
     <Property Name="IsChatOwner" Type="bit" />
     <Property Name="IsChatSponsor" Type="bit" />
     <Property Name="IsChatModerator" Type="bit" />
+  </EntityType>
+  <EntityType Name="questions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Question" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="Answer" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="InsertDate" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'YoutubeCommentDb.dbo.competitions_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -96,6 +115,7 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not hav
       <PropertyRef Name="Question" />
       <PropertyRef Name="Answer" />
       <PropertyRef Name="MessageText" />
+      <PropertyRef Name="UserAnswerCount" />
     </Key>
     <Property Name="CompetitionId" Type="int" Nullable="false" />
     <Property Name="AuthorChannelId" Type="varchar" MaxLength="1000" Nullable="false" />
@@ -112,6 +132,7 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not hav
     <Property Name="MessageText" Type="varchar(max)" Nullable="false" />
     <Property Name="Gap" Type="decimal" Precision="21" Scale="0" />
     <Property Name="Sequence" Type="bigint" />
+    <Property Name="UserAnswerCount" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
 warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -160,7 +181,9 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
     <EntitySet Name="competitionAnswers" EntityType="Self.competitionAnswers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="competitions" EntityType="Self.competitions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="liveBroadcasts" EntityType="Self.liveBroadcasts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="liveBroadcastsViewCount" EntityType="Self.liveBroadcastsViewCount" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="liveChatMessages" EntityType="Self.liveChatMessages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="questions" EntityType="Self.questions" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="competitions_vw" EntityType="Self.competitions_vw" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [competitions_vw].[Id] AS [Id], 
@@ -191,7 +214,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
     [validAnswers_vw].[Answer] AS [Answer], 
     [validAnswers_vw].[MessageText] AS [MessageText], 
     [validAnswers_vw].[Gap] AS [Gap], 
-    [validAnswers_vw].[Sequence] AS [Sequence]
+    [validAnswers_vw].[Sequence] AS [Sequence], 
+    [validAnswers_vw].[UserAnswerCount] AS [UserAnswerCount]
     FROM [dbo].[validAnswers_vw] AS [validAnswers_vw]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="winnerOfDay_vw" EntityType="Self.winnerOfDay_vw" store:Type="Views" store:Schema="dbo">

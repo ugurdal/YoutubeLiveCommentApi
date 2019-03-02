@@ -29,5 +29,6 @@ namespace derinYouTube.Model
         public string MessageText { get; set; }
         public Nullable<decimal> Gap { get; set; }
         public Nullable<long> Sequence { get; set; }
+        public int UserAnswerCount { get; set; }
     }
 }

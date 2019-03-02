@@ -9,18 +9,18 @@ namespace derinYouTube.ViewModels
 {
     public class ChatsViewModel
     {
-        [DisplayName("Display Name")]
+        [DisplayName("İzleyici Adı")]
         public string AuthorDisplayName { get; set; }
-        [DisplayName("Puslished Time")]
+        [DisplayName("Saat")]
         public string PublishedAtStr
         {
             get { return this.PublishedAt?.ToString() ?? ""; }
         }
-        [DisplayName("Message")]
+        [DisplayName("Mesaj")]
         public string MessageText { get; set; }
-        [DisplayName("Channel Id")]
+        [DisplayName("Kanal Id")]
         public string AuthorChannelId { get; set; }
-        [DisplayName("Channel Url")]
+        [DisplayName("Kanal Url")]
         public string AuthorChannelUrl { get; set; }
         [Browsable(false)]
         public DateTime? PublishedAt { get; set; }

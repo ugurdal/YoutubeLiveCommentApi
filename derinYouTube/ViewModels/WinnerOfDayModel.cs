@@ -11,14 +11,15 @@ namespace derinYouTube.ViewModels
     {
         [Browsable(false)]
         public DateTime Day { get; set; }
+        [DisplayName("Sıra")]
         public long Sequence { get; set; }
-        [DisplayName("Display Name")]
+        [DisplayName("İzleyici Adı")]
         public string DisplayName { get; set; }
-        [DisplayName("Total Score")]
+        [DisplayName("Toplam Puan")]
         public int TotalScore { get; set; }
-        [DisplayName("Total Competitions")]
+        [DisplayName("Kaç Yarışmaya Katıldı?")]
         public int TotalCompetitions { get; set; }
-        [DisplayName("Channel Url")]
+        [DisplayName("Kanal Url")]
         public string AuthorChannelUrl { get; set; }
         [Browsable(false)]
         public string AuthorChannelId { get; set; }

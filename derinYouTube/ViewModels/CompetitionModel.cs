@@ -12,27 +12,29 @@ namespace derinYouTube.ViewModels
         //[Browsable(false)]
         public int Id { get; set; }
         public string VideoId { get; set; }
+        [DisplayName("Soru")]
         public string Question { get; set; }
+        [DisplayName("Cevap")]
         public string Answer { get; set; }
         [Browsable(false)]
         public DateTime StartTime { get; set; }
         [Browsable(false)]
         public DateTime EndTime { get; set; }
-        [DisplayName("Start Time")]
+        [DisplayName("Başlangıç Saati")]
         public string StartTimeStr
         {
             get { return this.StartTime.ToString(); }
         }
-        [DisplayName("End Time")]
+        [DisplayName("Bitiş Saati")]
         public string EndTimeStr
         {
             get { return this.EndTime.ToString(); }
         }
-        [DisplayName("Total Answers")]
+        [DisplayName("Toplam Cevap Sayısı")]
         public int TotalAnswers { get; set; }
-        [DisplayName("Valid Answers")]
+        [DisplayName("Geçerli Cevap Sayısı")]
         public int ValidAnswers { get; set; }
-        [DisplayName("Total Users")]
+        [DisplayName("Kaç Kişi Cevap Verdi?")]
         public int UserCount { get; set; }
         public string Duration
         {

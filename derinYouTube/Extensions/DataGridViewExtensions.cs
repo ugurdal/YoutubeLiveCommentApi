@@ -11,6 +11,18 @@ namespace derinYouTube.Extensions
 {
     public static class DataGridViewExtensions
     {
+        private static string[] ColorColumns = new[]
+        {
+            "Score",
+            "TotalAnswers",
+            "ValidAnswers",
+            "Answer",
+            "MessageText",
+            "TotalScore",
+            "TotalCompetitions",
+            "TotalAnswersOfUser"
+        };
+
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
             Type dgvType = dgv.GetType();
@@ -26,11 +38,17 @@ namespace derinYouTube.Extensions
                 if (column.ValueType == typeof(decimal))
                 {
                     //column.DefaultCellStyle.Format = "N0";
-                    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
                 if ((column.ValueType == typeof(int) || column.ValueType == typeof(byte)) && column.Index != 0)
                 {
-                    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                    column.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                if (ColorColumns.Contains(column.Name))
+                {
+                    column.DefaultCellStyle.Font = new Font("Tahoma", 8, FontStyle.Bold);
+                    column.DefaultCellStyle.ForeColor = Color.DarkRed;
                 }
 
                 //if (column.ValueType == typeof(DateTime))
@@ -42,7 +60,7 @@ namespace derinYouTube.Extensions
                 //column.HeaderCell.Style.Font = new Font("Tahoma", 9F);
             }
 
-
+            dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             //for (int i = 0; i < dgv.Rows.Count; i++)
             //{
             //    dgv.Rows[i].Height = 25;
