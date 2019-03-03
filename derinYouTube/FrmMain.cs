@@ -46,7 +46,8 @@ namespace derinYouTube
 
 
             //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
-            _youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
+            //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
+            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)

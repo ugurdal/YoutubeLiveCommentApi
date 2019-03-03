@@ -194,6 +194,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClientJsonFiles\client_secret_izlene%40gmail.com.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ClientJsonFiles\iyigelecekelcileri%40gmail.com.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
