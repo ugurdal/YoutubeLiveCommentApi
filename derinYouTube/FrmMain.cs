@@ -11,10 +11,12 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using derinYouTube.Extensions;
 using derinYouTube.Model;
 using derinYouTube.ViewModels;
@@ -32,8 +34,6 @@ namespace derinYouTube
         private int _chatCount;
         private int _requestCount;
 
-        //TODO: Dakikalık izleyici bilgisi için menü hazırla
-
         public FrmMain()
         {
             InitializeComponent();
@@ -46,14 +46,15 @@ namespace derinYouTube
             dgwWinnerDetail.DoubleBuffered(true);
             dgwStreams.DoubleBuffered(true);
             dgwChats.DoubleBuffered(true);
+            dgwViewerCountBroadcasts.DoubleBuffered(true);
 
             MessageHeader = "Dikkat"; //this.Text;
             this.DoubleBuffered = true;
 
 
-            _youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
+            //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
             //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
-            //_youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -63,6 +64,12 @@ namespace derinYouTube
             await Temizle();
             pbWorking.Visible = false;
             buttonGetChats.Enabled = false;
+            comboBoxChartType.SelectedIndex = 7;
+            comboBoxChartType.SelectedIndexChanged += new EventHandler(async delegate (object o, EventArgs a)
+            {
+                await ShowChart();
+            });
+
             NewQuestion();
 
             if (System.Security.Principal.WindowsIdentity.GetCurrent().Name.Contains("ugurdal"))
@@ -988,21 +995,168 @@ namespace derinYouTube
             dtWinnerOfDay.Value = dtQAAnalysis.Value;
         }
 
-        private void buttonShowChart_Click(object sender, EventArgs e)
+        private string ChartType
         {
-            chart1.Series[0].Points.Add(100);
-            chart1.Series[0].Points.Add(200);
-            chart1.Series[0].Points.Add(300);
-            chart1.Series[0].Points.Add(400);
-            chart1.Series[0].Points.Add(300);
-            chart1.Series[0].Points.Add(200);
+            get
+            {
+                if (string.IsNullOrEmpty(comboBoxChartType.SelectedItem?.ToString() ?? string.Empty))
+                    return "Spline";
+                return comboBoxChartType.SelectedItem.ToString();
+            }
+        }
 
-            chart1.Series[1].Points.Add(10);
-            chart1.Series[1].Points.Add(20);
-            chart1.Series[1].Points.Add(30);
-            chart1.Series[1].Points.Add(40);
-            chart1.Series[1].Points.Add(30);
-            chart1.Series[1].Points.Add(20);
+        private async void buttonShowChart_Click(object sender, EventArgs e)
+        {
+            await ShowChart();
+        }
+
+        private async Task ShowChart()
+        {
+            await Task.Delay(200);
+
+            if (dgwViewerCountBroadcasts.SelectedRows.Count != 1)
+                return;
+
+            this.Cursor = Cursors.WaitCursor;
+
+            var data = dgwViewerCountBroadcasts.SelectedRows[0].DataBoundItem as VideoModel;
+            var chats = new List<ChartViewModel>();
+            var viewers = new List<ChartViewModel>();
+
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                chats = db.chatCountByTime_vw.Where(x => x.VideoId == data.Id).Select(x => new ChartViewModel
+                {
+                    VideoId = x.VideoId,
+                    Part = x.Time,
+                    Count = x.ChatCount ?? 0
+                }).ToList();
+
+                viewers = db.viewerCountByTime_vw.Where(x => x.VideoId == data.Id).Select(x => new ChartViewModel
+                {
+                    VideoId = x.VideoId,
+                    Part = x.Time,
+                    Count = x.ViewerCount
+                }).ToList();
+            }
+
+            chartViewerCount.Series.Clear();
+            chartViewerCount.ChartAreas.Clear();
+            chartViewerCount.Legends.Clear();
+
+            chartViewerCount.ChartAreas.Add("Yorum");
+            chartViewerCount.ChartAreas.Add("İzlenme");
+            chartViewerCount.ChartAreas[0].AxisX.LabelStyle.Angle = -70;
+            //chartViewerCount.ChartAreas[0].AxisX.MajorGrid.Interval = 5;
+            chartViewerCount.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chartViewerCount.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+
+            chartViewerCount.ChartAreas[1].AxisX.LabelStyle.Angle = -70;
+            chartViewerCount.ChartAreas[1].AxisX.MajorGrid.Enabled = false;
+            chartViewerCount.ChartAreas[1].AxisY.MajorGrid.Enabled = false;
+
+            chartViewerCount.Series.Add(new Series
+            {
+                Name = "Yorum Sayısı",
+                ChartTypeName = ChartType,
+                XValueType = ChartValueType.String,
+                ChartArea = "Yorum",
+                BorderWidth = 2
+            });
+
+            chartViewerCount.Series.Add(new Series
+            {
+                Name = "İzlenme Sayısı",
+                ChartTypeName = ChartType,
+                XValueType = ChartValueType.String,
+                ChartArea = "İzlenme",
+                BorderWidth = 2
+            });
+
+            chartViewerCount.Legends.Add("Toplam");
+
+            var ix = 0;
+            foreach (var item in chats)
+            {
+                if (ix == 0 || ix % 2 == 0)
+                {
+                    chartViewerCount.ChartAreas[0].AxisX.CustomLabels.Add(ix, ix + 2, item.Part);
+                }
+
+                ix++;
+
+                chartViewerCount.Series[0].Points.Add(new DataPoint
+                {
+                    AxisLabel = item.Part,
+                    YValues = new double[] { item.Count },
+                    Color = Color.DodgerBlue,
+                    Name = item.Part,
+                    IsValueShownAsLabel = true
+                });
+            }
+
+            ix = 0;
+            foreach (var item in viewers)
+            {
+                if (ix == 0 || ix % 2 == 0)
+                {
+                    chartViewerCount.ChartAreas[1].AxisX.CustomLabels.Add(ix, ix + 2, item.Part);
+                }
+
+                ix++;
+                chartViewerCount.Series[1].Points.Add(new DataPoint
+                {
+                    AxisLabel = item.Part,
+                    YValues = new double[] { item.Count },
+                    Color = Color.Coral,
+                    Name = item.Part,
+                    IsValueShownAsLabel = true,
+                });
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void buttonShowBroadcastForViewerCount_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            await Task.Delay(200);
+            dgwViewerCountBroadcasts.DataSource = null;
+            using (var db = new YoutubeCommentDbEntities())
+            {
+                var model = db.liveBroadcasts
+                    .Where(x => DbFunctions.TruncateTime(dtViewerCount.Value) ==
+                                DbFunctions.TruncateTime(x.ActualStartTime)).Select(x => new VideoModel
+                                {
+                                    Id = x.BroadcastId,
+                                    Title = x.Title,
+                                    ChannelId = x.ChannelId,
+                                    ChannelTitle = x.ChannelTitle,
+                                    LiveChatId = x.LiveChatId,
+                                    ActualEndTime = x.ActualEndTime,
+                                    ActualStartTime = x.ActualStartTime,
+                                    Description = x.Description,
+                                    LiveStatus = x.LiveStatus,
+                                    PublishedDate = x.PublishedDate,
+                                    ScheduledStartTime = x.ScheduledStartTime
+                                }).ToList();
+
+                if (model.Any())
+                {
+                    dgwViewerCountBroadcasts.DataSource = model.OrderByDescending(x => x.ActualStartTime).ToSortableGridList();
+                    dgwViewerCountBroadcasts.FormatGrid();
+                }
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private async void dgwViewerCountBroadcasts_RowEnter(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                await ShowChart();
+            }
         }
     }
 }

@@ -30,10 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.dgw = new System.Windows.Forms.DataGridView();
@@ -146,9 +142,16 @@
             this.buttonShowChats = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.tabPageViewerCount = new System.Windows.Forms.TabPage();
-            this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.splitContainerViewerCounts = new System.Windows.Forms.SplitContainer();
+            this.chartViewerCount = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label28 = new System.Windows.Forms.Label();
+            this.dtViewerCount = new System.Windows.Forms.DateTimePicker();
+            this.buttonShowBroadcastForViewerCount = new System.Windows.Forms.Button();
+            this.dgwViewerCountBroadcasts = new System.Windows.Forms.DataGridView();
+            this.label18 = new System.Windows.Forms.Label();
+            this.comboBoxChartType = new System.Windows.Forms.ComboBox();
             this.buttonShowChart = new System.Windows.Forms.Button();
+            this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -191,7 +194,12 @@
             this.panel4.SuspendLayout();
             this.panel5.SuspendLayout();
             this.tabPageViewerCount.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerViewerCounts)).BeginInit();
+            this.splitContainerViewerCounts.Panel1.SuspendLayout();
+            this.splitContainerViewerCounts.Panel2.SuspendLayout();
+            this.splitContainerViewerCounts.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -1491,8 +1499,7 @@
             // tabPageViewerCount
             // 
             this.tabPageViewerCount.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.tabPageViewerCount.Controls.Add(this.buttonShowChart);
-            this.tabPageViewerCount.Controls.Add(this.chart1);
+            this.tabPageViewerCount.Controls.Add(this.splitContainerViewerCounts);
             this.tabPageViewerCount.Location = new System.Drawing.Point(4, 29);
             this.tabPageViewerCount.Name = "tabPageViewerCount";
             this.tabPageViewerCount.Padding = new System.Windows.Forms.Padding(3);
@@ -1500,42 +1507,127 @@
             this.tabPageViewerCount.TabIndex = 4;
             this.tabPageViewerCount.Text = "İzlenme Oranları";
             // 
+            // splitContainerViewerCounts
+            // 
+            this.splitContainerViewerCounts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainerViewerCounts.Location = new System.Drawing.Point(3, 3);
+            this.splitContainerViewerCounts.Name = "splitContainerViewerCounts";
+            this.splitContainerViewerCounts.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainerViewerCounts.Panel1
+            // 
+            this.splitContainerViewerCounts.Panel1.Controls.Add(this.chartViewerCount);
+            // 
+            // splitContainerViewerCounts.Panel2
+            // 
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.label28);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.dtViewerCount);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.buttonShowBroadcastForViewerCount);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.dgwViewerCountBroadcasts);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.label18);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.comboBoxChartType);
+            this.splitContainerViewerCounts.Panel2.Controls.Add(this.buttonShowChart);
+            this.splitContainerViewerCounts.Size = new System.Drawing.Size(768, 597);
+            this.splitContainerViewerCounts.SplitterDistance = 365;
+            this.splitContainerViewerCounts.TabIndex = 3;
+            // 
+            // chartViewerCount
+            // 
+            this.chartViewerCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartViewerCount.Location = new System.Drawing.Point(0, 0);
+            this.chartViewerCount.Name = "chartViewerCount";
+            this.chartViewerCount.Size = new System.Drawing.Size(768, 365);
+            this.chartViewerCount.TabIndex = 0;
+            this.chartViewerCount.Text = "chart1";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(10, 15);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(62, 13);
+            this.label28.TabIndex = 42;
+            this.label28.Text = "Yayın Tarihi";
+            // 
+            // dtViewerCount
+            // 
+            this.dtViewerCount.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtViewerCount.Location = new System.Drawing.Point(78, 9);
+            this.dtViewerCount.Name = "dtViewerCount";
+            this.dtViewerCount.Size = new System.Drawing.Size(121, 21);
+            this.dtViewerCount.TabIndex = 40;
+            // 
+            // buttonShowBroadcastForViewerCount
+            // 
+            this.buttonShowBroadcastForViewerCount.Image = global::derinYouTube.Properties.Resources.FindHS1;
+            this.buttonShowBroadcastForViewerCount.Location = new System.Drawing.Point(205, 8);
+            this.buttonShowBroadcastForViewerCount.Name = "buttonShowBroadcastForViewerCount";
+            this.buttonShowBroadcastForViewerCount.Size = new System.Drawing.Size(75, 23);
+            this.buttonShowBroadcastForViewerCount.TabIndex = 41;
+            this.buttonShowBroadcastForViewerCount.Text = "Göster";
+            this.buttonShowBroadcastForViewerCount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonShowBroadcastForViewerCount.UseVisualStyleBackColor = true;
+            this.buttonShowBroadcastForViewerCount.Click += new System.EventHandler(this.buttonShowBroadcastForViewerCount_Click);
+            // 
+            // dgwViewerCountBroadcasts
+            // 
+            this.dgwViewerCountBroadcasts.AllowUserToAddRows = false;
+            this.dgwViewerCountBroadcasts.AllowUserToDeleteRows = false;
+            this.dgwViewerCountBroadcasts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgwViewerCountBroadcasts.ColumnHeadersHeight = 40;
+            this.dgwViewerCountBroadcasts.Location = new System.Drawing.Point(3, 69);
+            this.dgwViewerCountBroadcasts.Name = "dgwViewerCountBroadcasts";
+            this.dgwViewerCountBroadcasts.ReadOnly = true;
+            this.dgwViewerCountBroadcasts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(762, 155);
+            this.dgwViewerCountBroadcasts.TabIndex = 18;
+            this.dgwViewerCountBroadcasts.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwViewerCountBroadcasts_RowEnter);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 39);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(50, 13);
+            this.label18.TabIndex = 3;
+            this.label18.Text = "Görünüm";
+            // 
+            // comboBoxChartType
+            // 
+            this.comboBoxChartType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxChartType.FormattingEnabled = true;
+            this.comboBoxChartType.Items.AddRange(new object[] {
+            "Spline",
+            "Line",
+            "Point",
+            "StepLine",
+            "FastLine",
+            "Column",
+            "Area",
+            "SplineArea"});
+            this.comboBoxChartType.Location = new System.Drawing.Point(78, 36);
+            this.comboBoxChartType.Name = "comboBoxChartType";
+            this.comboBoxChartType.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxChartType.TabIndex = 2;
+            // 
+            // buttonShowChart
+            // 
+            this.buttonShowChart.Location = new System.Drawing.Point(686, 7);
+            this.buttonShowChart.Name = "buttonShowChart";
+            this.buttonShowChart.Size = new System.Drawing.Size(75, 23);
+            this.buttonShowChart.TabIndex = 1;
+            this.buttonShowChart.Text = "Göster";
+            this.buttonShowChart.UseVisualStyleBackColor = true;
+            this.buttonShowChart.Visible = false;
+            this.buttonShowChart.Click += new System.EventHandler(this.buttonShowChart_Click);
+            // 
             // timerViewerCount
             // 
             this.timerViewerCount.Enabled = true;
             this.timerViewerCount.Interval = 60000;
             this.timerViewerCount.Tick += new System.EventHandler(this.timerViewerCount_Tick);
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(3, 0);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "İzlenme Sayısı";
-            series1.YValuesPerPoint = 6;
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Yorum Sayısı";
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(666, 242);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
-            // 
-            // buttonShowChart
-            // 
-            this.buttonShowChart.Location = new System.Drawing.Point(58, 298);
-            this.buttonShowChart.Name = "buttonShowChart";
-            this.buttonShowChart.Size = new System.Drawing.Size(75, 23);
-            this.buttonShowChart.TabIndex = 1;
-            this.buttonShowChart.Text = "button1";
-            this.buttonShowChart.UseVisualStyleBackColor = true;
-            this.buttonShowChart.Click += new System.EventHandler(this.buttonShowChart_Click);
             // 
             // FrmMain
             // 
@@ -1606,7 +1698,13 @@
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
             this.tabPageViewerCount.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.splitContainerViewerCounts.Panel1.ResumeLayout(false);
+            this.splitContainerViewerCounts.Panel2.ResumeLayout(false);
+            this.splitContainerViewerCounts.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainerViewerCounts)).EndInit();
+            this.splitContainerViewerCounts.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1724,7 +1822,14 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.DataGridView dgwWinnerOfDay;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartViewerCount;
         private System.Windows.Forms.Button buttonShowChart;
+        private System.Windows.Forms.ComboBox comboBoxChartType;
+        private System.Windows.Forms.SplitContainer splitContainerViewerCounts;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.DataGridView dgwViewerCountBroadcasts;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.DateTimePicker dtViewerCount;
+        private System.Windows.Forms.Button buttonShowBroadcastForViewerCount;
     }
 }

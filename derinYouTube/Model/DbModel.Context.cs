@@ -36,6 +36,8 @@ namespace derinYouTube.Model
         public virtual DbSet<questions> questions { get; set; }
         public virtual DbSet<liveBroadcastsViewCount> liveBroadcastsViewCount { get; set; }
         public virtual DbSet<liveBroadcasts> liveBroadcasts { get; set; }
+        public virtual DbSet<chatCountByTime_vw> chatCountByTime_vw { get; set; }
+        public virtual DbSet<viewerCountByTime_vw> viewerCountByTime_vw { get; set; }
     
         public virtual int findAnswers(Nullable<int> competitionId)
         {

@@ -137,5 +137,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="chatCountByTime_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.chatCountByTime_vw">
+        <MappingFragment StoreEntitySet="chatCountByTime_vw">
+          <ScalarProperty Name="ChatCount" ColumnName="ChatCount" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viewerCountByTime_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.viewerCountByTime_vw">
+        <MappingFragment StoreEntitySet="viewerCountByTime_vw">
+          <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

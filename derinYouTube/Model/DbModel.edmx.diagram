@@ -16,6 +16,8 @@
         <EntityTypeShape EntityType="YoutubeCommentDbModel.questions" Width="1.5" PointX="3.375" PointY="9.75" />
         <EntityTypeShape EntityType="YoutubeCommentDbModel.liveBroadcastsViewCount" Width="1.5" PointX="9.375" PointY="5.75" />
         <EntityTypeShape EntityType="YoutubeCommentDbModel.liveBroadcasts" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.chatCountByTime_vw" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.viewerCountByTime_vw" Width="1.5" PointX="7.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

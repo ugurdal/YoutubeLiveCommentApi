@@ -21,6 +21,8 @@
     <EntitySet Name="questions" EntityType="YoutubeCommentDbModel.questions" />
     <EntitySet Name="liveBroadcastsViewCount" EntityType="YoutubeCommentDbModel.liveBroadcastsViewCount" />
     <EntitySet Name="liveBroadcasts" EntityType="YoutubeCommentDbModel.liveBroadcasts" />
+    <EntitySet Name="chatCountByTime_vw" EntityType="YoutubeCommentDbModel.chatCountByTime_vw" />
+    <EntitySet Name="viewerCountByTime_vw" EntityType="YoutubeCommentDbModel.viewerCountByTime_vw" />
   </EntityContainer>
   <EntityType Name="competitionAnswers">
     <Key>
@@ -193,5 +195,22 @@
     <Property Name="ActualStartTime" Type="DateTime" Precision="3" />
     <Property Name="ActualEndTime" Type="DateTime" Precision="3" />
     <Property Name="ScheduledStartTime" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="chatCountByTime_vw">
+    <Key>
+      <PropertyRef Name="VideoId" />
+    </Key>
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="ChatCount" Type="Int32" />
+  </EntityType>
+  <EntityType Name="viewerCountByTime_vw">
+    <Key>
+      <PropertyRef Name="VideoId" />
+      <PropertyRef Name="ViewerCount" />
+    </Key>
+    <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
+    <Property Name="Time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="ViewerCount" Type="Int64" Nullable="false" />
   </EntityType>
 </Schema>

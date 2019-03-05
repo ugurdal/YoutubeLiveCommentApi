@@ -79,6 +79,16 @@
     <Property Name="InsertDate" Type="smalldatetime" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'YoutubeCommentDb.dbo.chatCountByTime_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="chatCountByTime_vw">
+    <Key>
+      <PropertyRef Name="VideoId" />
+    </Key>
+    <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="Time" Type="varchar" MaxLength="5" />
+    <Property Name="ChatCount" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'YoutubeCommentDb.dbo.competitions_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="competitions_vw">
     <Key>
@@ -135,6 +145,17 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not hav
     <Property Name="UserAnswerCount" Type="int" Nullable="false" />
   </EntityType>
   <!--Errors Found During Generation:
+warning 6002: The table/view 'YoutubeCommentDb.dbo.viewerCountByTime_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="viewerCountByTime_vw">
+    <Key>
+      <PropertyRef Name="VideoId" />
+      <PropertyRef Name="ViewerCount" />
+    </Key>
+    <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
+    <Property Name="Time" Type="varchar" MaxLength="5" />
+    <Property Name="ViewerCount" Type="bigint" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
 warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="winnerOfDay_vw">
     <Key>
@@ -184,6 +205,13 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
     <EntitySet Name="liveBroadcastsViewCount" EntityType="Self.liveBroadcastsViewCount" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="liveChatMessages" EntityType="Self.liveChatMessages" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="questions" EntityType="Self.questions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="chatCountByTime_vw" EntityType="Self.chatCountByTime_vw" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [chatCountByTime_vw].[VideoId] AS [VideoId], 
+    [chatCountByTime_vw].[Time] AS [Time], 
+    [chatCountByTime_vw].[ChatCount] AS [ChatCount]
+    FROM [dbo].[chatCountByTime_vw] AS [chatCountByTime_vw]</DefiningQuery>
+    </EntitySet>
     <EntitySet Name="competitions_vw" EntityType="Self.competitions_vw" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
     [competitions_vw].[Id] AS [Id], 
@@ -217,6 +245,13 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
     [validAnswers_vw].[Sequence] AS [Sequence], 
     [validAnswers_vw].[UserAnswerCount] AS [UserAnswerCount]
     FROM [dbo].[validAnswers_vw] AS [validAnswers_vw]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="viewerCountByTime_vw" EntityType="Self.viewerCountByTime_vw" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [viewerCountByTime_vw].[VideoId] AS [VideoId], 
+    [viewerCountByTime_vw].[Time] AS [Time], 
+    [viewerCountByTime_vw].[ViewerCount] AS [ViewerCount]
+    FROM [dbo].[viewerCountByTime_vw] AS [viewerCountByTime_vw]</DefiningQuery>
     </EntitySet>
     <EntitySet Name="winnerOfDay_vw" EntityType="Self.winnerOfDay_vw" store:Type="Views" store:Schema="dbo">
       <DefiningQuery>SELECT 
