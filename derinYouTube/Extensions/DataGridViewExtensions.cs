@@ -30,7 +30,7 @@ namespace derinYouTube.Extensions
             pi.SetValue(dgv, setting, null);
         }
 
-        public static void FormatGrid(this DataGridView dgv)
+        public static void FormatGrid(this DataGridView dgv, bool highligthFirstRow = false)
         {
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
             foreach (DataGridViewColumn column in dgv.Columns)
@@ -61,10 +61,12 @@ namespace derinYouTube.Extensions
             }
 
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-            //for (int i = 0; i < dgv.Rows.Count; i++)
-            //{
-            //    dgv.Rows[i].Height = 25;
-            //}
+
+            if (highligthFirstRow && dgv.RowCount > 0)
+            {
+                dgv.Rows[0].Height = 30;
+                dgv.Rows[0].DefaultCellStyle.BackColor = Color.LightGreen;
+            }
         }
     }
 }

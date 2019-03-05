@@ -272,9 +272,9 @@ namespace derinYouTube
                         {
                             MessageId = item.Id,
                             PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
-                            ChannelUrl = item.AuthorDetails.ChannelUrl,
+                            AuthorChannelUrl = item.AuthorDetails.ChannelUrl,
                             DisplayMessage = item.Snippet.DisplayMessage,
-                            DisplayName = item.AuthorDetails.DisplayName,
+                            AuthorDisplayName = item.AuthorDetails.DisplayName,
                             IsVerified = item.AuthorDetails.IsVerified ?? false,
                             IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
                             IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
@@ -295,14 +295,12 @@ namespace derinYouTube
             return comments;
         }
 
-        public async Task<LinkedList<LiveChatModel>> GetLiveChatsAsync(string liveChatId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
+        public async Task GetLiveChatsAsync(string liveChatId, string videoId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
         {
             try
             {
                 var isOnline = true;
-                var report = new ReportChatModel();
-                var output = new LinkedList<LiveChatModel>();
-
+                
                 while (isOnline)
                 {
                     var nextPage = "";
@@ -310,103 +308,62 @@ namespace derinYouTube
 
                     while (nextPage != null)
                     {
-                        var request = _service.LiveChatMessages.List(liveChatId, requestList);
-                        request.MaxResults = 500;
-                        request.PageToken = nextPage;
+                        var report = new ReportChatModel();
+                        var output = new LinkedList<LiveChatModel>();
 
-                        await Task.Delay(2000, cancellationToken);
+                        var request = _service.LiveChatMessages.List(liveChatId, requestList);
+                        request.MaxResults = 1000;
+                        request.PageToken = nextPage;
+                        
                         var response = await request.ExecuteAsync(cancellationToken);
 
-                        await Task.Run(() =>
+                        foreach (LiveChatMessage item in response.Items)
                         {
-                            foreach (LiveChatMessage item in response.Items)
+                            try
                             {
-                                try
-                                {
-                                    cancellationToken.ThrowIfCancellationRequested();
-                                }
-                                catch (OperationCanceledException e)
-                                {
-                                    //MessageBox.Show(e.Message);
-                                    return;
-                                }
-
-                                var chat = new LiveChatModel
-                                {
-                                    MessageId = item.Id,
-                                    PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
-                                    PublishedTime = item.Snippet.PublishedAt,
-                                    ChannelUrl = item.AuthorDetails.ChannelUrl,
-                                    DisplayMessage = item.Snippet.DisplayMessage,
-                                    DisplayName = item.AuthorDetails.DisplayName,
-                                    IsVerified = item.AuthorDetails.IsVerified ?? false,
-                                    IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
-                                    IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
-                                    IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false,
-                                    AuthorChannelId = item.Snippet.AuthorChannelId,
-                                    LiveChatId = item.Snippet.LiveChatId
-                                };
-
-                                output.AddLast(chat);
+                                cancellationToken.ThrowIfCancellationRequested();
+                            }
+                            catch (OperationCanceledException e)
+                            {
+                                //MessageBox.Show(e.Message);
+                                
                             }
 
-                            report.LiveChats = output;
-                            progress.Report(report);
-
-
-                            /*Parallel.ForEach<LiveChatMessage>(response.Items, (item) =>
+                            var chat = new LiveChatModel
                             {
-                                try
-                                {
-                                    cancellationToken.ThrowIfCancellationRequested();
-                                }
-                                catch (OperationCanceledException e)
-                                {
-                                    MessageBox.Show(e.Message);
-                                    return;
-                                }
+                                MessageId = item.Id,
+                                PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
+                                PublishedTime = item.Snippet.PublishedAt,
+                                AuthorChannelUrl = item.AuthorDetails.ChannelUrl,
+                                DisplayMessage = item.Snippet.DisplayMessage,
+                                AuthorDisplayName = item.AuthorDetails.DisplayName,
+                                IsVerified = item.AuthorDetails.IsVerified ?? false,
+                                IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
+                                IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
+                                IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false,
+                                AuthorChannelId = item.Snippet.AuthorChannelId,
+                                LiveChatId = item.Snippet.LiveChatId,
+                                VideoId = videoId
+                            };
 
-                                var chat = new LiveChatModel
-                                {
-                                    MessageId = item.Id,
-                                    PublishedAt = item.Snippet.PublishedAt?.ToString() ?? "",
-                                    PublishedTime = item.Snippet.PublishedAt,
-                                    ChannelUrl = item.AuthorDetails.ChannelUrl,
-                                    DisplayMessage = item.Snippet.DisplayMessage,
-                                    DisplayName = item.AuthorDetails.DisplayName,
-                                    IsVerified = item.AuthorDetails.IsVerified ?? false,
-                                    IsChatModerator = item.AuthorDetails.IsChatModerator ?? false,
-                                    IsChatOwner = item.AuthorDetails.IsChatOwner ?? false,
-                                    IsChatSponsor = item.AuthorDetails.IsChatSponsor ?? false
-                                };
+                            output.AddLast(chat);
+                        }
 
-                                output.AddLast(chat);
-                                report.LiveChats = output;
-                                progress.Report(report);
-
-                                //if (Helper.LiveChatModels.All(x => x.MessageId != chat.MessageId))
-                                //{
-                                //    Helper.LiveChatModels.AddLast(chat);
-                                //    report.LiveChats = Helper.LiveChatModels;
-                                //    progress.Report(report);
-                                //}
-
-                            });*/
-
-                        }, cancellationToken);
-
+                        report.LiveChats = output;
+                        progress.Report(report);
 
                         nextPage = response.NextPageToken;
                         isOnline = !response.OfflineAt.HasValue;
+                        
+                        await Task.Delay(10000, cancellationToken);
                     }
                 }
 
-                return output;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
+                if (!ex.Message.Contains("iptal"))
+                    MessageBox.Show(ex.Message, "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

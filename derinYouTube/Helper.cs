@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,8 +28,9 @@ namespace derinYouTube
         //    DtLiveChats.Columns.Add("IsChatModerator", typeof(bool));
         //}
 
-        public static string ConnectionString = "Data Source=[.];Initial Catalog=[YoutubeCommentDb];User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
+        public static string ConnectionString = "Data Source=.;Initial Catalog=YoutubeCommentDb;User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
 
+        public static SqlConnection Cnn;
 
         public static bool IsNumeric(string s)
         {

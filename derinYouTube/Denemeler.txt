@@ -1,0 +1,254 @@
+﻿
+/*
+	yorumları db ye teker teker kaydettiğimiz versiyon aşağıdaki. burada her birinin varlığını sorgulamak vakit alıyor.
+	bunun yerine bulk insert daha mantıklı geldi.
+	her bulk insert sonrası tekrar eden yorumları tekilleştirecek bir sp olacak.
+	toplam yorum sayısını da yine db den okuyacağız.
+
+*/                
+
+
+		private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats)
+        {
+            if (liveChats == null)
+                return;
+
+            CurrentService = 1;
+            textBoxFirstChatTime.Text = liveChats.First.Value.PublishedAt;
+            textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
+            textBoxChatCountInPackage.Text = liveChats.Count.ToString();
+            textBoxOldChatInPackage.Text = "";
+
+            var kayitli = 0;
+            
+            await Task.Run(() =>
+            {
+                var chats = liveChats;
+
+                using (var db = new YoutubeCommentDbEntities())
+                {
+                    foreach (var chat in chats)
+                    {
+                        var data = db.liveChatMessages.FirstOrDefault(x => x.MessageId == chat.MessageId);
+                        if (data == null)
+                        {
+                            kayitli++;
+                        }
+                        else
+                        {
+                            ChatCount++;
+                            try
+                            {
+                                data = new liveChatMessages
+                                {
+                                    MessageId = chat.MessageId,
+                                    AuthorChannelId = chat.AuthorChannelId,
+                                    AuthorChannelUrl = chat.AuthorChannelUrl,
+                                    AuthorDisplayName = chat.AuthorDisplayName,
+                                    LiveChatId = chat.LiveChatId,
+                                    VideoId = textBoxVideoId.Text,
+                                    PublishedAt = chat.PublishedTime,
+                                    HasDisplayContent = false,
+                                    MessageText = chat.DisplayMessage,
+                                    IsVerified = false,
+                                    IsChatModerator = false,
+                                    IsChatSponsor = false,
+                                    Id = 0,
+                                    IsChatOwner = false
+                                };
+                                db.liveChatMessages.Add(data);
+                                db.SaveChanges();
+                            }
+                            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                            {
+                                var errorMessage = "";
+                                foreach (var eve in ex.EntityValidationErrors)
+                                {
+                                    errorMessage =
+                                        $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
+                                    foreach (var ve in eve.ValidationErrors)
+                                    {
+                                        errorMessage +=
+                                            $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+                                    }
+                                }
+
+                                MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{errorMessage}",
+                                    MessageHeader,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{e.Message}",
+                                    MessageHeader,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                        }
+
+                    }
+                }
+            });
+
+            textBoxOldChatInPackage.Text = kayitli.ToString();
+        }
+
+        private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats)
+        {
+            if (liveChats == null)
+                return;
+
+            CurrentService = 2;
+            textBoxFirstChatTime.Text = liveChats.First.Value.PublishedAt;
+            textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
+            textBoxChatCountInPackage.Text = liveChats.Count.ToString();
+            textBoxOldChatInPackage.Text = "";
+
+            var kayitli = 0;
+
+            await Task.Run(() =>
+            {
+                var chats = liveChats;
+
+                using (var db = new YoutubeCommentDbEntities())
+                {
+                    foreach (var chat in chats)
+                    {
+                        var data = db.liveChatMessages.FirstOrDefault(x => x.MessageId == chat.MessageId);
+                        if (data != null)
+                        {
+                            kayitli++;
+                        }
+                        else
+                        {
+                            ChatCount++;
+                            try
+                            {
+                                data = new liveChatMessages
+                                {
+                                    MessageId = chat.MessageId,
+                                    AuthorChannelId = chat.AuthorChannelId,
+                                    AuthorChannelUrl = chat.AuthorChannelUrl,
+                                    AuthorDisplayName = chat.AuthorDisplayName,
+                                    LiveChatId = chat.LiveChatId,
+                                    VideoId = textBoxVideoId.Text,
+                                    PublishedAt = chat.PublishedTime,
+                                    HasDisplayContent = false,
+                                    MessageText = chat.DisplayMessage,
+                                    IsVerified = false,
+                                    IsChatModerator = false,
+                                    IsChatSponsor = false,
+                                    Id = 0,
+                                    IsChatOwner = false
+                                };
+                                db.liveChatMessages.Add(data);
+                                db.SaveChanges();
+                            }
+                            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                            {
+                                var errorMessage = "";
+                                foreach (var eve in ex.EntityValidationErrors)
+                                {
+                                    errorMessage =
+                                        $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
+                                    foreach (var ve in eve.ValidationErrors)
+                                    {
+                                        errorMessage +=
+                                            $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
+                                    }
+                                }
+
+                                MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{errorMessage}",
+                                    MessageHeader,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            catch (Exception e)
+                            {
+                                MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{e.Message}",
+                                    MessageHeader,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+
+                        }
+                    }
+                }
+            });
+
+            textBoxOldChatInPackage.Text = kayitli.ToString();
+        }
+
+		
+		
+		--------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		//        private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats)
+        //{
+        //    //await Task.Delay(2000);
+        //    if (liveChats == null)
+        //        return;
+
+        //    richTextBoxStartTime.Text = liveChats.First.Value.PublishedAt;
+        //    richTextBoxEndTime.Text = liveChats.Last.Value.PublishedAt;
+        //    richTextBoxPuslishedAt.Text = $"1 - {liveChats.Count}";
+        //    richTextBoxPuslishedAt.BackColor = Color.BurlyWood;
+        //    richTextBoxStartTime.BackColor = Color.BurlyWood;
+        //    richTextBoxEndTime.BackColor = Color.BurlyWood;
+
+        //    var kayitli = 0;
+
+
+        //    await Task.Run(() =>
+        //    {
+                
+        //        if (Helper.Cnn.State == ConnectionState.Closed)
+        //            Helper.Cnn.Open();
+
+        //        var chats = liveChats;
+        //        foreach (var chat in chats)
+        //        {
+                    
+
+        //            try
+        //            {
+        //                var result = Helper.Cnn.Execute("liveChatMessages_add", param: new
+        //                {
+        //                    messageId = chat.MessageId,
+        //                    channelId = chat.AuthorChannelId,
+        //                    channelUrl = chat.ChannelUrl,
+        //                    displayName = chat.DisplayName,
+        //                    liveChatId = chat.LiveChatId,
+        //                    videoId = textBoxVideoId.Text,
+        //                    publishedAt = chat.PublishedTime,
+        //                    messageText = chat.DisplayMessage,
+        //                    hasDisplayContenct = 0,
+        //                    isVerified = 0,
+        //                    isChatOwner = 0,
+        //                    isChatSponsor = 0,
+        //                    isChatModerator = 0,
+
+
+        //                }, commandTimeout: 300, commandType: CommandType.StoredProcedure);
+
+        //                if (result == 1)
+        //                    Count++;
+        //                else
+        //                    kayitli++;
+
+
+        //                Count++;
+        //                labelCount.Text = Count.ToString();
+
+
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}",
+        //                    MessageHeader,
+        //                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+        //            }
+
+        //        }
+        //    });
+
+        //    richTextBoxPuslishedAt.Text = $"1 - {liveChats.Count} {kayitli}";
+        //}

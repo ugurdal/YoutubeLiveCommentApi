@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using derinYouTube.Extensions;
 using derinYouTube.Model;
 using derinYouTube.ViewModels;
+using Dapper;
 
 namespace derinYouTube
 {
@@ -25,8 +26,13 @@ namespace derinYouTube
     {
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
         private LinkedList<LiveChatModel> _liveChats;
+        private LinkedList<LiveChatModel> _liveChats2;
         private readonly string MessageHeader;
         private readonly YouTubeApi _youtubeApi;
+        private int _chatCount;
+        private int _requestCount;
+
+        //TODO: Dakikalık izleyici bilgisi için menü hazırla
 
         public FrmMain()
         {
@@ -45,19 +51,25 @@ namespace derinYouTube
             this.DoubleBuffered = true;
 
 
-            //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
+            _youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
             //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
-            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+            //_youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
         {
             Control.CheckForIllegalCrossThreadCalls = false;
-            //Helper.GenerateDataTableColumns();
+            Helper.Cnn = new SqlConnection(Helper.ConnectionString);
             await Temizle();
             pbWorking.Visible = false;
-            buttonAsync.Enabled = false;
+            buttonGetChats.Enabled = false;
             NewQuestion();
+
+            if (System.Security.Principal.WindowsIdentity.GetCurrent().Name.Contains("ugurdal"))
+            {
+                textBoxVideoId.ReadOnly = false;
+                textBoxLiveChatId.ReadOnly = false;
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -103,21 +115,28 @@ namespace derinYouTube
 
             _tokenSource = new CancellationTokenSource();
             _liveChats = new LinkedList<LiveChatModel>();
-            buttonAsync.Enabled = false;
+            _liveChats2 = new LinkedList<LiveChatModel>();
+            buttonGetChats.Enabled = false;
             dgwLiveVideos.Enabled = false;
             buttonGetLiveBroadCasts.Enabled = false;
             pbWorking.Visible = true;
-            labelCalisiyorMesaj.Visible = true;
+            labelWorkingMessage.Visible = true;
             timerViewerCount.Start();
-
-            Progress<ReportChatModel> progress = new Progress<ReportChatModel>();
-            progress.ProgressChanged += ReportProgress;
+            ChatCount = 0;
+            RequestCount = 0;
 
             try
             {
-                var result = await _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, _tokenSource.Token, progress);
-                await Task.Delay(1000);
-                await SaveChatsToDatabase(result);
+                Progress<ReportChatModel> progress1 = new Progress<ReportChatModel>();
+                progress1.ProgressChanged += ReportProgress;
+
+                Progress<ReportChatModel> progress2 = new Progress<ReportChatModel>();
+                progress2.ProgressChanged += ReportProgress2;
+
+                _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, textBoxVideoId.Text, _tokenSource.Token, progress1);
+                await Task.Delay(5000);
+                _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, textBoxVideoId.Text, _tokenSource.Token, progress2);
+
             }
             catch (OperationCanceledException ox)
             {
@@ -126,95 +145,173 @@ namespace derinYouTube
             }
         }
 
+        private int RequestCount
+        {
+            get { return _requestCount; }
+            set
+            {
+                _requestCount = value;
+                textBoxRequestCount.Text = _requestCount.ToString();
+            }
+        }
+
+        private int ChatCount
+        {
+            get { return _chatCount; }
+            set
+            {
+                Task.Run(() =>
+                {
+                    _chatCount = value;
+                    labelCount.Text = _chatCount.ToString();
+                });
+            }
+        }
+
+        private int CurrentService
+        {
+            set
+            {
+                var color = value == 1
+                    ? Color.BurlyWood
+                    : Color.LightGreen;
+
+                textBoxServiceNo.Text = value.ToString();
+                textBoxRequestCount.BackColor = color;
+                textBoxServiceNo.BackColor = color;
+                textBoxFirstChatTime.BackColor = color;
+                textBoxLastChatTime.BackColor = color;
+                textBoxChatCountInPackage.BackColor = color;
+                textBoxOldChatInPackage.BackColor = color;
+            }
+        }
+
         private async void ReportProgress(object sender, ReportChatModel e)
         {
+            RequestCount++;
             await SaveChatsToDatabase(e.LiveChats);
-            //await Task.Delay(2000);
+        }
+
+        private async void ReportProgress2(object sender, ReportChatModel e)
+        {
+            RequestCount++;
+            await SaveChatsToDatabase2(e.LiveChats);
         }
 
         private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats)
         {
-            await Task.Delay(500);
-            //Parallel.ForEach<LiveChatModel>(liveChats.ToList(), (chat) =>
-            //{
-            //});
-
             if (liveChats == null)
                 return;
 
+            CurrentService = 1;
+            textBoxFirstChatTime.Text = liveChats.First.Value.PublishedAt;
+            textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
+            textBoxChatCountInPackage.Text = liveChats.Count.ToString();
+            textBoxOldChatInPackage.Text = "";
+
             await Task.Run(() =>
             {
-                var chats = liveChats;
-                foreach (var chat in chats)
+                var chats = liveChats.AsDataTable();
+
+                using (var connection = new SqlConnection(Helper.ConnectionString))
                 {
-                    if (_liveChats.All(x => x.MessageId != chat.MessageId))
+                    connection.Open();
+                    using (var bulkCopy = new SqlBulkCopy(Helper.ConnectionString, SqlBulkCopyOptions.KeepIdentity))
                     {
-                        _liveChats.AddLast(chat);
-                        labelCount.Text = _liveChats.Count.ToString();
+                        bulkCopy.ColumnMappings.Add("MessageId", "MessageId");
+                        bulkCopy.ColumnMappings.Add("AuthorChannelId", "AuthorChannelId");
+                        bulkCopy.ColumnMappings.Add("AuthorChannelUrl", "AuthorChannelUrl");
+                        bulkCopy.ColumnMappings.Add("AuthorDisplayName", "AuthorDisplayName");
+                        bulkCopy.ColumnMappings.Add("LiveChatId", "LiveChatId");
+                        bulkCopy.ColumnMappings.Add("VideoId", "VideoId");
+                        bulkCopy.ColumnMappings.Add("PublishedTime", "PublishedAt");
+                        bulkCopy.ColumnMappings.Add("DisplayMessage", "MessageText");
 
-                        using (var db = new YoutubeCommentDbEntities())
+                        bulkCopy.BatchSize = 1000;
+                        bulkCopy.DestinationTableName = "dbo.liveChatMessages";
+                        try
                         {
-                            var data = db.liveChatMessages.FirstOrDefault(x => x.MessageId == chat.MessageId);
-                            if (data == null)
-                            {
-                                try
-                                {
-                                    data = new liveChatMessages
-                                    {
-                                        MessageId = chat.MessageId,
-                                        AuthorChannelId = chat.AuthorChannelId,
-                                        AuthorChannelUrl = chat.ChannelUrl,
-                                        AuthorDisplayName = chat.DisplayName,
-                                        LiveChatId = chat.LiveChatId,
-                                        VideoId = textBoxVideoId.Text,
-                                        PublishedAt = chat.PublishedTime,
-                                        HasDisplayContent = false,
-                                        MessageText = chat.DisplayMessage,
-                                        IsVerified = false,
-                                        IsChatModerator = false,
-                                        IsChatSponsor = false,
-                                        Id = 0,
-                                        IsChatOwner = false
-                                    };
-                                    db.liveChatMessages.Add(data);
-                                    db.SaveChanges();
-                                }
-                                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-                                {
-                                    var errorMessage = "";
-                                    foreach (var eve in ex.EntityValidationErrors)
-                                    {
-                                        errorMessage =
-                                            $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
-                                        foreach (var ve in eve.ValidationErrors)
-                                        {
-                                            errorMessage +=
-                                                $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
-                                        }
-                                    }
-
-                                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{errorMessage}",
-                                        MessageHeader,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-                                catch (Exception e)
-                                {
-                                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}",
-                                        MessageHeader,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                }
-
-                            }
+                            bulkCopy.WriteToServer(chats);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{ex.Message}", MessageHeader,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
+
+                    connection.Execute("clearMultipleChatMessages", new { videoId = textBoxVideoId.Text },
+                        commandType: CommandType.StoredProcedure, commandTimeout: 300);
+
+                    ChatCount = connection
+                        .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
+                        .First();
                 }
+
             });
+        }
+
+        private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats)
+        {
+            if (liveChats == null)
+                return;
+
+            CurrentService = 2;
+            textBoxFirstChatTime.Text = liveChats.First.Value.PublishedAt;
+            textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
+            textBoxChatCountInPackage.Text = liveChats.Count.ToString();
+            textBoxOldChatInPackage.Text = "";
+
+            await Task.Run(() =>
+            {
+                var chats = liveChats.AsDataTable();
+
+                using (var connection = new SqlConnection(Helper.ConnectionString))
+                {
+                    connection.Open();
+                    using (var bulkCopy = new SqlBulkCopy(Helper.ConnectionString, SqlBulkCopyOptions.KeepIdentity))
+                    {
+                        bulkCopy.ColumnMappings.Add("MessageId", "MessageId");
+                        bulkCopy.ColumnMappings.Add("AuthorChannelId", "AuthorChannelId");
+                        bulkCopy.ColumnMappings.Add("AuthorChannelUrl", "AuthorChannelUrl");
+                        bulkCopy.ColumnMappings.Add("AuthorDisplayName", "AuthorDisplayName");
+                        bulkCopy.ColumnMappings.Add("LiveChatId", "LiveChatId");
+                        bulkCopy.ColumnMappings.Add("VideoId", "VideoId");
+                        bulkCopy.ColumnMappings.Add("PublishedTime", "PublishedAt");
+                        bulkCopy.ColumnMappings.Add("DisplayMessage", "MessageText");
+
+                        bulkCopy.BatchSize = 1000;
+                        bulkCopy.DestinationTableName = "dbo.liveChatMessages";
+                        try
+                        {
+                            bulkCopy.WriteToServer(chats);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{ex.Message}", MessageHeader,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    connection.Execute("clearMultipleChatMessages", new { videoId = textBoxVideoId.Text },
+                        commandType: CommandType.StoredProcedure, commandTimeout: 300);
+
+                    ChatCount = connection
+                        .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
+                        .First();
+                }
+
+            });
+
         }
 
         private async Task Temizle()
         {
             await Task.Run(() =>
             {
+                RequestCount = 0;
+                ChatCount = 0;
+
                 textBoxVideoId.Text = "";
                 textBoxLiveChatId.Text = "";
                 richTextBoxTitle.Text = "";
@@ -224,6 +321,14 @@ namespace derinYouTube
                 richTextBoxEndTime.Text = "";
                 richTextBoxScheduledStartTime.Text = "";
                 linkLabelChannelId.Text = "Channel ID";
+
+                textBoxServiceNo.Text = "";
+                textBoxRequestCount.Text = "";
+                textBoxFirstChatTime.Text = "";
+                textBoxLastChatTime.Text = "";
+                textBoxChatCountInPackage.Text = "";
+                textBoxOldChatInPackage.Text = "";
+
                 timerViewerCount.Stop();
             });
         }
@@ -291,7 +396,7 @@ namespace derinYouTube
 
                             if (video.Id != 0)
                                 continue;
-                            
+
                             video.BroadcastId = data.Id;
                             video.Title = data.Title ?? "";
                             video.ChannelId = data.ChannelId ?? "";
@@ -400,11 +505,11 @@ namespace derinYouTube
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question))
             {
                 _tokenSource.Cancel();
-                buttonAsync.Enabled = true;
+                buttonGetChats.Enabled = true;
                 dgwLiveVideos.Enabled = true;
                 buttonGetLiveBroadCasts.Enabled = true;
                 pbWorking.Visible = false;
-                labelCalisiyorMesaj.Visible = false;
+                labelWorkingMessage.Visible = false;
                 timerViewerCount.Stop();
             }
         }
@@ -416,7 +521,7 @@ namespace derinYouTube
 
         private void textBoxLiveChatId_TextChanged(object sender, EventArgs e)
         {
-            buttonAsync.Enabled = !string.IsNullOrEmpty(textBoxLiveChatId.Text.Trim());
+            buttonGetChats.Enabled = !string.IsNullOrEmpty(textBoxLiveChatId.Text.Trim());
         }
 
         private void textBoxAnswer_KeyPress(object sender, KeyPressEventArgs e)
@@ -445,18 +550,18 @@ namespace derinYouTube
             }
 
             textBoxQuestionStartAt.Text = DateTime.Now.ToString();
-            await SaveCompetition();
             buttonQuestionStop.Enabled = true;
             buttonQuestionStart.Enabled = false;
             tsButtonNewQuestions.Enabled = false;
+            await SaveCompetition();
         }
 
         private async void buttonQuestionStop_Click(object sender, EventArgs e)
         {
             textBoxQuestionStopAt.Text = DateTime.Now.ToString();
-            await SaveCompetition();
             buttonQuestionStop.Enabled = false;
             tsButtonNewQuestions.Enabled = true;
+            await SaveCompetition();
         }
 
         private async Task SaveCompetition()
@@ -534,7 +639,7 @@ namespace derinYouTube
                 if (result.Any())
                 {
                     dgwAnswers.DataSource = result;
-                    dgwAnswers.FormatGrid();
+                    dgwAnswers.FormatGrid(true);
                 }
             }
         }
@@ -574,7 +679,7 @@ namespace derinYouTube
             using (var db = new YoutubeCommentDbEntities())
             {
                 var result = db.competitions_vw
-                    .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
+                    .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtQAAnalysis.Value)).Select(x =>
                         new CompetitionModel
                         {
                             Id = x.Id,
@@ -582,7 +687,7 @@ namespace derinYouTube
                             Question = x.Question,
                             Answer = x.Answer,
                             StartTime = x.StartTime,
-                            EndTime = x.EndTime.Value,
+                            EndTime = x.EndTime ?? DateTime.Now,
                             TotalAnswers = x.TotalAnswers ?? 0,
                             UserCount = x.TotalUser ?? 0,
                             ValidAnswers = x.ValidAnswers
@@ -596,7 +701,7 @@ namespace derinYouTube
 
 
                 var dayDetail = db.winnerOfDay_vw
-                    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtReport.Value)).Select(x =>
+                    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtQAAnalysis.Value)).Select(x =>
                         new WinnerOfDayModel
                         {
                             Sequence = x.Sequence.Value,
@@ -611,7 +716,7 @@ namespace derinYouTube
                 if (dayDetail.Any())
                 {
                     dgwWinnerOfDay.DataSource = dayDetail;
-                    dgwWinnerOfDay.FormatGrid();
+                    dgwWinnerOfDay.FormatGrid(true);
                 }
             }
 
@@ -645,7 +750,7 @@ namespace derinYouTube
                 if (result.Any())
                 {
                     dgwCompetitionDetail.DataSource = result;
-                    dgwCompetitionDetail.FormatGrid();
+                    dgwCompetitionDetail.FormatGrid(true);
                 }
             }
 
@@ -663,7 +768,7 @@ namespace derinYouTube
                 if (dgwWinnerOfDay.CurrentRow.DataBoundItem is WinnerOfDayModel data)
                 {
                     var result = db.validAnswers_vw.Where(x => x.AuthorChannelId == data.AuthorChannelId)
-                        .Where(x => DbFunctions.TruncateTime(x.PublishedAt) == DbFunctions.TruncateTime(dtReport.Value))
+                        .Where(x => DbFunctions.TruncateTime(x.PublishedAt) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
                         .Select(x =>
                             new WinnerDetailsModel
                             {
@@ -675,7 +780,8 @@ namespace derinYouTube
                                 Answer = x.Answer,
                                 MessageText = x.MessageText,
                                 Score = x.Score,
-                                Gap = x.Gap.Value
+                                Gap = x.Gap.Value,
+                                TotalAnswersOfUser = x.UserAnswerCount
                             }).OrderByDescending(x => x.Score).ToList();
 
                     if (result.Any())
@@ -700,19 +806,19 @@ namespace derinYouTube
                 var model = db.liveBroadcasts
                     .Where(x => DbFunctions.TruncateTime(dtAllStreams.Value) ==
                                 DbFunctions.TruncateTime(x.ActualStartTime)).Select(x => new VideoModel
-                    {
-                        Id = x.BroadcastId,
-                        Title = x.Title,
-                        ChannelId = x.ChannelId,
-                        ChannelTitle = x.ChannelTitle,
-                        LiveChatId = x.LiveChatId,
-                        ActualEndTime = x.ActualEndTime,
-                        ActualStartTime = x.ActualStartTime,
-                        Description = x.Description,
-                        LiveStatus = x.LiveStatus,
-                        PublishedDate = x.PublishedDate,
-                        ScheduledStartTime = x.ScheduledStartTime
-                    }).ToList();
+                                {
+                                    Id = x.BroadcastId,
+                                    Title = x.Title,
+                                    ChannelId = x.ChannelId,
+                                    ChannelTitle = x.ChannelTitle,
+                                    LiveChatId = x.LiveChatId,
+                                    ActualEndTime = x.ActualEndTime,
+                                    ActualStartTime = x.ActualStartTime,
+                                    Description = x.Description,
+                                    LiveStatus = x.LiveStatus,
+                                    PublishedDate = x.PublishedDate,
+                                    ScheduledStartTime = x.ScheduledStartTime
+                                }).ToList();
 
                 if (model.Any())
                 {
@@ -799,7 +905,7 @@ namespace derinYouTube
                         var item = new liveBroadcastsViewCount
                         {
                             Date = DateTime.Now,
-                            Count = (long) result,
+                            Count = (long)result,
                             VideoId = textBoxVideoId.Text
                         };
 
@@ -835,6 +941,68 @@ namespace derinYouTube
                 richTextBoxAnswers.Text = frm.SelectedQuestion.Answer;
                 richTextBoxQuestion.Text = frm.SelectedQuestion.Question;
             }
+        }
+
+        private void dgwAnswers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex != -1 && e.RowIndex != -1 && labelQuestionId.Text != "0")
+            {
+                var result = dgwAnswers.Rows[e.RowIndex].DataBoundItem as CompetitionResultModel;
+                var competitionId = Convert.ToInt32(labelQuestionId.Text);
+
+                using (var db = new YoutubeCommentDbEntities())
+                {
+                    var competition = db.competitions.FirstOrDefault(x => x.Id == competitionId);
+                    if (competition == null)
+                        return;
+
+                    var model = db.liveChatMessages.Where(x => x.VideoId == competition.VideoId)
+                        .Where(x => x.AuthorChannelId == result.AuthorChannelId)
+                        .Where(x => x.PublishedAt.Value >= competition.StartTime && x.PublishedAt.Value <= competition.EndTime)
+                        .Select(x =>
+                            new ChatsViewModel
+                            {
+                                AuthorChannelId = x.AuthorChannelId,
+                                PublishedAt = x.PublishedAt,
+                                AuthorChannelUrl = x.AuthorChannelUrl,
+                                AuthorDisplayName = x.AuthorDisplayName,
+                                MessageText = x.MessageText
+                            }).OrderBy(x => x.PublishedAt).ToList();
+
+                    if (model.Any())
+                    {
+                        new FrmShowResult(model).ShowDialog();
+                    }
+                }
+
+            }
+        }
+
+        private void dtWinnerOfDay_ValueChanged(object sender, EventArgs e)
+        {
+            dtQAAnalysis.Value = dtWinnerOfDay.Value;
+        }
+
+        private void dtQAAnalysis_ValueChanged(object sender, EventArgs e)
+        {
+            dtWinnerOfDay.Value = dtQAAnalysis.Value;
+        }
+
+        private void buttonShowChart_Click(object sender, EventArgs e)
+        {
+            chart1.Series[0].Points.Add(100);
+            chart1.Series[0].Points.Add(200);
+            chart1.Series[0].Points.Add(300);
+            chart1.Series[0].Points.Add(400);
+            chart1.Series[0].Points.Add(300);
+            chart1.Series[0].Points.Add(200);
+
+            chart1.Series[1].Points.Add(10);
+            chart1.Series[1].Points.Add(20);
+            chart1.Series[1].Points.Add(30);
+            chart1.Series[1].Points.Add(40);
+            chart1.Series[1].Points.Add(30);
+            chart1.Series[1].Points.Add(20);
         }
     }
 }

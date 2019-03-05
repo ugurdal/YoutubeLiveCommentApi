@@ -16,9 +16,9 @@ namespace derinYouTube.ViewModels
         [DisplayName("Message")]
         public string DisplayMessage { get; set; }
         [DisplayName("Name")]
-        public string DisplayName { get; set; }
+        public string AuthorDisplayName { get; set; }
         [DisplayName("Channel")]
-        public string ChannelUrl { get; set; }
+        public string AuthorChannelUrl { get; set; }
         [Browsable(false)]
         public bool IsVerified { get; set; }
         [Browsable(false)]
@@ -30,5 +30,6 @@ namespace derinYouTube.ViewModels
         public DateTime? PublishedTime { get; set; }
         public string AuthorChannelId { get; set; }
         public string LiveChatId { get; set; }
+        public string VideoId { get; set; }
     }
 }
