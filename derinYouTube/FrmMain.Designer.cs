@@ -90,6 +90,8 @@
             this.dgwLiveVideos = new System.Windows.Forms.DataGridView();
             this.tabPageQuestion = new System.Windows.Forms.TabPage();
             this.splitContainerQA = new System.Windows.Forms.SplitContainer();
+            this.textBoxQuestionOrder = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.toolStripSoru = new System.Windows.Forms.ToolStrip();
             this.tsButtonNewQuestions = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -97,7 +99,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.tsButtonQuestionList = new System.Windows.Forms.ToolStripButton();
             this.label14 = new System.Windows.Forms.Label();
-            this.richTextBoxAnswers = new System.Windows.Forms.TextBox();
+            this.textBoxAnswers = new System.Windows.Forms.TextBox();
             this.richTextBoxQuestion = new System.Windows.Forms.RichTextBox();
             this.textBoxQuestionStopAt = new System.Windows.Forms.TextBox();
             this.buttonQuestionStop = new System.Windows.Forms.Button();
@@ -152,6 +154,8 @@
             this.comboBoxChartType = new System.Windows.Forms.ComboBox();
             this.buttonShowChart = new System.Windows.Forms.Button();
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
+            this.labelQuestionTime = new System.Windows.Forms.Label();
+            this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -355,11 +359,11 @@
             this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonStop.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonStop.Image = global::derinYouTube.Properties.Resources.StopHS;
-            this.buttonStop.Location = new System.Drawing.Point(149, 585);
+            this.buttonStop.Location = new System.Drawing.Point(149, 573);
             this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(77, 41);
+            this.buttonStop.Size = new System.Drawing.Size(77, 53);
             this.buttonStop.TabIndex = 27;
-            this.buttonStop.Text = "Bitir";
+            this.buttonStop.Text = "Servisi Durdur";
             this.buttonStop.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonStop.UseVisualStyleBackColor = false;
             this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
@@ -379,11 +383,11 @@
             this.buttonGetChats.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonGetChats.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonGetChats.Image = global::derinYouTube.Properties.Resources.FormRunHS;
-            this.buttonGetChats.Location = new System.Drawing.Point(15, 585);
+            this.buttonGetChats.Location = new System.Drawing.Point(15, 573);
             this.buttonGetChats.Name = "buttonGetChats";
-            this.buttonGetChats.Size = new System.Drawing.Size(127, 40);
+            this.buttonGetChats.Size = new System.Drawing.Size(127, 52);
             this.buttonGetChats.TabIndex = 25;
-            this.buttonGetChats.Text = "Başla";
+            this.buttonGetChats.Text = "Servisi Başlat";
             this.buttonGetChats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonGetChats.UseVisualStyleBackColor = false;
             this.buttonGetChats.Click += new System.EventHandler(this.buttonAsync_Click);
@@ -902,9 +906,12 @@
             // splitContainerQA.Panel1
             // 
             this.splitContainerQA.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainerQA.Panel1.Controls.Add(this.labelQuestionTime);
+            this.splitContainerQA.Panel1.Controls.Add(this.textBoxQuestionOrder);
+            this.splitContainerQA.Panel1.Controls.Add(this.label30);
             this.splitContainerQA.Panel1.Controls.Add(this.toolStripSoru);
             this.splitContainerQA.Panel1.Controls.Add(this.label14);
-            this.splitContainerQA.Panel1.Controls.Add(this.richTextBoxAnswers);
+            this.splitContainerQA.Panel1.Controls.Add(this.textBoxAnswers);
             this.splitContainerQA.Panel1.Controls.Add(this.richTextBoxQuestion);
             this.splitContainerQA.Panel1.Controls.Add(this.textBoxQuestionStopAt);
             this.splitContainerQA.Panel1.Controls.Add(this.buttonQuestionStop);
@@ -920,6 +927,23 @@
             this.splitContainerQA.Size = new System.Drawing.Size(768, 597);
             this.splitContainerQA.SplitterDistance = 220;
             this.splitContainerQA.TabIndex = 16;
+            // 
+            // textBoxQuestionOrder
+            // 
+            this.textBoxQuestionOrder.Location = new System.Drawing.Point(55, 35);
+            this.textBoxQuestionOrder.Name = "textBoxQuestionOrder";
+            this.textBoxQuestionOrder.Size = new System.Drawing.Size(88, 21);
+            this.textBoxQuestionOrder.TabIndex = 24;
+            this.textBoxQuestionOrder.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(23, 38);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(25, 13);
+            this.label30.TabIndex = 23;
+            this.label30.Text = "Sıra";
             // 
             // toolStripSoru
             // 
@@ -971,6 +995,7 @@
             // 
             // tsButtonQuestionList
             // 
+            this.tsButtonQuestionList.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.tsButtonQuestionList.Image = global::derinYouTube.Properties.Resources.EditTableHS;
             this.tsButtonQuestionList.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsButtonQuestionList.Margin = new System.Windows.Forms.Padding(10, 1, 0, 2);
@@ -982,30 +1007,30 @@
             // 
             // label14
             // 
-            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label14.BackColor = System.Drawing.Color.Firebrick;
-            this.label14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.BackColor = System.Drawing.Color.MediumSeaGreen;
+            this.label14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(52, 187);
+            this.label14.Location = new System.Drawing.Point(466, 154);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(379, 24);
+            this.label14.Size = new System.Drawing.Size(298, 56);
             this.label14.TabIndex = 19;
             this.label14.Text = "Bilgi! Soruyu bitirdiğinizde geçerli cevaplar aşağıda listelenecek!";
             this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // richTextBoxAnswers
+            // textBoxAnswers
             // 
-            this.richTextBoxAnswers.Location = new System.Drawing.Point(55, 98);
-            this.richTextBoxAnswers.Name = "richTextBoxAnswers";
-            this.richTextBoxAnswers.Size = new System.Drawing.Size(88, 21);
-            this.richTextBoxAnswers.TabIndex = 13;
-            this.richTextBoxAnswers.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
+            this.textBoxAnswers.Location = new System.Drawing.Point(55, 124);
+            this.textBoxAnswers.Name = "textBoxAnswers";
+            this.textBoxAnswers.Size = new System.Drawing.Size(88, 21);
+            this.textBoxAnswers.TabIndex = 13;
+            this.textBoxAnswers.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
             // 
             // richTextBoxQuestion
             // 
             this.richTextBoxQuestion.BackColor = System.Drawing.SystemColors.ControlLight;
             this.richTextBoxQuestion.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxQuestion.Location = new System.Drawing.Point(54, 36);
+            this.richTextBoxQuestion.Location = new System.Drawing.Point(54, 62);
             this.richTextBoxQuestion.MaxLength = 1000;
             this.richTextBoxQuestion.Name = "richTextBoxQuestion";
             this.richTextBoxQuestion.Size = new System.Drawing.Size(377, 56);
@@ -1014,7 +1039,7 @@
             // 
             // textBoxQuestionStopAt
             // 
-            this.textBoxQuestionStopAt.Location = new System.Drawing.Point(149, 159);
+            this.textBoxQuestionStopAt.Location = new System.Drawing.Point(149, 187);
             this.textBoxQuestionStopAt.Name = "textBoxQuestionStopAt";
             this.textBoxQuestionStopAt.ReadOnly = true;
             this.textBoxQuestionStopAt.Size = new System.Drawing.Size(162, 21);
@@ -1023,9 +1048,9 @@
             // 
             // buttonQuestionStop
             // 
-            this.buttonQuestionStop.Location = new System.Drawing.Point(54, 159);
+            this.buttonQuestionStop.Location = new System.Drawing.Point(54, 185);
             this.buttonQuestionStop.Name = "buttonQuestionStop";
-            this.buttonQuestionStop.Size = new System.Drawing.Size(89, 23);
+            this.buttonQuestionStop.Size = new System.Drawing.Size(89, 25);
             this.buttonQuestionStop.TabIndex = 7;
             this.buttonQuestionStop.Text = "Bitir";
             this.buttonQuestionStop.UseVisualStyleBackColor = true;
@@ -1035,7 +1060,7 @@
             // 
             this.labelQuestionId.AutoSize = true;
             this.labelQuestionId.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestionId.Location = new System.Drawing.Point(437, 36);
+            this.labelQuestionId.Location = new System.Drawing.Point(437, 62);
             this.labelQuestionId.Name = "labelQuestionId";
             this.labelQuestionId.Size = new System.Drawing.Size(14, 13);
             this.labelQuestionId.TabIndex = 10;
@@ -1043,9 +1068,9 @@
             // 
             // buttonQuestionStart
             // 
-            this.buttonQuestionStart.Location = new System.Drawing.Point(54, 130);
+            this.buttonQuestionStart.Location = new System.Drawing.Point(54, 154);
             this.buttonQuestionStart.Name = "buttonQuestionStart";
-            this.buttonQuestionStart.Size = new System.Drawing.Size(89, 23);
+            this.buttonQuestionStart.Size = new System.Drawing.Size(89, 25);
             this.buttonQuestionStart.TabIndex = 0;
             this.buttonQuestionStart.Text = "Başla";
             this.buttonQuestionStart.UseVisualStyleBackColor = true;
@@ -1054,7 +1079,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(19, 36);
+            this.label12.Location = new System.Drawing.Point(19, 62);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(29, 13);
             this.label12.TabIndex = 9;
@@ -1062,7 +1087,7 @@
             // 
             // textBoxQuestionStartAt
             // 
-            this.textBoxQuestionStartAt.Location = new System.Drawing.Point(149, 132);
+            this.textBoxQuestionStartAt.Location = new System.Drawing.Point(149, 156);
             this.textBoxQuestionStartAt.Name = "textBoxQuestionStartAt";
             this.textBoxQuestionStartAt.ReadOnly = true;
             this.textBoxQuestionStartAt.Size = new System.Drawing.Size(162, 21);
@@ -1072,7 +1097,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 101);
+            this.label13.Location = new System.Drawing.Point(10, 127);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(38, 13);
             this.label13.TabIndex = 12;
@@ -1629,6 +1654,22 @@
             this.timerViewerCount.Interval = 60000;
             this.timerViewerCount.Tick += new System.EventHandler(this.timerViewerCount_Tick);
             // 
+            // labelQuestionTime
+            // 
+            this.labelQuestionTime.AutoSize = true;
+            this.labelQuestionTime.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestionTime.Location = new System.Drawing.Point(327, 159);
+            this.labelQuestionTime.Name = "labelQuestionTime";
+            this.labelQuestionTime.Size = new System.Drawing.Size(15, 14);
+            this.labelQuestionTime.TabIndex = 25;
+            this.labelQuestionTime.Text = "0";
+            // 
+            // timerQuestion
+            // 
+            this.timerQuestion.Enabled = true;
+            this.timerQuestion.Interval = 1000;
+            this.timerQuestion.Tick += new System.EventHandler(this.timerQuestion_Tick);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1787,7 +1828,7 @@
         private System.Windows.Forms.Button buttonShowStreams;
         private System.Windows.Forms.Label labelChatCount;
         private System.Windows.Forms.Label labelWorkingMessage;
-        private System.Windows.Forms.TextBox richTextBoxAnswers;
+        private System.Windows.Forms.TextBox textBoxAnswers;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Timer timerViewerCount;
         private System.Windows.Forms.DateTimePicker dtAllStreams;
@@ -1831,5 +1872,9 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.DateTimePicker dtViewerCount;
         private System.Windows.Forms.Button buttonShowBroadcastForViewerCount;
+        private System.Windows.Forms.TextBox textBoxQuestionOrder;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label labelQuestionTime;
+        private System.Windows.Forms.Timer timerQuestion;
     }
 }

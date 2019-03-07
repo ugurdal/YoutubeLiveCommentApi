@@ -207,7 +207,7 @@ namespace derinYouTube
 
         private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats)
         {
-            if (liveChats == null)
+            if (liveChats == null || !liveChats.Any())
                 return;
 
             CurrentService = 1;
@@ -260,7 +260,7 @@ namespace derinYouTube
 
         private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats)
         {
-            if (liveChats == null)
+            if (liveChats == null || !liveChats.Any())
                 return;
 
             CurrentService = 2;
@@ -548,14 +548,15 @@ namespace derinYouTube
                 return;
             }
 
-            if (string.IsNullOrEmpty(richTextBoxQuestion.Text) || string.IsNullOrEmpty(richTextBoxAnswers.Text) ||
-                !Helper.IsNumericArti(richTextBoxAnswers.Text))
+            if (string.IsNullOrEmpty(richTextBoxQuestion.Text) || string.IsNullOrEmpty(textBoxAnswers.Text) ||
+                !Helper.IsNumericArti(textBoxAnswers.Text))
             {
                 MessageBox.Show("Soru ve cevap doldurulmalı. Cevap numerik olmalı!", MessageHeader, MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
                 return;
             }
 
+            timerQuestion.Start();
             textBoxQuestionStartAt.Text = DateTime.Now.ToString();
             buttonQuestionStop.Enabled = true;
             buttonQuestionStart.Enabled = false;
@@ -565,6 +566,7 @@ namespace derinYouTube
 
         private async void buttonQuestionStop_Click(object sender, EventArgs e)
         {
+            timerQuestion.Stop();
             textBoxQuestionStopAt.Text = DateTime.Now.ToString();
             buttonQuestionStop.Enabled = false;
             tsButtonNewQuestions.Enabled = true;
@@ -586,7 +588,7 @@ namespace derinYouTube
                         LiveChatId = textBoxLiveChatId.Text ?? "",
                         VideoId = textBoxVideoId.Text,
                         Question = richTextBoxQuestion.Text,
-                        Answer = richTextBoxAnswers.Text,
+                        Answer = textBoxAnswers.Text,
                         Date = DateTime.Now,
                         StartTime = DateTime.Now,
                     };
@@ -665,13 +667,15 @@ namespace derinYouTube
         private void NewQuestion()
         {
             labelQuestionId.Text = "0";
+            labelQuestionTime.Text = "0";
             richTextBoxQuestion.Text = "";
-            richTextBoxAnswers.Text = "";
+            textBoxAnswers.Text = "";
             textBoxQuestionStartAt.Text = "";
             textBoxQuestionStopAt.Text = "";
             buttonQuestionStart.Enabled = true;
             buttonQuestionStop.Enabled = false;
             dgwAnswers.DataSource = null;
+            timerQuestion.Stop();
         }
 
         private async void buttonReport_Click(object sender, EventArgs e)
@@ -936,8 +940,9 @@ namespace derinYouTube
         {
             if (!string.IsNullOrEmpty(textBoxQuestionStartAt.Text))
             {
-                MessageBox.Show("Önce devam eden soruyu bitirin!", MessageHeader, MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Önce devam eden soruyu bitirmek için 'Yeni Soru' tuşunu kullanın. Daha sonra soru listesine girebilirsiniz.",
+                    MessageHeader, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -945,7 +950,8 @@ namespace derinYouTube
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 NewQuestion();
-                richTextBoxAnswers.Text = frm.SelectedQuestion.Answer;
+                textBoxQuestionOrder.Text = frm.SelectedQuestion.Order ?? "";
+                textBoxAnswers.Text = frm.SelectedQuestion.Answer;
                 richTextBoxQuestion.Text = frm.SelectedQuestion.Question;
             }
         }
@@ -1156,6 +1162,21 @@ namespace derinYouTube
             if (e.RowIndex != -1)
             {
                 await ShowChart();
+            }
+        }
+
+        private async void timerQuestion_Tick(object sender, EventArgs e)
+        {
+            await Task.Delay(100);
+            if (!string.IsNullOrEmpty(textBoxQuestionStartAt.Text))
+            {
+                var startAt = DateTime.Parse(textBoxQuestionStartAt.Text);
+                labelQuestionTime.Text =
+                    Math.Round((DateTime.Now - startAt).TotalSeconds, MidpointRounding.AwayFromZero).ToString("N0");
+            }
+            else
+            {
+                labelQuestionTime.Text = "0";
             }
         }
     }

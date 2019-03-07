@@ -11,6 +11,8 @@ namespace derinYouTube.ViewModels
     {
         [Browsable(false)]
         public int Id { get; set; }
+        [DisplayName("Sıra")]
+        public string Order { get; set; }
         [DisplayName("Soru")]
         public string Question { get; set; }
         [DisplayName("Cevap")]

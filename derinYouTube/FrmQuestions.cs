@@ -44,10 +44,10 @@ namespace derinYouTube
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(richTextBoxQuestion.Text) || string.IsNullOrEmpty(richTextBoxAnswers.Text) ||
-                !Helper.IsNumericArti(richTextBoxAnswers.Text))
+            if (string.IsNullOrEmpty(richTextBoxQuestion.Text) ||
+                string.IsNullOrEmpty(richTextBoxAnswers.Text) || !Helper.IsNumericArti(richTextBoxAnswers.Text))
             {
-                MessageBox.Show("Soru ve cevap doldurulmalı. Cevap numerik olmalı!", "", MessageBoxButtons.OK,
+                MessageBox.Show("Sıra, soru ve cevap doldurulmalı. Cevap numerik olmalı!", "", MessageBoxButtons.OK,
                     MessageBoxIcon.Exclamation);
                 return;
             }
@@ -56,7 +56,7 @@ namespace derinYouTube
             {
                 db.questions.Add(new questions
                 {
-                    Code = "",
+                    Code = numOrder.Value.ToString(),
                     Question = richTextBoxQuestion.Text,
                     Answer = richTextBoxAnswers.Text,
                     InsertDate = DateTime.Now
@@ -76,10 +76,11 @@ namespace derinYouTube
                 var model = db.questions.Select(x => new QuestionViewModel
                 {
                     Id = x.Id,
+                    Order = x.Code,
                     Question = x.Question,
                     Answer = x.Answer,
                     InsertDate = x.InsertDate
-                }).OrderBy(x => x.Question).ToList();
+                }).OrderBy(x => x.Order).ToList();
 
                 if (model.Any())
                 {
@@ -92,20 +93,31 @@ namespace derinYouTube
 
         private void FrmQuestions_Load(object sender, EventArgs e)
         {
-            buttonDelete.Visible = _type == FormTypeEnum.New;
-            buttonAdd.Visible = _type == FormTypeEnum.New;
-            buttonNewQuestions.Visible = _type == FormTypeEnum.New;
-            richTextBoxAnswers.Visible = _type == FormTypeEnum.New;
-            richTextBoxQuestion.Visible = _type == FormTypeEnum.New;
-            labelA.Visible = _type == FormTypeEnum.New;
-            labelQ.Visible = _type == FormTypeEnum.New;
+            if (_type == FormTypeEnum.Select)
+            {
+                tsButtonDelete.Visible = false;
+                tsButtonSave.Visible = false;
+                tsButtonNew.Visible = false;
+                richTextBoxAnswers.Visible = false;
+                richTextBoxQuestion.Visible = false;
+                numOrder.Visible = false;
+                labelA.Visible = false;
+                labelQ.Visible = false;
+                labelOrder.Visible = false;
+
+                splitContainerQ.SplitterDistance = 0;
+                this.Text = "Soru Seçimi";
+            }
 
             ShowQuestions();
         }
 
         private void dgwQ_SelectionChanged(object sender, EventArgs e)
         {
-            buttonDelete.Visible = dgwQ.SelectedRows.Count != 0;
+            if (_type == FormTypeEnum.New)
+            {
+                tsButtonDelete.Visible = dgwQ.SelectedRows.Count != 0;
+            }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -127,6 +139,7 @@ namespace derinYouTube
 
                         db.SaveChanges();
                     }
+
                     ShowQuestions();
                 }
             }

@@ -201,8 +201,10 @@ namespace derinYouTube
             try
             {
                 var request = _service.LiveBroadcasts.List("id, snippet, contentDetails, status, statistics");
-                request.Mine = true;
+                //request.Mine = true;
                 request.MaxResults = 50;
+                request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.All;
+                request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
 
                 var nextPage = "";
                 while (nextPage != null)
