@@ -672,6 +672,7 @@ namespace derinYouTube
             textBoxAnswers.Text = "";
             textBoxQuestionStartAt.Text = "";
             textBoxQuestionStopAt.Text = "";
+            textBoxQuestionOrder.Text = "";
             buttonQuestionStart.Enabled = true;
             buttonQuestionStop.Enabled = false;
             dgwAnswers.DataSource = null;
