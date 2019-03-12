@@ -12,7 +12,17 @@ namespace derinYouTube.ViewModels
         [Browsable(false)]
         public int Id { get; set; }
         [DisplayName("Sıra")]
-        public string Order { get; set; }
+        public int Order
+        {
+            get
+            {
+                return Helper.IsNumeric(this.Code)
+                    ? Convert.ToInt32(this.Code)
+                    : 999;
+            }
+        }
+        [Browsable(false)]
+        public string Code { get; set; }
         [DisplayName("Soru")]
         public string Question { get; set; }
         [DisplayName("Cevap")]

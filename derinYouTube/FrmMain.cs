@@ -78,39 +78,7 @@ namespace derinYouTube
                 textBoxLiveChatId.ReadOnly = false;
             }
         }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //dgw.DataSource = null;
-            //labelCount.Text = "0";
-
-            //var videoId = textBoxVideoId.Text;
-            //var comments = YouTubeApi.GetCommentsByVideoId(videoId);
-            //dgw.DataSource = comments.ToList();
-
-            //labelCount.Text = comments.Count.ToString();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            //if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
-            //{
-            //    MessageBox.Show("Videoya ait Live Chat ID okunamadı!", this.Text, MessageBoxButtons.OK,
-            //        MessageBoxIcon.Exclamation);
-            //    return;
-            //}
-
-            //dgw.DataSource = null;
-            //labelCount.Text = "0";
-
-            //var comments = YouTubeApi.GetLiveCommentsByChatId(textBoxLiveChatId.Text);
-            //dgw.DataSource = new SortableBindingList<LiveChatModel>(comments);
-            //dgw.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            //dgw.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-
-            //labelCount.Text = comments.Count.ToString();
-        }
-
+        
         private async void buttonAsync_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
@@ -246,16 +214,15 @@ namespace derinYouTube
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-
-                    connection.Execute("clearMultipleChatMessages", new { videoId = textBoxVideoId.Text },
-                        commandType: CommandType.StoredProcedure, commandTimeout: 300);
-
+                    
                     ChatCount = connection
                         .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
                         .First();
                 }
 
             });
+
+            ClearMultipleAnswers();
         }
 
         private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats)
@@ -300,9 +267,6 @@ namespace derinYouTube
                         }
                     }
 
-                    connection.Execute("clearMultipleChatMessages", new { videoId = textBoxVideoId.Text },
-                        commandType: CommandType.StoredProcedure, commandTimeout: 300);
-
                     ChatCount = connection
                         .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
                         .First();
@@ -310,6 +274,25 @@ namespace derinYouTube
 
             });
 
+            ClearMultipleAnswers();
+        }
+
+        private async Task ClearMultipleAnswers()
+        {
+            await Task.Run(() =>
+              {
+                  try
+                  {
+                      using (var connection = new SqlConnection(Helper.ConnectionString))
+                      {
+                          connection.Execute("clearMultipleChatMessages", new { videoId = textBoxVideoId.Text },
+                              commandType: CommandType.StoredProcedure, commandTimeout: 300);
+                      }
+                  }
+                  catch (Exception e)
+                  {
+                  }
+              });
         }
 
         private async Task Temizle()
@@ -817,7 +800,7 @@ namespace derinYouTube
             {
                 var model = db.liveBroadcasts
                     .Where(x => DbFunctions.TruncateTime(dtAllStreams.Value) ==
-                                DbFunctions.TruncateTime(x.ActualStartTime)).Select(x => new VideoModel
+                                DbFunctions.TruncateTime(x.PublishedDate)).Select(x => new VideoModel
                                 {
                                     Id = x.BroadcastId,
                                     Title = x.Title,
@@ -951,7 +934,7 @@ namespace derinYouTube
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 NewQuestion();
-                textBoxQuestionOrder.Text = frm.SelectedQuestion.Order ?? "";
+                textBoxQuestionOrder.Text = frm.SelectedQuestion.Order.ToString();
                 textBoxAnswers.Text = frm.SelectedQuestion.Answer;
                 richTextBoxQuestion.Text = frm.SelectedQuestion.Question;
             }
@@ -1133,7 +1116,7 @@ namespace derinYouTube
             {
                 var model = db.liveBroadcasts
                     .Where(x => DbFunctions.TruncateTime(dtViewerCount.Value) ==
-                                DbFunctions.TruncateTime(x.ActualStartTime)).Select(x => new VideoModel
+                                DbFunctions.TruncateTime(x.PublishedDate)).Select(x => new VideoModel
                                 {
                                     Id = x.BroadcastId,
                                     Title = x.Title,

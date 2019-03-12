@@ -76,18 +76,19 @@ namespace derinYouTube
                 var model = db.questions.Select(x => new QuestionViewModel
                 {
                     Id = x.Id,
-                    Order = x.Code,
+                    Code = x.Code,
                     Question = x.Question,
                     Answer = x.Answer,
                     InsertDate = x.InsertDate
-                }).OrderBy(x => x.Order).ToList();
+                }).ToList().OrderBy(x => x.Order);
 
                 if (model.Any())
                 {
                     dgwQ.DataSource = model.ToSortableGridList();
                     dgwQ.FormatGrid();
-                    labelCount.Text = model.Count.ToString();
                 }
+
+                labelCount.Text = dgwQ.RowCount.ToString();
             }
         }
 
