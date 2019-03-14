@@ -21,6 +21,8 @@ using derinYouTube.Extensions;
 using derinYouTube.Model;
 using derinYouTube.ViewModels;
 using Dapper;
+using System.Data.Entity.Validation;
+using Exception = System.Exception;
 
 namespace derinYouTube
 {
@@ -51,10 +53,10 @@ namespace derinYouTube
             MessageHeader = "Dikkat"; //this.Text;
             this.DoubleBuffered = true;
 
-
+            _youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "YouTubeCommentAPI");
             //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
             //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
-            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+            //_youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -78,7 +80,7 @@ namespace derinYouTube
                 textBoxLiveChatId.ReadOnly = false;
             }
         }
-        
+
         private async void buttonAsync_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
@@ -117,6 +119,16 @@ namespace derinYouTube
             {
                 MessageBox.Show($"Servis durduruldu.\r\"{ox.Message}", MessageHeader, MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+            }
+        }
+
+        private string ShowErrorOnPanel
+        {
+            set
+            {
+                labelShowError.Text = value;
+                labelShowError.Visible = true;
+                timerException.Start();
             }
         }
 
@@ -210,11 +222,12 @@ namespace derinYouTube
                         }
                         catch (Exception ex)
                         {
+                            ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
                             MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{ex.Message}", MessageHeader,
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    
+
                     ChatCount = connection
                         .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
                         .First();
@@ -262,6 +275,7 @@ namespace derinYouTube
                         }
                         catch (Exception ex)
                         {
+                            ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
                             MessageBox.Show($"Yorumlar veritabanına kaydedilemedi!\r\n{ex.Message}", MessageHeader,
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
@@ -289,8 +303,9 @@ namespace derinYouTube
                               commandType: CommandType.StoredProcedure, commandTimeout: 300);
                       }
                   }
-                  catch (Exception e)
+                  catch (Exception ex)
                   {
+                      ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
                   }
               });
         }
@@ -371,7 +386,7 @@ namespace derinYouTube
 
         private async Task SaveLiveBroadcasts()
         {
-            await Task.Delay(200);
+            await Task.Delay(100);
             await Task.Run(() =>
             {
                 try
@@ -404,25 +419,16 @@ namespace derinYouTube
                         }
                     }
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException ex)
+                catch (DbEntityValidationException ex)
                 {
-                    var errorMessage = "";
-                    foreach (var eve in ex.EntityValidationErrors)
-                    {
-                        errorMessage =
-                            $"Entity of type \"{eve.Entry.Entity.GetType().Name}\" in state \"{eve.Entry.State}\" has the following validation errors:";
-                        foreach (var ve in eve.ValidationErrors)
-                        {
-                            errorMessage += $"\r\n- Property: \"{ve.PropertyName}\", Error: \"{ve.ErrorMessage}\"";
-                        }
-                    }
-
-                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{errorMessage}", MessageHeader,
+                    ShowErrorOnPanel = ex.ToMessage();
+                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{ex.ToMessage()}", MessageHeader,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{e.Message}", MessageHeader,
+                    ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
+                    MessageBox.Show($"LiveBroadcasts ler veritabanına kaydedilemedi!\r\n{ex.Message}", MessageHeader,
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             });
@@ -465,6 +471,7 @@ namespace derinYouTube
             }
             catch (Exception ex)
             {
+                ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
                 await Temizle();
             }
         }
@@ -558,50 +565,65 @@ namespace derinYouTube
 
         private async Task SaveCompetition()
         {
-            await Task.Delay(200);
+            await Task.Delay(100);
             var showResult = false;
             var compId = 0;
-            await Task.Run(() =>
+            try
             {
-                if (labelQuestionId.Text == "0")
+                await Task.Run(() =>
                 {
-                    var comp = new competitions
+                    if (labelQuestionId.Text == "0")
                     {
-                        Id = 0,
-                        LiveChatId = textBoxLiveChatId.Text ?? "",
-                        VideoId = textBoxVideoId.Text,
-                        Question = richTextBoxQuestion.Text,
-                        Answer = textBoxAnswers.Text,
-                        Date = DateTime.Now,
-                        StartTime = DateTime.Now,
-                    };
-
-                    using (var db = new YoutubeCommentDbEntities())
-                    {
-                        db.competitions.Add(comp);
-                        db.SaveChanges();
-
-                        labelQuestionId.Text = comp.Id.ToString();
-                    }
-                }
-                else
-                {
-                    using (var db = new YoutubeCommentDbEntities())
-                    {
-                        var id = Convert.ToInt32(labelQuestionId.Text);
-                        compId = id;
-                        var comp = db.competitions.Find(id);
-                        if (comp != null)
+                        var comp = new competitions
                         {
-                            showResult = true;
-                            comp.EndTime = DateTime.Now;
+                            Id = 0,
+                            LiveChatId = textBoxLiveChatId.Text ?? "",
+                            VideoId = textBoxVideoId.Text,
+                            Question = richTextBoxQuestion.Text,
+                            Answer = textBoxAnswers.Text,
+                            Date = DateTime.Now,
+                            StartTime = DateTime.Now,
+                        };
+
+                        using (var db = new YoutubeCommentDbEntities())
+                        {
+                            db.competitions.Add(comp);
                             db.SaveChanges();
 
-                            db.findAnswers(id);
+                            labelQuestionId.Text = comp.Id.ToString();
                         }
                     }
-                }
-            });
+                    else
+                    {
+                        using (var db = new YoutubeCommentDbEntities())
+                        {
+                            var id = Convert.ToInt32(labelQuestionId.Text);
+                            compId = id;
+                            var comp = db.competitions.Find(id);
+                            if (comp != null)
+                            {
+                                showResult = true;
+                                comp.EndTime = DateTime.Now;
+                                db.SaveChanges();
+
+                                db.findAnswers(id);
+                            }
+                        }
+                    }
+                });
+            }
+            catch (DbEntityValidationException ex)
+            {
+                ShowErrorOnPanel = ex.ToMessage();
+                MessageBox.Show($"Soru kaydı sırasında hata..\r\n{ex.ToMessage()}", "", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
+                MessageBox.Show($"Soru kaydı sırasında hata..\r\n{ex.Message}", "", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
 
             if (showResult)
                 await ShowValidAnswers(compId);
@@ -609,7 +631,7 @@ namespace derinYouTube
 
         private async Task ShowValidAnswers(int competitionId)
         {
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwAnswers.DataSource = null;
             using (var db = new YoutubeCommentDbEntities())
             {
@@ -665,7 +687,7 @@ namespace derinYouTube
         private async void buttonReport_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwCompetitionHeader.DataSource = null;
             dgwWinnerOfDay.DataSource = null;
             dgwCompetitionDetail.DataSource = null;
@@ -721,7 +743,7 @@ namespace derinYouTube
         private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwCompetitionDetail.DataSource = null;
 
             using (var db = new YoutubeCommentDbEntities())
@@ -755,7 +777,7 @@ namespace derinYouTube
         private async void dgwWinnerOfDay_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwWinnerDetail.DataSource = null;
 
             using (var db = new YoutubeCommentDbEntities())
@@ -794,7 +816,7 @@ namespace derinYouTube
         private async void buttonShowStreams_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwStreams.DataSource = null;
             using (var db = new YoutubeCommentDbEntities())
             {
@@ -832,7 +854,7 @@ namespace derinYouTube
 
             var stream = dgwStreams.SelectedRows[0].DataBoundItem as VideoModel;
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwChats.DataSource = null;
             labelChatCount.Text = "0";
             using (var db = new YoutubeCommentDbEntities())
@@ -911,7 +933,7 @@ namespace derinYouTube
             }
             catch (Exception ex)
             {
-
+                ShowErrorOnPanel = ex.Message + ex.InnerException?.Message;
             }
         }
 
@@ -1002,7 +1024,7 @@ namespace derinYouTube
 
         private async Task ShowChart()
         {
-            await Task.Delay(200);
+            await Task.Delay(100);
 
             if (dgwViewerCountBroadcasts.SelectedRows.Count != 1)
                 return;
@@ -1110,7 +1132,7 @@ namespace derinYouTube
         private async void buttonShowBroadcastForViewerCount_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(200);
+            await Task.Delay(100);
             dgwViewerCountBroadcasts.DataSource = null;
             using (var db = new YoutubeCommentDbEntities())
             {
@@ -1162,6 +1184,13 @@ namespace derinYouTube
             {
                 labelQuestionTime.Text = "0";
             }
+        }
+
+        private void timerException_Tick(object sender, EventArgs e)
+        {
+            labelShowError.Text = "";
+            labelShowError.Visible = false;
+            timerException.Stop();
         }
     }
 }

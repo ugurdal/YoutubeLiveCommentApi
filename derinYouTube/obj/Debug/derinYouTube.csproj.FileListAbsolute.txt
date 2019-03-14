@@ -71,4 +71,3 @@ C:\DerinSISRelease\Youtube\derinYouTube.pdb
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmShowResult.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmQuestions.resources
 C:\DerinSISRelease\Youtube\ClientJsonFiles\client_secret_izlene@gmail.com.json
-C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache

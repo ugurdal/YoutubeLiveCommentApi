@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -52,16 +53,29 @@ namespace derinYouTube
                 return;
             }
 
-            using (var db = new YoutubeCommentDbEntities())
+            try
             {
-                db.questions.Add(new questions
+                using (var db = new YoutubeCommentDbEntities())
                 {
-                    Code = numOrder.Value.ToString(),
-                    Question = richTextBoxQuestion.Text,
-                    Answer = richTextBoxAnswers.Text,
-                    InsertDate = DateTime.Now
-                });
-                db.SaveChanges();
+                    db.questions.Add(new questions
+                    {
+                        Code = numOrder.Value.ToString(),
+                        Question = richTextBoxQuestion.Text,
+                        Answer = richTextBoxAnswers.Text,
+                        InsertDate = DateTime.Now
+                    });
+                    db.SaveChanges();
+                }
+            }
+            catch (DbEntityValidationException ex)
+            {
+                MessageBox.Show($"Soru kaydedilemedi..\r\n{ex.ToMessage()}", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Soru kaydedilemedi..\r\n{ex.Message + ex.InnerException?.Message}", "",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             Clear();
@@ -128,20 +142,35 @@ namespace derinYouTube
                 if (DialogResult.Yes == MessageBox.Show("Seçili sorular silinecek, emin misiniz?", "",
                         MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 {
-                    using (var db = new YoutubeCommentDbEntities())
+                    try
                     {
-                        foreach (DataGridViewRow row in dgwQ.SelectedRows)
+                        using (var db = new YoutubeCommentDbEntities())
                         {
-                            var data = row.DataBoundItem as QuestionViewModel;
-                            var question = db.questions.Find(data.Id);
-                            if (question != null)
-                                db.questions.Remove(question);
+                            foreach (DataGridViewRow row in dgwQ.SelectedRows)
+                            {
+                                var data = row.DataBoundItem as QuestionViewModel;
+                                var question = db.questions.Find(data.Id);
+                                if (question != null)
+                                    db.questions.Remove(question);
+                            }
+
+                            db.SaveChanges();
                         }
 
-                        db.SaveChanges();
+                        ShowQuestions();
                     }
 
-                    ShowQuestions();
+                    catch (DbEntityValidationException ex)
+                    {
+                        MessageBox.Show($"Soru kaydedilemedi..\r\n{ex.ToMessage()}", "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Soru kaydedilemedi..\r\n{ex.Message + ex.InnerException?.Message}", "",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
                 }
             }
         }

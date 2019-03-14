@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.dgw = new System.Windows.Forms.DataGridView();
@@ -90,6 +90,7 @@
             this.dgwLiveVideos = new System.Windows.Forms.DataGridView();
             this.tabPageQuestion = new System.Windows.Forms.TabPage();
             this.splitContainerQA = new System.Windows.Forms.SplitContainer();
+            this.labelQuestionTime = new System.Windows.Forms.Label();
             this.textBoxQuestionOrder = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
             this.toolStripSoru = new System.Windows.Forms.ToolStrip();
@@ -154,8 +155,9 @@
             this.comboBoxChartType = new System.Windows.Forms.ComboBox();
             this.buttonShowChart = new System.Windows.Forms.Button();
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
-            this.labelQuestionTime = new System.Windows.Forms.Label();
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
+            this.labelShowError = new System.Windows.Forms.Label();
+            this.timerException = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -253,8 +255,8 @@
             // PublishedAt
             // 
             this.PublishedAt.DataPropertyName = "PublishedAt";
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.PublishedAt.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.PublishedAt.DefaultCellStyle = dataGridViewCellStyle2;
             this.PublishedAt.FillWeight = 15F;
             this.PublishedAt.HeaderText = "Published At";
             this.PublishedAt.Name = "PublishedAt";
@@ -619,6 +621,7 @@
             // tabPageService
             // 
             this.tabPageService.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tabPageService.Controls.Add(this.labelShowError);
             this.tabPageService.Controls.Add(this.label25);
             this.tabPageService.Controls.Add(this.textBoxOldChatInPackage);
             this.tabPageService.Controls.Add(this.label24);
@@ -927,6 +930,16 @@
             this.splitContainerQA.Size = new System.Drawing.Size(768, 597);
             this.splitContainerQA.SplitterDistance = 220;
             this.splitContainerQA.TabIndex = 16;
+            // 
+            // labelQuestionTime
+            // 
+            this.labelQuestionTime.AutoSize = true;
+            this.labelQuestionTime.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestionTime.Location = new System.Drawing.Point(327, 159);
+            this.labelQuestionTime.Name = "labelQuestionTime";
+            this.labelQuestionTime.Size = new System.Drawing.Size(15, 14);
+            this.labelQuestionTime.TabIndex = 25;
+            this.labelQuestionTime.Text = "0";
             // 
             // textBoxQuestionOrder
             // 
@@ -1654,21 +1667,30 @@
             this.timerViewerCount.Interval = 60000;
             this.timerViewerCount.Tick += new System.EventHandler(this.timerViewerCount_Tick);
             // 
-            // labelQuestionTime
-            // 
-            this.labelQuestionTime.AutoSize = true;
-            this.labelQuestionTime.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestionTime.Location = new System.Drawing.Point(327, 159);
-            this.labelQuestionTime.Name = "labelQuestionTime";
-            this.labelQuestionTime.Size = new System.Drawing.Size(15, 14);
-            this.labelQuestionTime.TabIndex = 25;
-            this.labelQuestionTime.Text = "0";
-            // 
             // timerQuestion
             // 
             this.timerQuestion.Enabled = true;
             this.timerQuestion.Interval = 1000;
             this.timerQuestion.Tick += new System.EventHandler(this.timerQuestion_Tick);
+            // 
+            // labelShowError
+            // 
+            this.labelShowError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelShowError.BackColor = System.Drawing.Color.DarkRed;
+            this.labelShowError.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelShowError.ForeColor = System.Drawing.SystemColors.Window;
+            this.labelShowError.Location = new System.Drawing.Point(8, 269);
+            this.labelShowError.Name = "labelShowError";
+            this.labelShowError.Size = new System.Drawing.Size(214, 184);
+            this.labelShowError.TabIndex = 13;
+            this.labelShowError.Visible = false;
+            // 
+            // timerException
+            // 
+            this.timerException.Enabled = true;
+            this.timerException.Interval = 5000;
+            this.timerException.Tick += new System.EventHandler(this.timerException_Tick);
             // 
             // FrmMain
             // 
@@ -1876,5 +1898,7 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label labelQuestionTime;
         private System.Windows.Forms.Timer timerQuestion;
+        private System.Windows.Forms.Label labelShowError;
+        private System.Windows.Forms.Timer timerException;
     }
 }
