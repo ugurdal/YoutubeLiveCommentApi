@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             this.label1 = new System.Windows.Forms.Label();
             this.dgw = new System.Windows.Forms.DataGridView();
@@ -67,6 +67,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.richTextBoxTitle = new System.Windows.Forms.RichTextBox();
             this.tabPageService = new System.Windows.Forms.TabPage();
+            this.labelShowError = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.textBoxOldChatInPackage = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -156,7 +157,6 @@
             this.buttonShowChart = new System.Windows.Forms.Button();
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
-            this.labelShowError = new System.Windows.Forms.Label();
             this.timerException = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
@@ -255,8 +255,8 @@
             // PublishedAt
             // 
             this.PublishedAt.DataPropertyName = "PublishedAt";
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.PublishedAt.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.PublishedAt.DefaultCellStyle = dataGridViewCellStyle1;
             this.PublishedAt.FillWeight = 15F;
             this.PublishedAt.HeaderText = "Published At";
             this.PublishedAt.Name = "PublishedAt";
@@ -462,7 +462,6 @@
             this.textBoxLiveChatId.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxLiveChatId.Location = new System.Drawing.Point(11, 65);
             this.textBoxLiveChatId.Name = "textBoxLiveChatId";
-            this.textBoxLiveChatId.ReadOnly = true;
             this.textBoxLiveChatId.Size = new System.Drawing.Size(211, 23);
             this.textBoxLiveChatId.TabIndex = 31;
             this.textBoxLiveChatId.Text = "";
@@ -474,7 +473,6 @@
             this.textBoxVideoId.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxVideoId.Location = new System.Drawing.Point(11, 23);
             this.textBoxVideoId.Name = "textBoxVideoId";
-            this.textBoxVideoId.ReadOnly = true;
             this.textBoxVideoId.Size = new System.Drawing.Size(211, 23);
             this.textBoxVideoId.TabIndex = 30;
             this.textBoxVideoId.Text = "";
@@ -640,6 +638,19 @@
             this.tabPageService.Size = new System.Drawing.Size(230, 456);
             this.tabPageService.TabIndex = 1;
             this.tabPageService.Text = "Servis Bilgileri";
+            // 
+            // labelShowError
+            // 
+            this.labelShowError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelShowError.BackColor = System.Drawing.Color.DarkRed;
+            this.labelShowError.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelShowError.ForeColor = System.Drawing.SystemColors.Window;
+            this.labelShowError.Location = new System.Drawing.Point(8, 269);
+            this.labelShowError.Name = "labelShowError";
+            this.labelShowError.Size = new System.Drawing.Size(214, 184);
+            this.labelShowError.TabIndex = 13;
+            this.labelShowError.Visible = false;
             // 
             // label25
             // 
@@ -1672,19 +1683,6 @@
             this.timerQuestion.Enabled = true;
             this.timerQuestion.Interval = 1000;
             this.timerQuestion.Tick += new System.EventHandler(this.timerQuestion_Tick);
-            // 
-            // labelShowError
-            // 
-            this.labelShowError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelShowError.BackColor = System.Drawing.Color.DarkRed;
-            this.labelShowError.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelShowError.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelShowError.Location = new System.Drawing.Point(8, 269);
-            this.labelShowError.Name = "labelShowError";
-            this.labelShowError.Size = new System.Drawing.Size(214, 184);
-            this.labelShowError.TabIndex = 13;
-            this.labelShowError.Visible = false;
             // 
             // timerException
             // 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace derinYouTube.ViewModels
         [DisplayName("Mesaj Saati")]
         public string PuslishedTime
         {
-            get { return this.PublishedAt.ToString(); }
+            get { return this.PublishedAt.ToString("dd.MM.yyyy HH:mm:ss.fff", CultureInfo.InvariantCulture); ; }
         }
         [DisplayName("Puan")]
         public int Score { get; set; }
@@ -30,6 +31,7 @@ namespace derinYouTube.ViewModels
         public decimal Gap { get; set; }
         [DisplayName("Kaç Cevap Yazdı?")] 
         public int TotalAnswersOfUser { get; set; }
+        [Browsable(false)]
         [DisplayName("Kanal Url")]
         public string AuthorChannelUrl { get; set; }
         [Browsable(false)]

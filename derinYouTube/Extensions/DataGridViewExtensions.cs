@@ -33,6 +33,20 @@ namespace derinYouTube.Extensions
         public static void FormatGrid(this DataGridView dgv, bool highligthFirstRow = false)
         {
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            if (highligthFirstRow && dgv.RowCount > 0)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    dgv.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
+                    dgv.Rows[i].Height = 30;
+                    dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10);
+                    
+                    if (i == 0)
+                        dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+                }
+            }
+
             foreach (DataGridViewColumn column in dgv.Columns)
             {
                 if (column.ValueType == typeof(decimal))
@@ -47,7 +61,6 @@ namespace derinYouTube.Extensions
 
                 if (ColorColumns.Contains(column.Name))
                 {
-                    column.DefaultCellStyle.Font = new Font("Tahoma", 8, FontStyle.Bold);
                     column.DefaultCellStyle.ForeColor = Color.DarkRed;
                 }
 
@@ -59,14 +72,8 @@ namespace derinYouTube.Extensions
                 //column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 //column.HeaderCell.Style.Font = new Font("Tahoma", 9F);
             }
-
+            
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
-
-            if (highligthFirstRow && dgv.RowCount > 0)
-            {
-                dgv.Rows[0].Height = 30;
-                dgv.Rows[0].DefaultCellStyle.BackColor = Color.LightGreen;
-            }
         }
     }
 }

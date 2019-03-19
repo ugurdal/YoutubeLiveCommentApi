@@ -31,5 +31,29 @@ namespace derinYouTube.ViewModels
         public string AuthorChannelId { get; set; }
         public string LiveChatId { get; set; }
         public string VideoId { get; set; }
+        [Browsable(false)]
+        public string ComputedMessage
+        {
+            get
+            {
+                var temp = this.DisplayMessage.Split(',')[0];
+                return temp.Replace(".", "").Replace("-", "").Replace("+", "").Replace(" ", "");
+            }
+        }
+        [Browsable(false)]
+        public bool IsMessageNumeric
+        {
+            get { return Helper.IsNumeric(this.ComputedMessage); }
+        }
+        [Browsable(false)]
+        public string NumericMessage
+        {
+            get
+            {
+                return this.IsMessageNumeric
+                    ? this.ComputedMessage
+                    : "0";
+            }
+        }
     }
 }

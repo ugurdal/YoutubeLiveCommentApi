@@ -53,10 +53,10 @@ namespace derinYouTube
             MessageHeader = "Dikkat"; //this.Text;
             this.DoubleBuffered = true;
 
-            _youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "YouTubeCommentAPI");
+            //_youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "YouTubeCommentAPI");
             //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
             //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
-            //_youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -79,6 +79,9 @@ namespace derinYouTube
                 textBoxVideoId.ReadOnly = false;
                 textBoxLiveChatId.ReadOnly = false;
             }
+
+            //this.textBoxVideoId.Text = "OnwNEYB-hWQ";
+            //this.textBoxLiveChatId.Text = "Cg0KC09ud05FWUItaFdR";
         }
 
         private async void buttonAsync_Click(object sender, EventArgs e)
@@ -213,6 +216,8 @@ namespace derinYouTube
                         bulkCopy.ColumnMappings.Add("VideoId", "VideoId");
                         bulkCopy.ColumnMappings.Add("PublishedTime", "PublishedAt");
                         bulkCopy.ColumnMappings.Add("DisplayMessage", "MessageText");
+                        bulkCopy.ColumnMappings.Add("IsMessageNumeric", "IsMessageNumeric");
+                        bulkCopy.ColumnMappings.Add("NumericMessage", "NumericMessage");
 
                         bulkCopy.BatchSize = 1000;
                         bulkCopy.DestinationTableName = "dbo.liveChatMessages";
@@ -266,6 +271,8 @@ namespace derinYouTube
                         bulkCopy.ColumnMappings.Add("VideoId", "VideoId");
                         bulkCopy.ColumnMappings.Add("PublishedTime", "PublishedAt");
                         bulkCopy.ColumnMappings.Add("DisplayMessage", "MessageText");
+                        bulkCopy.ColumnMappings.Add("IsMessageNumeric", "IsMessageNumeric");
+                        bulkCopy.ColumnMappings.Add("NumericMessage", "NumericMessage");
 
                         bulkCopy.BatchSize = 1000;
                         bulkCopy.DestinationTableName = "dbo.liveChatMessages";
@@ -742,9 +749,9 @@ namespace derinYouTube
 
         private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            dgwCompetitionDetail.DataSource = null;
             this.Cursor = Cursors.WaitCursor;
             await Task.Delay(100);
-            dgwCompetitionDetail.DataSource = null;
 
             using (var db = new YoutubeCommentDbEntities())
             {
@@ -804,7 +811,6 @@ namespace derinYouTube
                     if (result.Any())
                     {
                         dgwWinnerDetail.DataSource = result;
-                        dgwWinnerDetail.Columns["AuthorChannelUrl"].Visible = false;
                         dgwWinnerDetail.FormatGrid();
                     }
                 }
@@ -870,7 +876,7 @@ namespace derinYouTube
 
                 if (model.Any())
                 {
-                    dgwChats.DataSource = model.ToSortableGridList();
+                    dgwChats.DataSource = model.OrderByDescending(x => x.PublishedAt).ToSortableGridList();
                     dgwChats.FormatGrid();
                     labelChatCount.Text = model.Count.ToString();
                 }
