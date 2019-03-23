@@ -158,6 +158,7 @@
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             this.timerException = new System.Windows.Forms.Timer(this.components);
+            this.richTextBoxAnswerDetails = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -239,7 +240,7 @@
             this.dgw.Location = new System.Drawing.Point(0, 0);
             this.dgw.Name = "dgw";
             this.dgw.ReadOnly = true;
-            this.dgw.Size = new System.Drawing.Size(768, 193);
+            this.dgw.Size = new System.Drawing.Size(781, 193);
             this.dgw.TabIndex = 7;
             this.dgw.Visible = false;
             this.dgw.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgw_RowsAdded);
@@ -351,7 +352,7 @@
             // splitContainerDikey.Panel2
             // 
             this.splitContainerDikey.Panel2.Controls.Add(this.tabControlMain);
-            this.splitContainerDikey.Size = new System.Drawing.Size(1027, 638);
+            this.splitContainerDikey.Size = new System.Drawing.Size(1040, 638);
             this.splitContainerDikey.SplitterDistance = 240;
             this.splitContainerDikey.SplitterWidth = 3;
             this.splitContainerDikey.TabIndex = 11;
@@ -781,7 +782,7 @@
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
             this.tabControlMain.Name = "tabControlMain";
             this.tabControlMain.SelectedIndex = 0;
-            this.tabControlMain.Size = new System.Drawing.Size(782, 636);
+            this.tabControlMain.Size = new System.Drawing.Size(795, 636);
             this.tabControlMain.TabIndex = 12;
             // 
             // tabPageLive
@@ -790,7 +791,7 @@
             this.tabPageLive.Location = new System.Drawing.Point(4, 29);
             this.tabPageLive.Name = "tabPageLive";
             this.tabPageLive.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLive.Size = new System.Drawing.Size(774, 603);
+            this.tabPageLive.Size = new System.Drawing.Size(787, 603);
             this.tabPageLive.TabIndex = 0;
             this.tabPageLive.Text = "Canlı Yayınlar";
             this.tabPageLive.UseVisualStyleBackColor = true;
@@ -816,7 +817,7 @@
             // 
             this.splitContainerYatay.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.splitContainerYatay.Panel2.Controls.Add(this.dgw);
-            this.splitContainerYatay.Size = new System.Drawing.Size(768, 597);
+            this.splitContainerYatay.Size = new System.Drawing.Size(781, 597);
             this.splitContainerYatay.SplitterDistance = 400;
             this.splitContainerYatay.TabIndex = 11;
             // 
@@ -826,7 +827,7 @@
             this.labelStreamsSaving.BackColor = System.Drawing.Color.DarkRed;
             this.labelStreamsSaving.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelStreamsSaving.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelStreamsSaving.Location = new System.Drawing.Point(618, 317);
+            this.labelStreamsSaving.Location = new System.Drawing.Point(631, 317);
             this.labelStreamsSaving.Name = "labelStreamsSaving";
             this.labelStreamsSaving.Size = new System.Drawing.Size(146, 29);
             this.labelStreamsSaving.TabIndex = 19;
@@ -843,7 +844,7 @@
             this.labelWorkingMessage.ForeColor = System.Drawing.SystemColors.Window;
             this.labelWorkingMessage.Location = new System.Drawing.Point(3, 365);
             this.labelWorkingMessage.Name = "labelWorkingMessage";
-            this.labelWorkingMessage.Size = new System.Drawing.Size(762, 32);
+            this.labelWorkingMessage.Size = new System.Drawing.Size(775, 32);
             this.labelWorkingMessage.TabIndex = 18;
             this.labelWorkingMessage.Text = "Servisten Yorumlar Okunuyor ve Kaydediliyor!!";
             this.labelWorkingMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -890,7 +891,7 @@
             this.dgwLiveVideos.Name = "dgwLiveVideos";
             this.dgwLiveVideos.ReadOnly = true;
             this.dgwLiveVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwLiveVideos.Size = new System.Drawing.Size(761, 312);
+            this.dgwLiveVideos.Size = new System.Drawing.Size(774, 312);
             this.dgwLiveVideos.TabIndex = 11;
             this.dgwLiveVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwLiveVideos_CellEnter);
             this.dgwLiveVideos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgwLiveVideos_DataBindingComplete);
@@ -903,7 +904,7 @@
             this.tabPageQuestion.Location = new System.Drawing.Point(4, 29);
             this.tabPageQuestion.Name = "tabPageQuestion";
             this.tabPageQuestion.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageQuestion.Size = new System.Drawing.Size(774, 603);
+            this.tabPageQuestion.Size = new System.Drawing.Size(787, 603);
             this.tabPageQuestion.TabIndex = 1;
             this.tabPageQuestion.Text = "Soru Sor";
             this.tabPageQuestion.UseVisualStyleBackColor = true;
@@ -920,6 +921,7 @@
             // splitContainerQA.Panel1
             // 
             this.splitContainerQA.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainerQA.Panel1.Controls.Add(this.richTextBoxAnswerDetails);
             this.splitContainerQA.Panel1.Controls.Add(this.labelQuestionTime);
             this.splitContainerQA.Panel1.Controls.Add(this.textBoxQuestionOrder);
             this.splitContainerQA.Panel1.Controls.Add(this.label30);
@@ -938,17 +940,17 @@
             // splitContainerQA.Panel2
             // 
             this.splitContainerQA.Panel2.Controls.Add(this.dgwAnswers);
-            this.splitContainerQA.Size = new System.Drawing.Size(768, 597);
+            this.splitContainerQA.Size = new System.Drawing.Size(781, 597);
             this.splitContainerQA.SplitterDistance = 220;
             this.splitContainerQA.TabIndex = 16;
             // 
             // labelQuestionTime
             // 
             this.labelQuestionTime.AutoSize = true;
-            this.labelQuestionTime.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestionTime.Location = new System.Drawing.Point(327, 159);
+            this.labelQuestionTime.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestionTime.Location = new System.Drawing.Point(753, 41);
             this.labelQuestionTime.Name = "labelQuestionTime";
-            this.labelQuestionTime.Size = new System.Drawing.Size(15, 14);
+            this.labelQuestionTime.Size = new System.Drawing.Size(18, 18);
             this.labelQuestionTime.TabIndex = 25;
             this.labelQuestionTime.Text = "0";
             // 
@@ -963,7 +965,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(23, 38);
+            this.label30.Location = new System.Drawing.Point(19, 38);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(25, 13);
             this.label30.TabIndex = 23;
@@ -979,7 +981,7 @@
             this.tsButtonQuestionList});
             this.toolStripSoru.Location = new System.Drawing.Point(0, 0);
             this.toolStripSoru.Name = "toolStripSoru";
-            this.toolStripSoru.Size = new System.Drawing.Size(768, 25);
+            this.toolStripSoru.Size = new System.Drawing.Size(781, 25);
             this.toolStripSoru.TabIndex = 22;
             this.toolStripSoru.Text = "toolStrip1";
             // 
@@ -1035,7 +1037,7 @@
             this.label14.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.label14.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(466, 154);
+            this.label14.Location = new System.Drawing.Point(479, 154);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(298, 56);
             this.label14.TabIndex = 19;
@@ -1044,9 +1046,12 @@
             // 
             // textBoxAnswers
             // 
-            this.textBoxAnswers.Location = new System.Drawing.Point(55, 124);
+            this.textBoxAnswers.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.textBoxAnswers.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textBoxAnswers.ForeColor = System.Drawing.Color.Red;
+            this.textBoxAnswers.Location = new System.Drawing.Point(239, 30);
             this.textBoxAnswers.Name = "textBoxAnswers";
-            this.textBoxAnswers.Size = new System.Drawing.Size(88, 21);
+            this.textBoxAnswers.Size = new System.Drawing.Size(192, 27);
             this.textBoxAnswers.TabIndex = 13;
             this.textBoxAnswers.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxAnswer_KeyPress);
             // 
@@ -1063,20 +1068,23 @@
             // 
             // textBoxQuestionStopAt
             // 
-            this.textBoxQuestionStopAt.Location = new System.Drawing.Point(149, 187);
+            this.textBoxQuestionStopAt.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textBoxQuestionStopAt.Location = new System.Drawing.Point(582, 78);
+            this.textBoxQuestionStopAt.Multiline = true;
             this.textBoxQuestionStopAt.Name = "textBoxQuestionStopAt";
             this.textBoxQuestionStopAt.ReadOnly = true;
-            this.textBoxQuestionStopAt.Size = new System.Drawing.Size(162, 21);
+            this.textBoxQuestionStopAt.Size = new System.Drawing.Size(162, 40);
             this.textBoxQuestionStopAt.TabIndex = 9;
             this.textBoxQuestionStopAt.TextChanged += new System.EventHandler(this.textBoxStartAt_TextChanged);
             // 
             // buttonQuestionStop
             // 
-            this.buttonQuestionStop.Location = new System.Drawing.Point(54, 185);
+            this.buttonQuestionStop.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.buttonQuestionStop.Location = new System.Drawing.Point(454, 78);
             this.buttonQuestionStop.Name = "buttonQuestionStop";
-            this.buttonQuestionStop.Size = new System.Drawing.Size(89, 25);
+            this.buttonQuestionStop.Size = new System.Drawing.Size(122, 40);
             this.buttonQuestionStop.TabIndex = 7;
-            this.buttonQuestionStop.Text = "Bitir";
+            this.buttonQuestionStop.Text = "Soruyu Bitir";
             this.buttonQuestionStop.UseVisualStyleBackColor = true;
             this.buttonQuestionStop.Click += new System.EventHandler(this.buttonQuestionStop_Click);
             // 
@@ -1084,7 +1092,7 @@
             // 
             this.labelQuestionId.AutoSize = true;
             this.labelQuestionId.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestionId.Location = new System.Drawing.Point(437, 62);
+            this.labelQuestionId.Location = new System.Drawing.Point(30, 105);
             this.labelQuestionId.Name = "labelQuestionId";
             this.labelQuestionId.Size = new System.Drawing.Size(14, 13);
             this.labelQuestionId.TabIndex = 10;
@@ -1092,11 +1100,12 @@
             // 
             // buttonQuestionStart
             // 
-            this.buttonQuestionStart.Location = new System.Drawing.Point(54, 154);
+            this.buttonQuestionStart.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.buttonQuestionStart.Location = new System.Drawing.Point(454, 27);
             this.buttonQuestionStart.Name = "buttonQuestionStart";
-            this.buttonQuestionStart.Size = new System.Drawing.Size(89, 25);
+            this.buttonQuestionStart.Size = new System.Drawing.Size(122, 41);
             this.buttonQuestionStart.TabIndex = 0;
-            this.buttonQuestionStart.Text = "Başla";
+            this.buttonQuestionStart.Text = "Soruyu Başlat";
             this.buttonQuestionStart.UseVisualStyleBackColor = true;
             this.buttonQuestionStart.Click += new System.EventHandler(this.buttonQuestionStart_Click);
             // 
@@ -1111,17 +1120,19 @@
             // 
             // textBoxQuestionStartAt
             // 
-            this.textBoxQuestionStartAt.Location = new System.Drawing.Point(149, 156);
+            this.textBoxQuestionStartAt.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.textBoxQuestionStartAt.Location = new System.Drawing.Point(582, 27);
+            this.textBoxQuestionStartAt.Multiline = true;
             this.textBoxQuestionStartAt.Name = "textBoxQuestionStartAt";
             this.textBoxQuestionStartAt.ReadOnly = true;
-            this.textBoxQuestionStartAt.Size = new System.Drawing.Size(162, 21);
+            this.textBoxQuestionStartAt.Size = new System.Drawing.Size(162, 41);
             this.textBoxQuestionStartAt.TabIndex = 8;
             this.textBoxQuestionStartAt.TextChanged += new System.EventHandler(this.textBoxStartAt_TextChanged);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(10, 127);
+            this.label13.Location = new System.Drawing.Point(195, 38);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(38, 13);
             this.label13.TabIndex = 12;
@@ -1136,7 +1147,7 @@
             this.dgwAnswers.Location = new System.Drawing.Point(0, 0);
             this.dgwAnswers.Name = "dgwAnswers";
             this.dgwAnswers.ReadOnly = true;
-            this.dgwAnswers.Size = new System.Drawing.Size(768, 373);
+            this.dgwAnswers.Size = new System.Drawing.Size(781, 373);
             this.dgwAnswers.TabIndex = 15;
             this.dgwAnswers.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwAnswers_CellDoubleClick);
             // 
@@ -1147,7 +1158,7 @@
             this.tabPageAnalysis.Location = new System.Drawing.Point(4, 29);
             this.tabPageAnalysis.Name = "tabPageAnalysis";
             this.tabPageAnalysis.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAnalysis.Size = new System.Drawing.Size(774, 603);
+            this.tabPageAnalysis.Size = new System.Drawing.Size(787, 603);
             this.tabPageAnalysis.TabIndex = 2;
             this.tabPageAnalysis.Text = "Soru ve Cevap Analizi";
             // 
@@ -1169,7 +1180,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(768, 597);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(781, 597);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // dgwCompetitionDetail
@@ -1181,7 +1192,7 @@
             this.dgwCompetitionDetail.Location = new System.Drawing.Point(3, 289);
             this.dgwCompetitionDetail.Name = "dgwCompetitionDetail";
             this.dgwCompetitionDetail.ReadOnly = true;
-            this.dgwCompetitionDetail.Size = new System.Drawing.Size(762, 305);
+            this.dgwCompetitionDetail.Size = new System.Drawing.Size(775, 305);
             this.dgwCompetitionDetail.TabIndex = 17;
             this.dgwCompetitionDetail.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompetitionDetail_CellDoubleClick);
             // 
@@ -1195,7 +1206,7 @@
             this.dgwCompetitionHeader.Name = "dgwCompetitionHeader";
             this.dgwCompetitionHeader.ReadOnly = true;
             this.dgwCompetitionHeader.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwCompetitionHeader.Size = new System.Drawing.Size(762, 200);
+            this.dgwCompetitionHeader.Size = new System.Drawing.Size(775, 200);
             this.dgwCompetitionHeader.TabIndex = 16;
             this.dgwCompetitionHeader.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwCompetitionHeader_RowEnter);
             // 
@@ -1209,7 +1220,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(762, 49);
+            this.panel1.Size = new System.Drawing.Size(775, 49);
             this.panel1.TabIndex = 0;
             // 
             // label16
@@ -1260,7 +1271,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 264);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(762, 19);
+            this.panel3.Size = new System.Drawing.Size(775, 19);
             this.panel3.TabIndex = 2;
             // 
             // label17
@@ -1279,7 +1290,7 @@
             this.tabPageWinners.Location = new System.Drawing.Point(4, 29);
             this.tabPageWinners.Name = "tabPageWinners";
             this.tabPageWinners.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageWinners.Size = new System.Drawing.Size(774, 603);
+            this.tabPageWinners.Size = new System.Drawing.Size(787, 603);
             this.tabPageWinners.TabIndex = 5;
             this.tabPageWinners.Text = "Günün Birincisi";
             this.tabPageWinners.UseVisualStyleBackColor = true;
@@ -1300,7 +1311,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(768, 597);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(781, 597);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // dgwWinnerDetail
@@ -1312,7 +1323,7 @@
             this.dgwWinnerDetail.Location = new System.Drawing.Point(3, 289);
             this.dgwWinnerDetail.Name = "dgwWinnerDetail";
             this.dgwWinnerDetail.ReadOnly = true;
-            this.dgwWinnerDetail.Size = new System.Drawing.Size(762, 305);
+            this.dgwWinnerDetail.Size = new System.Drawing.Size(775, 305);
             this.dgwWinnerDetail.TabIndex = 19;
             // 
             // dgwWinnerOfDay
@@ -1325,7 +1336,7 @@
             this.dgwWinnerOfDay.Name = "dgwWinnerOfDay";
             this.dgwWinnerOfDay.ReadOnly = true;
             this.dgwWinnerOfDay.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dgwWinnerOfDay.Size = new System.Drawing.Size(762, 200);
+            this.dgwWinnerOfDay.Size = new System.Drawing.Size(775, 200);
             this.dgwWinnerOfDay.TabIndex = 18;
             this.dgwWinnerOfDay.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwWinnerOfDay_RowEnter);
             // 
@@ -1339,7 +1350,7 @@
             this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel6.Location = new System.Drawing.Point(3, 3);
             this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(762, 49);
+            this.panel6.Size = new System.Drawing.Size(775, 49);
             this.panel6.TabIndex = 0;
             // 
             // label26
@@ -1362,7 +1373,7 @@
             this.buttonShowWinnerOfDay.Text = "Göster";
             this.buttonShowWinnerOfDay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonShowWinnerOfDay.UseVisualStyleBackColor = true;
-            this.buttonShowWinnerOfDay.Click += new System.EventHandler(this.buttonReport_Click);
+            this.buttonShowWinnerOfDay.Click += new System.EventHandler(this.buttonShowWinnerOfDay_Click);
             // 
             // label27
             // 
@@ -1390,7 +1401,7 @@
             this.panel8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel8.Location = new System.Drawing.Point(3, 264);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(762, 19);
+            this.panel8.Size = new System.Drawing.Size(775, 19);
             this.panel8.TabIndex = 2;
             // 
             // label29
@@ -1410,7 +1421,7 @@
             this.tabPageChats.Location = new System.Drawing.Point(4, 29);
             this.tabPageChats.Name = "tabPageChats";
             this.tabPageChats.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageChats.Size = new System.Drawing.Size(774, 603);
+            this.tabPageChats.Size = new System.Drawing.Size(787, 603);
             this.tabPageChats.TabIndex = 3;
             this.tabPageChats.Text = "Tüm Yorumlar";
             // 
@@ -1430,7 +1441,7 @@
             this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanelChats.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanelChats.Size = new System.Drawing.Size(768, 597);
+            this.tableLayoutPanelChats.Size = new System.Drawing.Size(781, 597);
             this.tableLayoutPanelChats.TabIndex = 0;
             // 
             // dgwChats
@@ -1442,7 +1453,7 @@
             this.dgwChats.Location = new System.Drawing.Point(3, 231);
             this.dgwChats.Name = "dgwChats";
             this.dgwChats.ReadOnly = true;
-            this.dgwChats.Size = new System.Drawing.Size(762, 363);
+            this.dgwChats.Size = new System.Drawing.Size(775, 363);
             this.dgwChats.TabIndex = 18;
             // 
             // dgwStreams
@@ -1455,7 +1466,7 @@
             this.dgwStreams.Name = "dgwStreams";
             this.dgwStreams.ReadOnly = true;
             this.dgwStreams.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwStreams.Size = new System.Drawing.Size(762, 152);
+            this.dgwStreams.Size = new System.Drawing.Size(775, 152);
             this.dgwStreams.TabIndex = 17;
             // 
             // panel4
@@ -1467,7 +1478,7 @@
             this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(3, 3);
             this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(762, 29);
+            this.panel4.Size = new System.Drawing.Size(775, 29);
             this.panel4.TabIndex = 3;
             // 
             // dtAllStreams
@@ -1509,14 +1520,14 @@
             this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel5.Location = new System.Drawing.Point(3, 196);
             this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(762, 29);
+            this.panel5.Size = new System.Drawing.Size(775, 29);
             this.panel5.TabIndex = 3;
             // 
             // labelChatCount
             // 
             this.labelChatCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelChatCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelChatCount.Location = new System.Drawing.Point(655, 7);
+            this.labelChatCount.Location = new System.Drawing.Point(668, 7);
             this.labelChatCount.Name = "labelChatCount";
             this.labelChatCount.Size = new System.Drawing.Size(104, 13);
             this.labelChatCount.TabIndex = 39;
@@ -1552,7 +1563,7 @@
             this.tabPageViewerCount.Location = new System.Drawing.Point(4, 29);
             this.tabPageViewerCount.Name = "tabPageViewerCount";
             this.tabPageViewerCount.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageViewerCount.Size = new System.Drawing.Size(774, 603);
+            this.tabPageViewerCount.Size = new System.Drawing.Size(787, 603);
             this.tabPageViewerCount.TabIndex = 4;
             this.tabPageViewerCount.Text = "İzlenme Oranları";
             // 
@@ -1576,7 +1587,7 @@
             this.splitContainerViewerCounts.Panel2.Controls.Add(this.label18);
             this.splitContainerViewerCounts.Panel2.Controls.Add(this.comboBoxChartType);
             this.splitContainerViewerCounts.Panel2.Controls.Add(this.buttonShowChart);
-            this.splitContainerViewerCounts.Size = new System.Drawing.Size(768, 597);
+            this.splitContainerViewerCounts.Size = new System.Drawing.Size(781, 597);
             this.splitContainerViewerCounts.SplitterDistance = 365;
             this.splitContainerViewerCounts.TabIndex = 3;
             // 
@@ -1585,7 +1596,7 @@
             this.chartViewerCount.Dock = System.Windows.Forms.DockStyle.Fill;
             this.chartViewerCount.Location = new System.Drawing.Point(0, 0);
             this.chartViewerCount.Name = "chartViewerCount";
-            this.chartViewerCount.Size = new System.Drawing.Size(768, 365);
+            this.chartViewerCount.Size = new System.Drawing.Size(781, 365);
             this.chartViewerCount.TabIndex = 0;
             this.chartViewerCount.Text = "chart1";
             // 
@@ -1630,7 +1641,7 @@
             this.dgwViewerCountBroadcasts.Name = "dgwViewerCountBroadcasts";
             this.dgwViewerCountBroadcasts.ReadOnly = true;
             this.dgwViewerCountBroadcasts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(762, 155);
+            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(775, 155);
             this.dgwViewerCountBroadcasts.TabIndex = 18;
             this.dgwViewerCountBroadcasts.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwViewerCountBroadcasts_RowEnter);
             // 
@@ -1690,12 +1701,29 @@
             this.timerException.Interval = 5000;
             this.timerException.Tick += new System.EventHandler(this.timerException_Tick);
             // 
+            // richTextBoxAnswerDetails
+            // 
+            this.richTextBoxAnswerDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxAnswerDetails.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.richTextBoxAnswerDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxAnswerDetails.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.richTextBoxAnswerDetails.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.richTextBoxAnswerDetails.Location = new System.Drawing.Point(54, 124);
+            this.richTextBoxAnswerDetails.MaxLength = 1000;
+            this.richTextBoxAnswerDetails.Name = "richTextBoxAnswerDetails";
+            this.richTextBoxAnswerDetails.ReadOnly = true;
+            this.richTextBoxAnswerDetails.Size = new System.Drawing.Size(377, 86);
+            this.richTextBoxAnswerDetails.TabIndex = 26;
+            this.richTextBoxAnswerDetails.Text = "";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.ClientSize = new System.Drawing.Size(1027, 638);
+            this.ClientSize = new System.Drawing.Size(1040, 638);
             this.Controls.Add(this.splitContainerDikey);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
@@ -1898,5 +1926,6 @@
         private System.Windows.Forms.Timer timerQuestion;
         private System.Windows.Forms.Label labelShowError;
         private System.Windows.Forms.Timer timerException;
+        private System.Windows.Forms.RichTextBox richTextBoxAnswerDetails;
     }
 }

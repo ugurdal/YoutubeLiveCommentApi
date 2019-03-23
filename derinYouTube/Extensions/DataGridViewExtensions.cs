@@ -38,12 +38,15 @@ namespace derinYouTube.Extensions
             {
                 for (int i = 0; i < 10; i++)
                 {
-                    dgv.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
-                    dgv.Rows[i].Height = 30;
-                    dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10);
-                    
-                    if (i == 0)
-                        dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+                    if (dgv.RowCount > i)
+                    {
+                        dgv.Rows[i].DefaultCellStyle.BackColor = Color.LightGreen;
+                        dgv.Rows[i].Height = 30;
+                        dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10);
+
+                        if (i == 0)
+                            dgv.Rows[i].DefaultCellStyle.Font = new Font("Tahoma", 10, FontStyle.Bold);
+                    }
                 }
             }
 
@@ -72,7 +75,7 @@ namespace derinYouTube.Extensions
                 //column.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                 //column.HeaderCell.Style.Font = new Font("Tahoma", 9F);
             }
-            
+
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
         }
     }
