@@ -779,21 +779,24 @@ namespace derinYouTube
             await Task.Delay(100);
             var dayDetail = new List<WinnerOfDayModel>();
 
-            using (var db = new YoutubeCommentDbEntities())
+            await Task.Run(() =>
             {
-                dayDetail = db.winnerOfDay_vw
-                    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value)).Select(x =>
-                        new WinnerOfDayModel
-                        {
-                            Sequence = x.Sequence.Value,
-                            DisplayName = x.AuthorDisplayName,
-                            AuthorChannelId = x.AuthorChannelId,
-                            AuthorChannelUrl = x.AuthorChannelUrl,
-                            Day = x.Day.Value,
-                            TotalCompetitions = x.TotalCompetition.Value,
-                            TotalScore = x.TotalScore.Value
-                        }).ToList();
-            }
+                using (var db = new YoutubeCommentDbEntities())
+                {
+                    dayDetail = db.winnerOfDay_vw
+                        .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value)).Select(x =>
+                            new WinnerOfDayModel
+                            {
+                                Sequence = x.Sequence.Value,
+                                DisplayName = x.AuthorDisplayName,
+                                AuthorChannelId = x.AuthorChannelId,
+                                AuthorChannelUrl = x.AuthorChannelUrl,
+                                Day = x.Day.Value,
+                                TotalCompetitions = x.TotalCompetition.Value,
+                                TotalScore = x.TotalScore.Value
+                            }).ToList();
+                }
+            });
 
             if (dayDetail.Any())
             {
