@@ -91,6 +91,7 @@
             this.dgwLiveVideos = new System.Windows.Forms.DataGridView();
             this.tabPageQuestion = new System.Windows.Forms.TabPage();
             this.splitContainerQA = new System.Windows.Forms.SplitContainer();
+            this.richTextBoxAnswerDetails = new System.Windows.Forms.RichTextBox();
             this.labelQuestionTime = new System.Windows.Forms.Label();
             this.textBoxQuestionOrder = new System.Windows.Forms.TextBox();
             this.label30 = new System.Windows.Forms.Label();
@@ -158,7 +159,8 @@
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             this.timerException = new System.Windows.Forms.Timer(this.components);
-            this.richTextBoxAnswerDetails = new System.Windows.Forms.RichTextBox();
+            this.labelQuestion = new System.Windows.Forms.Label();
+            this.labelQuestionCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -342,6 +344,8 @@
             // 
             // splitContainerDikey.Panel1
             // 
+            this.splitContainerDikey.Panel1.Controls.Add(this.labelQuestionCount);
+            this.splitContainerDikey.Panel1.Controls.Add(this.labelQuestion);
             this.splitContainerDikey.Panel1.Controls.Add(this.buttonStop);
             this.splitContainerDikey.Panel1.Controls.Add(this.pbWorking);
             this.splitContainerDikey.Panel1.Controls.Add(this.buttonGetChats);
@@ -374,7 +378,7 @@
             // pbWorking
             // 
             this.pbWorking.Image = global::derinYouTube.Properties.Resources.ajax_loader;
-            this.pbWorking.Location = new System.Drawing.Point(210, 521);
+            this.pbWorking.Location = new System.Drawing.Point(210, 551);
             this.pbWorking.Name = "pbWorking";
             this.pbWorking.Size = new System.Drawing.Size(16, 16);
             this.pbWorking.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -943,6 +947,23 @@
             this.splitContainerQA.Size = new System.Drawing.Size(781, 597);
             this.splitContainerQA.SplitterDistance = 220;
             this.splitContainerQA.TabIndex = 16;
+            // 
+            // richTextBoxAnswerDetails
+            // 
+            this.richTextBoxAnswerDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.richTextBoxAnswerDetails.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.richTextBoxAnswerDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richTextBoxAnswerDetails.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.richTextBoxAnswerDetails.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.richTextBoxAnswerDetails.Location = new System.Drawing.Point(54, 124);
+            this.richTextBoxAnswerDetails.MaxLength = 1000;
+            this.richTextBoxAnswerDetails.Name = "richTextBoxAnswerDetails";
+            this.richTextBoxAnswerDetails.ReadOnly = true;
+            this.richTextBoxAnswerDetails.Size = new System.Drawing.Size(377, 86);
+            this.richTextBoxAnswerDetails.TabIndex = 26;
+            this.richTextBoxAnswerDetails.Text = "";
             // 
             // labelQuestionTime
             // 
@@ -1701,22 +1722,27 @@
             this.timerException.Interval = 5000;
             this.timerException.Tick += new System.EventHandler(this.timerException_Tick);
             // 
-            // richTextBoxAnswerDetails
+            // labelQuestion
             // 
-            this.richTextBoxAnswerDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.richTextBoxAnswerDetails.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.richTextBoxAnswerDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBoxAnswerDetails.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.richTextBoxAnswerDetails.ForeColor = System.Drawing.SystemColors.WindowText;
-            this.richTextBoxAnswerDetails.Location = new System.Drawing.Point(54, 124);
-            this.richTextBoxAnswerDetails.MaxLength = 1000;
-            this.richTextBoxAnswerDetails.Name = "richTextBoxAnswerDetails";
-            this.richTextBoxAnswerDetails.ReadOnly = true;
-            this.richTextBoxAnswerDetails.Size = new System.Drawing.Size(377, 86);
-            this.richTextBoxAnswerDetails.TabIndex = 26;
-            this.richTextBoxAnswerDetails.Text = "";
+            this.labelQuestion.AutoSize = true;
+            this.labelQuestion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestion.Location = new System.Drawing.Point(3, 525);
+            this.labelQuestion.Name = "labelQuestion";
+            this.labelQuestion.Size = new System.Drawing.Size(120, 13);
+            this.labelQuestion.TabIndex = 30;
+            this.labelQuestion.Text = "Verilen Cevap Sayısı";
+            this.labelQuestion.Visible = false;
+            // 
+            // labelQuestionCount
+            // 
+            this.labelQuestionCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestionCount.Location = new System.Drawing.Point(146, 525);
+            this.labelQuestionCount.Name = "labelQuestionCount";
+            this.labelQuestionCount.Size = new System.Drawing.Size(80, 13);
+            this.labelQuestionCount.TabIndex = 31;
+            this.labelQuestionCount.Text = "0";
+            this.labelQuestionCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelQuestionCount.Visible = false;
             // 
             // FrmMain
             // 
@@ -1927,5 +1953,7 @@
         private System.Windows.Forms.Label labelShowError;
         private System.Windows.Forms.Timer timerException;
         private System.Windows.Forms.RichTextBox richTextBoxAnswerDetails;
+        private System.Windows.Forms.Label labelQuestionCount;
+        private System.Windows.Forms.Label labelQuestion;
     }
 }

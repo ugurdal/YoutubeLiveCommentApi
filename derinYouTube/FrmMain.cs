@@ -305,6 +305,16 @@ namespace derinYouTube
                           ChatCount = connection
                               .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}'")
                               .First();
+
+                          if (!string.IsNullOrEmpty(textBoxQuestionStartAt.Text) && string.IsNullOrEmpty(textBoxQuestionStopAt.Text))
+                          {
+                              var startAt = DateTime.Parse(textBoxQuestionStartAt.Text);
+                              var count = connection
+                              .Query<int>($"SELECT COUNT(*) FROM dbo.liveChatMessages WHERE VideoId='{textBoxVideoId.Text}' " +
+                              $" AND PublishedAt>='{startAt}'")
+                              .First();
+                              labelQuestionCount.Text = count.ToString();
+                          }
                       }
                   }
                   catch (Exception ex)
@@ -566,6 +576,8 @@ namespace derinYouTube
             buttonQuestionStop.Enabled = true;
             buttonQuestionStart.Enabled = false;
             tsButtonNewQuestions.Enabled = false;
+            labelQuestion.Visible = true;
+            labelQuestionCount.Visible = true;
             await SaveCompetition();
         }
 
@@ -575,6 +587,9 @@ namespace derinYouTube
             textBoxQuestionStopAt.Text = DateTime.Now.ToString();
             buttonQuestionStop.Enabled = false;
             tsButtonNewQuestions.Enabled = true;
+            labelQuestion.Visible = false;
+            labelQuestionCount.Visible = false;
+            labelQuestionCount.Text = "0";
             await SaveCompetition();
         }
 
