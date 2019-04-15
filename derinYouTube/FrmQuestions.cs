@@ -55,7 +55,7 @@ namespace derinYouTube
 
             try
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     db.questions.Add(new questions
                     {
@@ -85,7 +85,7 @@ namespace derinYouTube
         private void ShowQuestions()
         {
             dgwQ.DataSource = null;
-            using (var db = new YoutubeCommentDbEntities())
+            using (var db = new DbEntities())
             {
                 var model = db.questions.Select(x => new QuestionViewModel
                 {
@@ -144,7 +144,7 @@ namespace derinYouTube
                 {
                     try
                     {
-                        using (var db = new YoutubeCommentDbEntities())
+                        using (var db = new DbEntities())
                         {
                             foreach (DataGridViewRow row in dgwQ.SelectedRows)
                             {

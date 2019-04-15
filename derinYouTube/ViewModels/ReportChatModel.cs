@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace derinYouTube.Model
+namespace derinYouTube.ViewModels
 {
     public class ReportChatModel
     {

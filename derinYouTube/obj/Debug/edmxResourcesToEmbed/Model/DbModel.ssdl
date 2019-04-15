@@ -9,7 +9,6 @@
     <Property Name="Fk_LiveChatMessage" Type="int" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
     <Property Name="IsValid" Type="bit" Nullable="false" />
-    <Property Name="IsSubscripted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="competitions">
     <Key>

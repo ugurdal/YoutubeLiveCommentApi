@@ -124,61 +124,30 @@
       <DependentUpon>FrmShowResult.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="Model\chatCountByTime_vw.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
+    <Compile Include="Migrations\201904151347442_InitialCreate.cs" />
+    <Compile Include="Migrations\201904151347442_InitialCreate.Designer.cs">
+      <DependentUpon>201904151347442_InitialCreate.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\competitionAnswers.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\competitions.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\competitions_vw.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DbModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DbModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\DbModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Model\liveBroadcasts.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\liveBroadcastsViewCount.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\liveChatMessages.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\questions.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\ReportChatModel.cs" />
-    <Compile Include="Model\validAnswers_vw.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\viewerCountByTime_vw.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\winnerOfDay_vw.cs">
-      <DependentUpon>DbModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\View\chatCountByTime_vw.cs" />
+    <Compile Include="Model\Table\competitionAnswers.cs" />
+    <Compile Include="Model\Table\competitions.cs" />
+    <Compile Include="Model\View\competitions_vw.cs" />
+    <Compile Include="Model\DbEntities.cs" />
+    <Compile Include="Model\Table\liveBroadcasts.cs" />
+    <Compile Include="Model\Table\liveBroadcastsViewCount.cs" />
+    <Compile Include="Model\Table\liveChatMessages.cs" />
+    <Compile Include="Model\Table\questions.cs" />
+    <Compile Include="Model\View\validAnswers_vw.cs" />
+    <Compile Include="Model\View\viewerCountByTime_vw.cs" />
+    <Compile Include="Model\Table\winnerOfDay_vw.cs" />
+    <Compile Include="ViewModels\ReportChatModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\ChatsViewModel.cs" />
     <Compile Include="ViewModels\CommentModel.cs" />
-    <Compile Include="Model\LiveChatModel.cs" />
+    <Compile Include="ViewModels\LiveChatModel.cs" />
     <Compile Include="ViewModels\CompetitionModel.cs" />
     <Compile Include="ViewModels\CompetitionResultModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
@@ -194,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmShowResult.resx">
       <DependentUpon>FrmShowResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904151347442_InitialCreate.resx">
+      <DependentUpon>201904151347442_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -223,13 +195,6 @@
     <None Include="migros_client_secret.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EntityDeploy Include="Model\DbModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="Model\DbModel.edmx.diagram">
-      <DependentUpon>DbModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -253,16 +218,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Denemeler.txt" />
-    <Content Include="Model\DbModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DbModel.Context.cs</LastGenOutput>
-      <DependentUpon>DbModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model\DbModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbModel.edmx</DependentUpon>
-      <LastGenOutput>DbModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Notlar.txt" />
     <None Include="Resources\StopHS.png" />
     <None Include="Resources\FormRunHS.png" />

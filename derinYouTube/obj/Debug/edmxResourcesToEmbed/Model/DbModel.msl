@@ -149,7 +149,6 @@
     <EntitySetMapping Name="competitionAnswers">
       <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
         <MappingFragment StoreEntitySet="competitionAnswers">
-          <ScalarProperty Name="IsSubscripted" ColumnName="IsSubscripted" />
           <ScalarProperty Name="IsValid" ColumnName="IsValid" />
           <ScalarProperty Name="Score" ColumnName="Score" />
           <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />

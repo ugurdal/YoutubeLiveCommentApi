@@ -434,7 +434,7 @@ namespace derinYouTube
             {
                 try
                 {
-                    using (var db = new YoutubeCommentDbEntities())
+                    using (var db = new DbEntities())
                     {
                         foreach (DataGridViewRow row in dgwLiveVideos.Rows)
                         {
@@ -635,7 +635,7 @@ namespace derinYouTube
                             StartTime = DateTime.Now,
                         };
 
-                        using (var db = new YoutubeCommentDbEntities())
+                        using (var db = new DbEntities())
                         {
                             db.competitions.Add(comp);
                             db.SaveChanges();
@@ -645,7 +645,7 @@ namespace derinYouTube
                     }
                     else
                     {
-                        using (var db = new YoutubeCommentDbEntities())
+                        using (var db = new DbEntities())
                         {
                             var id = Convert.ToInt32(labelQuestionId.Text);
                             compId = id;
@@ -656,7 +656,7 @@ namespace derinYouTube
                                 comp.EndTime = DateTime.Now;
                                 db.SaveChanges();
 
-                                db.findAnswers(id);
+                                db.Database.ExecuteSqlCommand("EXEC findAnswers @p0", id);
                             }
                         }
                     }
@@ -693,7 +693,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     result = db.validAnswers_vw.Where(x => x.CompetitionId == competitionId).Select(x =>
                         new CompetitionResultModel
@@ -722,7 +722,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     var compDetail = db.competitions_vw.FirstOrDefault(x => x.Id == competitionId);
                     if (compDetail != null)
@@ -777,7 +777,7 @@ namespace derinYouTube
             await Task.Delay(100);
 
             var result = new List<CompetitionModel>();
-            using (var db = new YoutubeCommentDbEntities())
+            using (var db = new DbEntities())
             {
                 result = db.competitions_vw
                     .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
@@ -817,7 +817,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     dayDetail = db.winnerOfDay_vw
                         .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value))
@@ -895,7 +895,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     result = db.validAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
                         new CompetitionResultModel
@@ -931,7 +931,7 @@ namespace derinYouTube
             await Task.Delay(100);
             var result = new List<WinnerDetailsModel>();
 
-            using (var db = new YoutubeCommentDbEntities())
+            using (var db = new DbEntities())
             {
                 if (dgwWinnerOfDay.CurrentRow.DataBoundItem is WinnerOfDayModel data)
                 {
@@ -970,7 +970,7 @@ namespace derinYouTube
             await Task.Delay(100);
             var model = new List<VideoModel>();
 
-            using (var db = new YoutubeCommentDbEntities())
+            using (var db = new DbEntities())
             {
                 model = db.liveBroadcasts
                     .Where(x => DbFunctions.TruncateTime(dtAllStreams.Value) ==
@@ -1013,7 +1013,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     model = db.liveChatMessages.Where(x => x.VideoId == stream.Id).Select(x => new ChatsViewModel
                     {
@@ -1043,7 +1043,7 @@ namespace derinYouTube
                 var competition = dgwCompetitionHeader.CurrentRow.DataBoundItem as CompetitionModel;
                 var result = dgwCompetitionDetail.Rows[e.RowIndex].DataBoundItem as CompetitionResultModel;
 
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     var model = db.liveChatMessages.Where(x => x.VideoId == competition.VideoId)
                         .Where(x => x.AuthorChannelId == result.AuthorChannelId)
@@ -1074,7 +1074,7 @@ namespace derinYouTube
                 if (!string.IsNullOrEmpty(textBoxVideoId.Text))
                 {
                     var result = _youtubeApi.GetCurrentStreamViewCount(textBoxVideoId.Text);
-                    using (var db = new YoutubeCommentDbEntities())
+                    using (var db = new DbEntities())
                     {
                         var item = new liveBroadcastsViewCount
                         {
@@ -1126,7 +1126,7 @@ namespace derinYouTube
                 var result = dgwAnswers.Rows[e.RowIndex].DataBoundItem as CompetitionResultModel;
                 var competitionId = Convert.ToInt32(labelQuestionId.Text);
 
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     var competition = db.competitions.FirstOrDefault(x => x.Id == competitionId);
                     if (competition == null)
@@ -1192,7 +1192,7 @@ namespace derinYouTube
             var chats = new List<ChartViewModel>();
             var viewers = new List<ChartViewModel>();
 
-            using (var db = new YoutubeCommentDbEntities())
+            using (var db = new DbEntities())
             {
                 chats = db.chatCountByTime_vw.Where(x => x.VideoId == data.Id).Select(x => new ChartViewModel
                 {
@@ -1295,7 +1295,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                using (var db = new YoutubeCommentDbEntities())
+                using (var db = new DbEntities())
                 {
                     model = db.liveBroadcasts
                         .Where(x => DbFunctions.TruncateTime(dtViewerCount.Value) ==

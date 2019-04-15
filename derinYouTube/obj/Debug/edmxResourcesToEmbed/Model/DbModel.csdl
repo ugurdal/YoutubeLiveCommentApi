@@ -188,7 +188,6 @@
     <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
     <Property Name="Score" Type="Int32" Nullable="false" />
     <Property Name="IsValid" Type="Boolean" Nullable="false" />
-    <Property Name="IsSubscripted" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
     <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
   </EntityType>
