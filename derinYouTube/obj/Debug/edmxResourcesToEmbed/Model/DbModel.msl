@@ -1,17 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="YoutubeCommentDbModelStoreContainer" CdmEntityContainer="YoutubeCommentDbEntities">
-    <EntitySetMapping Name="competitionAnswers">
-      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
-        <MappingFragment StoreEntitySet="competitionAnswers">
-          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-          <ScalarProperty Name="Score" ColumnName="Score" />
-          <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />
-          <ScalarProperty Name="Fk_Competition" ColumnName="Fk_Competition" />
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="competitions">
       <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions">
         <MappingFragment StoreEntitySet="competitions">
@@ -29,6 +18,8 @@
     <EntitySetMapping Name="liveChatMessages">
       <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveChatMessages">
         <MappingFragment StoreEntitySet="liveChatMessages">
+          <ScalarProperty Name="NumericMessage" ColumnName="NumericMessage" />
+          <ScalarProperty Name="IsMessageNumeric" ColumnName="IsMessageNumeric" />
           <ScalarProperty Name="IsChatModerator" ColumnName="IsChatModerator" />
           <ScalarProperty Name="IsChatSponsor" ColumnName="IsChatSponsor" />
           <ScalarProperty Name="IsChatOwner" ColumnName="IsChatOwner" />
@@ -152,6 +143,18 @@
           <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
           <ScalarProperty Name="Time" ColumnName="Time" />
           <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="competitionAnswers">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
+        <MappingFragment StoreEntitySet="competitionAnswers">
+          <ScalarProperty Name="IsSubscripted" ColumnName="IsSubscripted" />
+          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />
+          <ScalarProperty Name="Fk_Competition" ColumnName="Fk_Competition" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

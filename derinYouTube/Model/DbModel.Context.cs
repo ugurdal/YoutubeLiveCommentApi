@@ -27,7 +27,6 @@ namespace derinYouTube.Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<competitionAnswers> competitionAnswers { get; set; }
         public virtual DbSet<competitions> competitions { get; set; }
         public virtual DbSet<liveChatMessages> liveChatMessages { get; set; }
         public virtual DbSet<competitions_vw> competitions_vw { get; set; }
@@ -38,6 +37,7 @@ namespace derinYouTube.Model
         public virtual DbSet<liveBroadcasts> liveBroadcasts { get; set; }
         public virtual DbSet<chatCountByTime_vw> chatCountByTime_vw { get; set; }
         public virtual DbSet<viewerCountByTime_vw> viewerCountByTime_vw { get; set; }
+        public virtual DbSet<competitionAnswers> competitionAnswers { get; set; }
     
         public virtual int findAnswers(Nullable<int> competitionId)
         {

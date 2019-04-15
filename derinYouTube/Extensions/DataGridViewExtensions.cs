@@ -77,6 +77,9 @@ namespace derinYouTube.Extensions
             }
 
             dgv.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.DisplayedCells);
+
+            if (dgv.Columns["IsSubscripted"] != null)
+                dgv.Columns["IsSubscripted"].Width = 200;
         }
     }
 }

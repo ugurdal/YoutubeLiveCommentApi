@@ -14,6 +14,7 @@
           <Property Name="Fk_LiveChatMessage" Type="int" Nullable="false" />
           <Property Name="Score" Type="int" Nullable="false" />
           <Property Name="IsValid" Type="bit" Nullable="false" />
+          <Property Name="IsSubscripted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="competitions">
           <Key>
@@ -72,6 +73,8 @@
           <Property Name="IsChatOwner" Type="bit" />
           <Property Name="IsChatSponsor" Type="bit" />
           <Property Name="IsChatModerator" Type="bit" />
+          <Property Name="IsMessageNumeric" Type="bit" Nullable="false" />
+          <Property Name="NumericMessage" Type="varchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <EntityType Name="questions">
           <Key>
@@ -144,8 +147,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not hav
           <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
           <Property Name="Question" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="Answer" Type="varchar" MaxLength="1000" Nullable="false" />
-          <Property Name="MessageText" Type="varchar(max)" Nullable="false" />
-          <Property Name="Gap" Type="decimal" Precision="21" Scale="0" />
+          <Property Name="MessageText" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="Gap" Type="decimal" Precision="37" Scale="0" />
           <Property Name="Sequence" Type="bigint" />
           <Property Name="UserAnswerCount" Type="int" Nullable="false" />
         </EntityType>
@@ -283,17 +286,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
     <edmx:ConceptualModels>
       <Schema Namespace="YoutubeCommentDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="YoutubeCommentDbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="competitionAnswers" EntityType="YoutubeCommentDbModel.competitionAnswers" />
           <EntitySet Name="competitions" EntityType="YoutubeCommentDbModel.competitions" />
           <EntitySet Name="liveChatMessages" EntityType="YoutubeCommentDbModel.liveChatMessages" />
-          <AssociationSet Name="FK_competitionAnswers_competitions" Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions">
-            <End Role="competitions" EntitySet="competitions" />
-            <End Role="competitionAnswers" EntitySet="competitionAnswers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_competitionAnswers_liveChatMessages" Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages">
-            <End Role="liveChatMessages" EntitySet="liveChatMessages" />
-            <End Role="competitionAnswers" EntitySet="competitionAnswers" />
-          </AssociationSet>
           <FunctionImport Name="findAnswers">
           <Parameter Name="competitionId" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -305,19 +299,16 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <EntitySet Name="liveBroadcasts" EntityType="YoutubeCommentDbModel.liveBroadcasts" />
           <EntitySet Name="chatCountByTime_vw" EntityType="YoutubeCommentDbModel.chatCountByTime_vw" />
           <EntitySet Name="viewerCountByTime_vw" EntityType="YoutubeCommentDbModel.viewerCountByTime_vw" />
+          <EntitySet Name="competitionAnswers" EntityType="YoutubeCommentDbModel.competitionAnswers" />
+          <AssociationSet Name="FK_competitionAnswers_competitions" Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions">
+            <End Role="competitions" EntitySet="competitions" />
+            <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_competitionAnswers_liveChatMessages" Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages">
+            <End Role="liveChatMessages" EntitySet="liveChatMessages" />
+            <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="competitionAnswers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Fk_Competition" Type="Int32" Nullable="false" />
-          <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-          <Property Name="IsValid" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
-          <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
-        </EntityType>
         <EntityType Name="competitions">
           <Key>
             <PropertyRef Name="Id" />
@@ -350,32 +341,10 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <Property Name="IsChatOwner" Type="Boolean" />
           <Property Name="IsChatSponsor" Type="Boolean" />
           <Property Name="IsChatModerator" Type="Boolean" />
+          <Property Name="IsMessageNumeric" Type="Boolean" Nullable="false" />
+          <Property Name="NumericMessage" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="competitionAnswers" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="liveChatMessages" ToRole="competitionAnswers" />
         </EntityType>
-        <Association Name="FK_competitionAnswers_competitions">
-          <End Type="YoutubeCommentDbModel.competitions" Role="competitions" Multiplicity="1" />
-          <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="competitions">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="competitionAnswers">
-              <PropertyRef Name="Fk_Competition" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_competitionAnswers_liveChatMessages">
-          <End Type="YoutubeCommentDbModel.liveChatMessages" Role="liveChatMessages" Multiplicity="1" />
-          <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="liveChatMessages">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="competitionAnswers">
-              <PropertyRef Name="Fk_LiveChatMessage" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="competitions_vw">
           <Key>
             <PropertyRef Name="Id" />
@@ -437,8 +406,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
           <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="MessageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Gap" Type="Decimal" Precision="21" Scale="0" />
+          <Property Name="MessageText" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Gap" Type="Decimal" Precision="37" Scale="0" />
           <Property Name="Sequence" Type="Int64" />
           <Property Name="UserAnswerCount" Type="Int32" Nullable="false" />
         </EntityType>
@@ -495,23 +464,49 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <Property Name="Time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="ViewerCount" Type="Int64" Nullable="false" />
         </EntityType>
+        <EntityType Name="competitionAnswers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fk_Competition" Type="Int32" Nullable="false" />
+          <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="IsValid" Type="Boolean" Nullable="false" />
+          <Property Name="IsSubscripted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
+          <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
+        </EntityType>
+        <Association Name="FK_competitionAnswers_competitions">
+          <End Type="YoutubeCommentDbModel.competitions" Role="competitions" Multiplicity="1" />
+          <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="competitions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="competitionAnswers">
+              <PropertyRef Name="Fk_Competition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_competitionAnswers_liveChatMessages">
+          <End Type="YoutubeCommentDbModel.liveChatMessages" Role="liveChatMessages" Multiplicity="1" />
+          <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="liveChatMessages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="competitionAnswers">
+              <PropertyRef Name="Fk_LiveChatMessage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="YoutubeCommentDbModelStoreContainer" CdmEntityContainer="YoutubeCommentDbEntities">
-          <EntitySetMapping Name="competitionAnswers">
-            <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
-              <MappingFragment StoreEntitySet="competitionAnswers">
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />
-                <ScalarProperty Name="Fk_Competition" ColumnName="Fk_Competition" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="competitions">
             <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions">
               <MappingFragment StoreEntitySet="competitions">
@@ -529,6 +524,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <EntitySetMapping Name="liveChatMessages">
             <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveChatMessages">
               <MappingFragment StoreEntitySet="liveChatMessages">
+                <ScalarProperty Name="NumericMessage" ColumnName="NumericMessage" />
+                <ScalarProperty Name="IsMessageNumeric" ColumnName="IsMessageNumeric" />
                 <ScalarProperty Name="IsChatModerator" ColumnName="IsChatModerator" />
                 <ScalarProperty Name="IsChatSponsor" ColumnName="IsChatSponsor" />
                 <ScalarProperty Name="IsChatOwner" ColumnName="IsChatOwner" />
@@ -652,6 +649,18 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
                 <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="competitionAnswers">
+            <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
+              <MappingFragment StoreEntitySet="competitionAnswers">
+                <ScalarProperty Name="IsSubscripted" ColumnName="IsSubscripted" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+                <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />
+                <ScalarProperty Name="Fk_Competition" ColumnName="Fk_Competition" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

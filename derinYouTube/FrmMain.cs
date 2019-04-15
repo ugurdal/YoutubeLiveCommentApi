@@ -57,6 +57,24 @@ namespace derinYouTube
             //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
             //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
             _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+
+            dgwWinnerOfDay.CellDoubleClick += DataGridViewCellDoubleClick;
+            dgwAnswers.CellDoubleClick += DataGridViewCellDoubleClick;
+            dgwCompetitionDetail.CellDoubleClick += DataGridViewCellDoubleClick;
+            dgwChats.CellDoubleClick += DataGridViewCellDoubleClick;
+        }
+
+        private void DataGridViewCellDoubleClick(object sender, EventArgs args)
+        {
+            try
+            {
+                var gridView = sender as DataGridView;
+                if (gridView.CurrentCell != null && gridView.CurrentCell.Value.ToString().ToLower().Contains("www.youtube.com"))
+                    Process.Start(gridView.CurrentCell.Value.ToString());
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private async void FrmMain_Load(object sender, EventArgs e)
@@ -591,6 +609,8 @@ namespace derinYouTube
             labelQuestionCount.Visible = false;
             labelQuestionCount.Text = "0";
             await SaveCompetition();
+
+            //TODO: Yeni yorum ekleyip sorunun bittiğini belirtebiliriz.
         }
 
         private async Task SaveCompetition()
@@ -774,6 +794,7 @@ namespace derinYouTube
                             UserCount = x.TotalUser ?? 0,
                             ValidAnswers = x.ValidAnswers
                         }).ToList();
+                ;
             }
 
             if (result.Any())
@@ -799,7 +820,9 @@ namespace derinYouTube
                 using (var db = new YoutubeCommentDbEntities())
                 {
                     dayDetail = db.winnerOfDay_vw
-                        .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value)).Select(x =>
+                        .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value))
+                        //.Where(x => x.TotalScore.Value > 0)
+                        .Select(x =>
                             new WinnerOfDayModel
                             {
                                 Sequence = x.Sequence.Value,
@@ -808,8 +831,9 @@ namespace derinYouTube
                                 AuthorChannelUrl = x.AuthorChannelUrl,
                                 Day = x.Day.Value,
                                 TotalCompetitions = x.TotalCompetition.Value,
-                                TotalScore = x.TotalScore.Value
-                            }).ToList();
+                                TotalScore = x.TotalScore.Value,
+                                IsSubscripted = ""
+                            }).OrderByDescending(x => x.TotalScore).ToList();
                 }
             });
 
@@ -820,6 +844,45 @@ namespace derinYouTube
             }
 
             this.Cursor = Cursors.Default;
+            dgwWinnerOfDay.Columns.Cast<DataGridViewColumn>().ToList()
+                .ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+            labelCheckSubscription.Visible = true;
+
+            await CheckUsersForSubscription();
+
+            labelCheckSubscription.Visible = false;
+            dgwWinnerOfDay.Columns.Cast<DataGridViewColumn>().ToList()
+                .ForEach(f => f.SortMode = DataGridViewColumnSortMode.Automatic);
+        }
+
+        private async Task CheckUsersForSubscription()
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var ix = 0;
+                    foreach (DataGridViewRow row in dgwWinnerOfDay.Rows)
+                    {
+                        if (ix >= 20)
+                            break;
+
+                        var data = row.DataBoundItem as WinnerOfDayModel;
+                        var queryResult =
+                            _youtubeApi.IsUserSucscripted(data.AuthorChannelId, "UCqcOFUC9aroUcaz6k_gtmIg").Result;
+
+                        data.IsSubscripted = queryResult.ToDescription();
+                        dgwWinnerOfDay.Rows[row.Index].Cells["IsSubscripted"].Value = queryResult.ToDescription();
+                        ix++;
+
+                        dgwWinnerOfDay.Refresh();
+                        await Task.Delay(25);
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
@@ -1237,19 +1300,19 @@ namespace derinYouTube
                     model = db.liveBroadcasts
                         .Where(x => DbFunctions.TruncateTime(dtViewerCount.Value) ==
                                     DbFunctions.TruncateTime(x.PublishedDate)).Select(x => new VideoModel
-                        {
-                            Id = x.BroadcastId,
-                            Title = x.Title,
-                            ChannelId = x.ChannelId,
-                            ChannelTitle = x.ChannelTitle,
-                            LiveChatId = x.LiveChatId,
-                            ActualEndTime = x.ActualEndTime,
-                            ActualStartTime = x.ActualStartTime,
-                            Description = x.Description,
-                            LiveStatus = x.LiveStatus,
-                            PublishedDate = x.PublishedDate,
-                            ScheduledStartTime = x.ScheduledStartTime
-                        }).ToList();
+                                    {
+                                        Id = x.BroadcastId,
+                                        Title = x.Title,
+                                        ChannelId = x.ChannelId,
+                                        ChannelTitle = x.ChannelTitle,
+                                        LiveChatId = x.LiveChatId,
+                                        ActualEndTime = x.ActualEndTime,
+                                        ActualStartTime = x.ActualStartTime,
+                                        Description = x.Description,
+                                        LiveStatus = x.LiveStatus,
+                                        PublishedDate = x.PublishedDate,
+                                        ScheduledStartTime = x.ScheduledStartTime
+                                    }).ToList();
                 }
             });
 
@@ -1292,5 +1355,9 @@ namespace derinYouTube
             timerException.Stop();
         }
 
+        private void buttonTest_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

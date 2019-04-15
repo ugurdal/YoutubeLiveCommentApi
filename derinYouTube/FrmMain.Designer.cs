@@ -44,6 +44,8 @@
             this.IsChatModerator = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.labelCount = new System.Windows.Forms.Label();
             this.splitContainerDikey = new System.Windows.Forms.SplitContainer();
+            this.labelQuestionCount = new System.Windows.Forms.Label();
+            this.labelQuestion = new System.Windows.Forms.Label();
             this.buttonStop = new System.Windows.Forms.Button();
             this.pbWorking = new System.Windows.Forms.PictureBox();
             this.buttonGetChats = new System.Windows.Forms.Button();
@@ -159,8 +161,7 @@
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             this.timerException = new System.Windows.Forms.Timer(this.components);
-            this.labelQuestion = new System.Windows.Forms.Label();
-            this.labelQuestionCount = new System.Windows.Forms.Label();
+            this.labelCheckSubscription = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -360,6 +361,28 @@
             this.splitContainerDikey.SplitterDistance = 240;
             this.splitContainerDikey.SplitterWidth = 3;
             this.splitContainerDikey.TabIndex = 11;
+            // 
+            // labelQuestionCount
+            // 
+            this.labelQuestionCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestionCount.Location = new System.Drawing.Point(146, 525);
+            this.labelQuestionCount.Name = "labelQuestionCount";
+            this.labelQuestionCount.Size = new System.Drawing.Size(80, 13);
+            this.labelQuestionCount.TabIndex = 31;
+            this.labelQuestionCount.Text = "0";
+            this.labelQuestionCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelQuestionCount.Visible = false;
+            // 
+            // labelQuestion
+            // 
+            this.labelQuestion.AutoSize = true;
+            this.labelQuestion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelQuestion.Location = new System.Drawing.Point(3, 525);
+            this.labelQuestion.Name = "labelQuestion";
+            this.labelQuestion.Size = new System.Drawing.Size(120, 13);
+            this.labelQuestion.TabIndex = 30;
+            this.labelQuestion.Text = "Verilen Cevap Sayısı";
+            this.labelQuestion.Visible = false;
             // 
             // buttonStop
             // 
@@ -1364,6 +1387,7 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel6.Controls.Add(this.labelCheckSubscription);
             this.panel6.Controls.Add(this.label26);
             this.panel6.Controls.Add(this.buttonShowWinnerOfDay);
             this.panel6.Controls.Add(this.label27);
@@ -1474,6 +1498,7 @@
             this.dgwChats.Location = new System.Drawing.Point(3, 231);
             this.dgwChats.Name = "dgwChats";
             this.dgwChats.ReadOnly = true;
+            this.dgwChats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dgwChats.Size = new System.Drawing.Size(775, 363);
             this.dgwChats.TabIndex = 18;
             // 
@@ -1722,27 +1747,19 @@
             this.timerException.Interval = 5000;
             this.timerException.Tick += new System.EventHandler(this.timerException_Tick);
             // 
-            // labelQuestion
+            // labelCheckSubscription
             // 
-            this.labelQuestion.AutoSize = true;
-            this.labelQuestion.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestion.Location = new System.Drawing.Point(3, 525);
-            this.labelQuestion.Name = "labelQuestion";
-            this.labelQuestion.Size = new System.Drawing.Size(120, 13);
-            this.labelQuestion.TabIndex = 30;
-            this.labelQuestion.Text = "Verilen Cevap Sayısı";
-            this.labelQuestion.Visible = false;
-            // 
-            // labelQuestionCount
-            // 
-            this.labelQuestionCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelQuestionCount.Location = new System.Drawing.Point(146, 525);
-            this.labelQuestionCount.Name = "labelQuestionCount";
-            this.labelQuestionCount.Size = new System.Drawing.Size(80, 13);
-            this.labelQuestionCount.TabIndex = 31;
-            this.labelQuestionCount.Text = "0";
-            this.labelQuestionCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.labelQuestionCount.Visible = false;
+            this.labelCheckSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCheckSubscription.BackColor = System.Drawing.Color.DarkRed;
+            this.labelCheckSubscription.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelCheckSubscription.ForeColor = System.Drawing.SystemColors.Window;
+            this.labelCheckSubscription.Location = new System.Drawing.Point(436, 9);
+            this.labelCheckSubscription.Name = "labelCheckSubscription";
+            this.labelCheckSubscription.Size = new System.Drawing.Size(326, 29);
+            this.labelCheckSubscription.TabIndex = 40;
+            this.labelCheckSubscription.Text = ".... Kanala Üye Kullanıcılar Kontrol Ediliyor ....";
+            this.labelCheckSubscription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelCheckSubscription.Visible = false;
             // 
             // FrmMain
             // 
@@ -1955,5 +1972,6 @@
         private System.Windows.Forms.RichTextBox richTextBoxAnswerDetails;
         private System.Windows.Forms.Label labelQuestionCount;
         private System.Windows.Forms.Label labelQuestion;
+        private System.Windows.Forms.Label labelCheckSubscription;
     }
 }

@@ -9,6 +9,7 @@
     <Property Name="Fk_LiveChatMessage" Type="int" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
     <Property Name="IsValid" Type="bit" Nullable="false" />
+    <Property Name="IsSubscripted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="competitions">
     <Key>
@@ -67,6 +68,8 @@
     <Property Name="IsChatOwner" Type="bit" />
     <Property Name="IsChatSponsor" Type="bit" />
     <Property Name="IsChatModerator" Type="bit" />
+    <Property Name="IsMessageNumeric" Type="bit" Nullable="false" />
+    <Property Name="NumericMessage" Type="varchar" MaxLength="1000" Nullable="false" />
   </EntityType>
   <EntityType Name="questions">
     <Key>
@@ -139,8 +142,8 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.validAnswers_vw' does not hav
     <Property Name="VideoId" Type="varchar" MaxLength="800" Nullable="false" />
     <Property Name="Question" Type="varchar" MaxLength="1000" Nullable="false" />
     <Property Name="Answer" Type="varchar" MaxLength="1000" Nullable="false" />
-    <Property Name="MessageText" Type="varchar(max)" Nullable="false" />
-    <Property Name="Gap" Type="decimal" Precision="21" Scale="0" />
+    <Property Name="MessageText" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Gap" Type="decimal" Precision="37" Scale="0" />
     <Property Name="Sequence" Type="bigint" />
     <Property Name="UserAnswerCount" Type="int" Nullable="false" />
   </EntityType>

@@ -19,6 +19,7 @@ namespace derinYouTube.Model
         public int Fk_LiveChatMessage { get; set; }
         public int Score { get; set; }
         public bool IsValid { get; set; }
+        public bool IsSubscripted { get; set; }
     
         public virtual competitions competitions { get; set; }
         public virtual liveChatMessages liveChatMessages { get; set; }

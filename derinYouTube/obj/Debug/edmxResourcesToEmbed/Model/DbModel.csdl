@@ -1,17 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="YoutubeCommentDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="YoutubeCommentDbEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="competitionAnswers" EntityType="YoutubeCommentDbModel.competitionAnswers" />
     <EntitySet Name="competitions" EntityType="YoutubeCommentDbModel.competitions" />
     <EntitySet Name="liveChatMessages" EntityType="YoutubeCommentDbModel.liveChatMessages" />
-    <AssociationSet Name="FK_competitionAnswers_competitions" Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions">
-      <End Role="competitions" EntitySet="competitions" />
-      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
-    </AssociationSet>
-    <AssociationSet Name="FK_competitionAnswers_liveChatMessages" Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages">
-      <End Role="liveChatMessages" EntitySet="liveChatMessages" />
-      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
-    </AssociationSet>
     <FunctionImport Name="findAnswers">
       <Parameter Name="competitionId" Mode="In" Type="Int32" />
     </FunctionImport>
@@ -23,19 +14,16 @@
     <EntitySet Name="liveBroadcasts" EntityType="YoutubeCommentDbModel.liveBroadcasts" />
     <EntitySet Name="chatCountByTime_vw" EntityType="YoutubeCommentDbModel.chatCountByTime_vw" />
     <EntitySet Name="viewerCountByTime_vw" EntityType="YoutubeCommentDbModel.viewerCountByTime_vw" />
+    <EntitySet Name="competitionAnswers" EntityType="YoutubeCommentDbModel.competitionAnswers" />
+    <AssociationSet Name="FK_competitionAnswers_competitions" Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions">
+      <End Role="competitions" EntitySet="competitions" />
+      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_competitionAnswers_liveChatMessages" Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages">
+      <End Role="liveChatMessages" EntitySet="liveChatMessages" />
+      <End Role="competitionAnswers" EntitySet="competitionAnswers" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="competitionAnswers">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Fk_Competition" Type="Int32" Nullable="false" />
-    <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
-    <Property Name="Score" Type="Int32" Nullable="false" />
-    <Property Name="IsValid" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
-    <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
-  </EntityType>
   <EntityType Name="competitions">
     <Key>
       <PropertyRef Name="Id" />
@@ -68,32 +56,10 @@
     <Property Name="IsChatOwner" Type="Boolean" />
     <Property Name="IsChatSponsor" Type="Boolean" />
     <Property Name="IsChatModerator" Type="Boolean" />
+    <Property Name="IsMessageNumeric" Type="Boolean" Nullable="false" />
+    <Property Name="NumericMessage" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="competitionAnswers" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="liveChatMessages" ToRole="competitionAnswers" />
   </EntityType>
-  <Association Name="FK_competitionAnswers_competitions">
-    <End Type="YoutubeCommentDbModel.competitions" Role="competitions" Multiplicity="1" />
-    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="competitions">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="competitionAnswers">
-        <PropertyRef Name="Fk_Competition" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_competitionAnswers_liveChatMessages">
-    <End Type="YoutubeCommentDbModel.liveChatMessages" Role="liveChatMessages" Multiplicity="1" />
-    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="liveChatMessages">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="competitionAnswers">
-        <PropertyRef Name="Fk_LiveChatMessage" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="competitions_vw">
     <Key>
       <PropertyRef Name="Id" />
@@ -155,8 +121,8 @@
     <Property Name="VideoId" Type="String" Nullable="false" MaxLength="800" FixedLength="false" Unicode="false" />
     <Property Name="Question" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
     <Property Name="Answer" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
-    <Property Name="MessageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="Gap" Type="Decimal" Precision="21" Scale="0" />
+    <Property Name="MessageText" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="Gap" Type="Decimal" Precision="37" Scale="0" />
     <Property Name="Sequence" Type="Int64" />
     <Property Name="UserAnswerCount" Type="Int32" Nullable="false" />
   </EntityType>
@@ -213,4 +179,41 @@
     <Property Name="Time" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
     <Property Name="ViewerCount" Type="Int64" Nullable="false" />
   </EntityType>
+  <EntityType Name="competitionAnswers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Fk_Competition" Type="Int32" Nullable="false" />
+    <Property Name="Fk_LiveChatMessage" Type="Int32" Nullable="false" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+    <Property Name="IsValid" Type="Boolean" Nullable="false" />
+    <Property Name="IsSubscripted" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="competitions" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_competitions" FromRole="competitionAnswers" ToRole="competitions" />
+    <NavigationProperty Name="liveChatMessages" Relationship="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" FromRole="competitionAnswers" ToRole="liveChatMessages" />
+  </EntityType>
+  <Association Name="FK_competitionAnswers_competitions">
+    <End Type="YoutubeCommentDbModel.competitions" Role="competitions" Multiplicity="1" />
+    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="competitions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="competitionAnswers">
+        <PropertyRef Name="Fk_Competition" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_competitionAnswers_liveChatMessages">
+    <End Type="YoutubeCommentDbModel.liveChatMessages" Role="liveChatMessages" Multiplicity="1" />
+    <End Type="YoutubeCommentDbModel.competitionAnswers" Role="competitionAnswers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="liveChatMessages">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="competitionAnswers">
+        <PropertyRef Name="Fk_LiveChatMessage" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

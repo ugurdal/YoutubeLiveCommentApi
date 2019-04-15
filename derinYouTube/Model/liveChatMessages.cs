@@ -34,6 +34,8 @@ namespace derinYouTube.Model
         public Nullable<bool> IsChatOwner { get; set; }
         public Nullable<bool> IsChatSponsor { get; set; }
         public Nullable<bool> IsChatModerator { get; set; }
+        public bool IsMessageNumeric { get; set; }
+        public string NumericMessage { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<competitionAnswers> competitionAnswers { get; set; }

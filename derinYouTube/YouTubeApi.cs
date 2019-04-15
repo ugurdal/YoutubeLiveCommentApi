@@ -200,7 +200,7 @@ namespace derinYouTube
             var videos = new LinkedList<VideoModel>();
             try
             {
-                var request = _service.LiveBroadcasts.List("id, snippet, contentDetails, status, statistics");
+                var request = _service.LiveBroadcasts.List("id, snippet, status"); //contentDetails,statistics
                 //request.Mine = true;
                 request.MaxResults = 50;
                 request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.All;
@@ -398,6 +398,49 @@ namespace derinYouTube
             var response = request.Execute();
 
             return response.Items[0].Status.LifeCycleStatus == "live";
+        }
+
+        public async Task<Enumeration.SucscriberStatus> IsUserSucscripted(string userChannelId, string channelId)
+        {
+            var result = Enumeration.SucscriberStatus.No;
+            try
+            {
+                var request = _service.Subscriptions.List("id");
+                request.ChannelId = userChannelId;
+                request.ForChannelId = channelId;
+                //request.MySubscribers = true;
+                var list = await request.ExecuteAsync();
+                result = list.Items.Any() 
+                    ? Enumeration.SucscriberStatus.Yes
+                    : Enumeration.SucscriberStatus.No;
+            }
+            catch (Exception e)
+            {
+                return Enumeration.SucscriberStatus.NotAllowed;
+            }
+
+            return result;
+        }
+
+        public async Task<List<string>> GetSubscriberList()
+        {
+            var result = new List<string>();
+            try
+            {
+                var request = _service.Subscriptions.List("id, subscriberSnippet");
+                request.Mine = true;
+                var list = await request.ExecuteAsync();
+                foreach (var item in list.Items)
+                {
+                    result.Add(item.SubscriberSnippet.ChannelId);
+                }
+            }
+            catch (Exception e)
+            {
+                return new List<string>();
+            }
+
+            return result;
         }
     }
 }

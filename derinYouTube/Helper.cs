@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -46,6 +47,18 @@ namespace derinYouTube
             }
             return false;
         }
+
+        public static string ToDescription<TEnum>(this TEnum enumObj)
+        {
+            var fi = enumObj.GetType().GetField(enumObj.ToString());
+            var attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+
+            if (attributes != null && attributes.Length > 0)
+                return attributes[0].Description;
+            else
+                return enumObj.ToString();
+        }
     }
+
 }
 

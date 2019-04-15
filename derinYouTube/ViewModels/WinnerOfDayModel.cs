@@ -23,5 +23,8 @@ namespace derinYouTube.ViewModels
         public string AuthorChannelUrl { get; set; }
         [Browsable(false)]
         public string AuthorChannelId { get; set; }
+        
+        [DisplayName("Migros Tv Kanalına Üye Mi?")]
+        public string IsSubscripted { get; set; }
     }
 }

@@ -31,7 +31,7 @@ namespace derinYouTube.ViewModels
         public decimal Gap { get; set; }
         [DisplayName("Kaç Cevap Yazdı?")] 
         public int TotalAnswersOfUser { get; set; }
-        [Browsable(false)]
+        //[Browsable(false)]
         [DisplayName("Kanal Url")]
         public string AuthorChannelUrl { get; set; }
         [Browsable(false)]
