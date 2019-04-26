@@ -4,6 +4,9 @@ namespace derinYouTube.Model
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Data.Entity.Infrastructure;
 
     public partial class DbEntities : DbContext
     {
@@ -23,6 +26,13 @@ namespace derinYouTube.Model
         public virtual DbSet<validAnswers_vw> validAnswers_vw { get; set; }
         public virtual DbSet<viewerCountByTime_vw> viewerCountByTime_vw { get; set; }
         public virtual DbSet<winnerOfDay_vw> winnerOfDay_vw { get; set; }
+
+        public virtual IList<winnerOfDay_vw> winnerOfDay_proc(DateTime date)
+        {
+            IList<winnerOfDay_vw> result = ((IObjectContextAdapter) this).ObjectContext
+                .ExecuteStoreQuery<winnerOfDay_vw>("getWinnerOfDay @p0", date).ToList<winnerOfDay_vw>();
+            return result;
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -794,7 +794,6 @@ namespace derinYouTube
                             UserCount = x.TotalUser ?? 0,
                             ValidAnswers = x.ValidAnswers
                         }).ToList();
-                ;
             }
 
             if (result.Any())
@@ -819,10 +818,24 @@ namespace derinYouTube
             {
                 using (var db = new DbEntities())
                 {
-                    dayDetail = db.winnerOfDay_vw
-                        .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value))
-                        //.Where(x => x.TotalScore.Value > 0)
-                        .Select(x =>
+                    //dayDetail = db.winnerOfDay_vw
+                    //    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value))
+                    //    //.Where(x => x.TotalScore.Value > 0)
+                    //      .Select(x =>
+                    //    new WinnerOfDayModel
+                    //    {
+                    //        Sequence = x.Sequence.Value,
+                    //        DisplayName = x.AuthorDisplayName,
+                    //        AuthorChannelId = x.AuthorChannelId,
+                    //        AuthorChannelUrl = x.AuthorChannelUrl,
+                    //        Day = x.Day.Value,
+                    //        TotalCompetitions = x.TotalCompetition.Value,
+                    //        TotalScore = x.TotalScore.Value,
+                    //        IsSubscripted = ""
+                    //    }).OrderByDescending(x => x.TotalScore).ToList();
+
+                    dayDetail = db.winnerOfDay_proc(dtWinnerOfDay.Value)
+                                            .Select(x =>
                             new WinnerOfDayModel
                             {
                                 Sequence = x.Sequence.Value,
@@ -1153,15 +1166,14 @@ namespace derinYouTube
 
             }
         }
-
-        private void dtWinnerOfDay_ValueChanged(object sender, EventArgs e)
-        {
-            dtQAAnalysis.Value = dtWinnerOfDay.Value;
-        }
-
+        
         private void dtQAAnalysis_ValueChanged(object sender, EventArgs e)
         {
-            dtWinnerOfDay.Value = dtQAAnalysis.Value;
+            var date = (sender as DateTimePicker).Value;
+            dtWinnerOfDay.Value = date;
+            dtQAAnalysis.Value = date;
+            dtAllStreams.Value = date;
+            dtViewerCount.Value = date;
         }
 
         private string ChartType

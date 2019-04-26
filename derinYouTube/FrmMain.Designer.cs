@@ -130,6 +130,7 @@
             this.dgwWinnerDetail = new System.Windows.Forms.DataGridView();
             this.dgwWinnerOfDay = new System.Windows.Forms.DataGridView();
             this.panel6 = new System.Windows.Forms.Panel();
+            this.labelCheckSubscription = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.buttonShowWinnerOfDay = new System.Windows.Forms.Button();
             this.label27 = new System.Windows.Forms.Label();
@@ -161,7 +162,6 @@
             this.timerViewerCount = new System.Windows.Forms.Timer(this.components);
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             this.timerException = new System.Windows.Forms.Timer(this.components);
-            this.labelCheckSubscription = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgw)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
@@ -1398,6 +1398,20 @@
             this.panel6.Size = new System.Drawing.Size(775, 49);
             this.panel6.TabIndex = 0;
             // 
+            // labelCheckSubscription
+            // 
+            this.labelCheckSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelCheckSubscription.BackColor = System.Drawing.Color.DarkRed;
+            this.labelCheckSubscription.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelCheckSubscription.ForeColor = System.Drawing.SystemColors.Window;
+            this.labelCheckSubscription.Location = new System.Drawing.Point(436, 9);
+            this.labelCheckSubscription.Name = "labelCheckSubscription";
+            this.labelCheckSubscription.Size = new System.Drawing.Size(326, 29);
+            this.labelCheckSubscription.TabIndex = 40;
+            this.labelCheckSubscription.Text = ".... Kanala Üye Kullanıcılar Kontrol Ediliyor ....";
+            this.labelCheckSubscription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelCheckSubscription.Visible = false;
+            // 
             // label26
             // 
             this.label26.AutoSize = true;
@@ -1437,7 +1451,7 @@
             this.dtWinnerOfDay.Name = "dtWinnerOfDay";
             this.dtWinnerOfDay.Size = new System.Drawing.Size(102, 21);
             this.dtWinnerOfDay.TabIndex = 0;
-            this.dtWinnerOfDay.ValueChanged += new System.EventHandler(this.dtWinnerOfDay_ValueChanged);
+            this.dtWinnerOfDay.ValueChanged += new System.EventHandler(this.dtQAAnalysis_ValueChanged);
             // 
             // panel8
             // 
@@ -1534,6 +1548,7 @@
             this.dtAllStreams.Name = "dtAllStreams";
             this.dtAllStreams.Size = new System.Drawing.Size(102, 21);
             this.dtAllStreams.TabIndex = 38;
+            this.dtAllStreams.ValueChanged += new System.EventHandler(this.dtQAAnalysis_ValueChanged);
             // 
             // buttonShowStreams
             // 
@@ -1662,6 +1677,7 @@
             this.dtViewerCount.Name = "dtViewerCount";
             this.dtViewerCount.Size = new System.Drawing.Size(121, 21);
             this.dtViewerCount.TabIndex = 40;
+            this.dtViewerCount.ValueChanged += new System.EventHandler(this.dtQAAnalysis_ValueChanged);
             // 
             // buttonShowBroadcastForViewerCount
             // 
@@ -1746,20 +1762,6 @@
             this.timerException.Enabled = true;
             this.timerException.Interval = 5000;
             this.timerException.Tick += new System.EventHandler(this.timerException_Tick);
-            // 
-            // labelCheckSubscription
-            // 
-            this.labelCheckSubscription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelCheckSubscription.BackColor = System.Drawing.Color.DarkRed;
-            this.labelCheckSubscription.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelCheckSubscription.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelCheckSubscription.Location = new System.Drawing.Point(436, 9);
-            this.labelCheckSubscription.Name = "labelCheckSubscription";
-            this.labelCheckSubscription.Size = new System.Drawing.Size(326, 29);
-            this.labelCheckSubscription.TabIndex = 40;
-            this.labelCheckSubscription.Text = ".... Kanala Üye Kullanıcılar Kontrol Ediliyor ....";
-            this.labelCheckSubscription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelCheckSubscription.Visible = false;
             // 
             // FrmMain
             // 
