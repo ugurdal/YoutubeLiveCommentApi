@@ -216,6 +216,10 @@ namespace derinYouTube
                     {
                         if (activeOnly && item.Status.LifeCycleStatus != "live")
                             continue;
+
+                        if (item.Snippet.PublishedAt.Value.Date < DateTime.Today.AddDays(-7))
+                            continue;
+
                         var video = new VideoModel()
                         {
                             Id = item.Id,
@@ -230,7 +234,6 @@ namespace derinYouTube
                             ActualEndTime = item.Snippet.ActualEndTime,
                             ScheduledStartTime = item.Snippet.ScheduledStartTime
                         };
-
 
                         videos.AddLast(video);
                     }
@@ -302,7 +305,7 @@ namespace derinYouTube
             try
             {
                 var isOnline = true;
-                
+
                 while (isOnline)
                 {
                     var nextPage = "";
@@ -316,7 +319,7 @@ namespace derinYouTube
                         var request = _service.LiveChatMessages.List(liveChatId, requestList);
                         request.MaxResults = 1000;
                         request.PageToken = nextPage;
-                        
+
                         var response = await request.ExecuteAsync(cancellationToken);
 
                         foreach (LiveChatMessage item in response.Items)
@@ -328,7 +331,7 @@ namespace derinYouTube
                             catch (OperationCanceledException e)
                             {
                                 //MessageBox.Show(e.Message);
-                                
+
                             }
 
                             var chat = new LiveChatModel
@@ -352,12 +355,14 @@ namespace derinYouTube
                         }
 
                         report.LiveChats = output;
+                        report.PollingIntervalMillis = response.PollingIntervalMillis;
                         progress.Report(report);
 
                         nextPage = response.NextPageToken;
                         isOnline = !response.OfflineAt.HasValue;
-                        
-                        await Task.Delay(10000, cancellationToken);
+
+                        var wait = Convert.ToInt32(response.PollingIntervalMillis ?? 10000);
+                        await Task.Delay(wait, cancellationToken);
                     }
                 }
 
@@ -410,7 +415,7 @@ namespace derinYouTube
                 request.ForChannelId = channelId;
                 //request.MySubscribers = true;
                 var list = await request.ExecuteAsync();
-                result = list.Items.Any() 
+                result = list.Items.Any()
                     ? Enumeration.SucscriberStatus.Yes
                     : Enumeration.SucscriberStatus.No;
             }
@@ -441,6 +446,38 @@ namespace derinYouTube
             }
 
             return result;
+        }
+
+        public async Task AddComment(string videoId, string message)
+        {
+            return;
+            //TODO: Yorumlara bilenlerin yazılması kapatıldı.
+
+            try
+            {
+                var request = _service.CommentThreads.Insert(new CommentThread
+                {
+                    Snippet = new CommentThreadSnippet
+                    {
+                        VideoId = videoId,
+                        IsPublic = true,
+                        CanReply = false,
+                        TopLevelComment = new Comment
+                        {
+                            Snippet = new CommentSnippet
+                            {
+                                TextOriginal = message
+                            }
+                        }
+                    }
+
+                }, "snippet");
+
+                await request.ExecuteAsync();
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }

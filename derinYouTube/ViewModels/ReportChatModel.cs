@@ -10,5 +10,6 @@ namespace derinYouTube.ViewModels
     public class ReportChatModel
     {
         public LinkedList<LiveChatModel> LiveChats { get; set; }
+        public long? PollingIntervalMillis { get; set; }
     }
 }

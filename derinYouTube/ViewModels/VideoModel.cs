@@ -26,6 +26,11 @@ namespace derinYouTube.ViewModels
         public string LiveChatId { get; set; }
         [Browsable(false)]
         public DateTime? ScheduledStartTime { get; set; }
+
+        public VideoModel()
+        {
+            this.Description = "";
+        }
     }
 }
     

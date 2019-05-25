@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Drawing;
 using System.Linq;
@@ -16,20 +17,17 @@ namespace derinYouTube
 {
     public partial class FrmQuestions : Form
     {
-        private readonly FormTypeEnum _type;
+        private readonly Enumeration.FormTypeEnum _type;
         public QuestionViewModel SelectedQuestion;
 
-        public enum FormTypeEnum
-        {
-            New = 0,
-            Select = 1
-        }
 
-        public FrmQuestions(FormTypeEnum type)
+
+        public FrmQuestions(Enumeration.FormTypeEnum type)
         {
             _type = type;
             InitializeComponent();
             this.dgwQ.DoubleBuffered(true);
+            dtQuestionDate.Value = DateTime.Today;
         }
 
         private void buttonNewQuestions_Click(object sender, EventArgs e)
@@ -41,6 +39,9 @@ namespace derinYouTube
         {
             richTextBoxQuestion.Text = "";
             richTextBoxAnswers.Text = "";
+
+            numOrder.Value = dgwQ.RowCount + 1;
+            richTextBoxQuestion.Focus();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -62,7 +63,8 @@ namespace derinYouTube
                         Code = numOrder.Value.ToString(),
                         Question = richTextBoxQuestion.Text,
                         Answer = richTextBoxAnswers.Text,
-                        InsertDate = DateTime.Now
+                        InsertDate = DateTime.Now,
+                        QuestionDate = dtQuestionDate.Value
                     });
                     db.SaveChanges();
                 }
@@ -78,8 +80,8 @@ namespace derinYouTube
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            Clear();
             ShowQuestions();
+            Clear();
         }
 
         private void ShowQuestions()
@@ -87,19 +89,24 @@ namespace derinYouTube
             dgwQ.DataSource = null;
             using (var db = new DbEntities())
             {
-                var model = db.questions.Select(x => new QuestionViewModel
-                {
-                    Id = x.Id,
-                    Code = x.Code,
-                    Question = x.Question,
-                    Answer = x.Answer,
-                    InsertDate = x.InsertDate
-                }).ToList().OrderBy(x => x.Order);
+                var model = db.questions.Where(x => DbFunctions.TruncateTime(x.QuestionDate) == DbFunctions.TruncateTime(dtQuestionDate.Value))
+                    .Select(x => new QuestionViewModel
+                    {
+                        Id = x.Id,
+                        Code = x.Code,
+                        Question = x.Question,
+                        Answer = x.Answer,
+                        InsertDate = x.InsertDate,
+                        QuestionDate = x.QuestionDate
+                    }).ToList().OrderBy(x => x.Order);
 
                 if (model.Any())
                 {
                     dgwQ.DataSource = model.ToSortableGridList();
                     dgwQ.FormatGrid();
+
+                    if (_type == Enumeration.FormTypeEnum.Select)
+                        dgwQ.Columns["InsertDate"].Visible = false;
                 }
 
                 labelCount.Text = dgwQ.RowCount.ToString();
@@ -108,7 +115,7 @@ namespace derinYouTube
 
         private void FrmQuestions_Load(object sender, EventArgs e)
         {
-            if (_type == FormTypeEnum.Select)
+            if (_type == Enumeration.FormTypeEnum.Select)
             {
                 tsButtonDelete.Visible = false;
                 tsButtonSave.Visible = false;
@@ -129,7 +136,7 @@ namespace derinYouTube
 
         private void dgwQ_SelectionChanged(object sender, EventArgs e)
         {
-            if (_type == FormTypeEnum.New)
+            if (_type == Enumeration.FormTypeEnum.New)
             {
                 tsButtonDelete.Visible = dgwQ.SelectedRows.Count != 0;
             }
@@ -177,7 +184,7 @@ namespace derinYouTube
 
         private void dgwQ_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_type == FormTypeEnum.Select && e.RowIndex != -1 && e.ColumnIndex != -1)
+            if (_type == Enumeration.FormTypeEnum.Select && e.RowIndex != -1 && e.ColumnIndex != -1)
             {
                 var data = dgwQ.Rows[e.RowIndex].DataBoundItem as QuestionViewModel;
                 SelectedQuestion = data;
@@ -191,6 +198,11 @@ namespace derinYouTube
             {
                 e.Handled = true;
             }
+        }
+
+        private void DtQuestionDate_ValueChanged(object sender, EventArgs e)
+        {
+            ShowQuestions();
         }
     }
 }

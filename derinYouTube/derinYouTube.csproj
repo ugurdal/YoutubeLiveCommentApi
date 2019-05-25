@@ -102,9 +102,22 @@
   <ItemGroup>
     <Compile Include="Enumeration.cs" />
     <Compile Include="Extensions\DataGridViewExtensions.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\SortableExtensions.cs" />
+    <Compile Include="frmCompetitions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCompetitions.Designer.cs">
+      <DependentUpon>frmCompetitions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGetChats.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGetChats.Designer.cs">
+      <DependentUpon>frmGetChats.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,23 +137,54 @@
       <DependentUpon>FrmShowResult.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper.cs" />
-    <Compile Include="Migrations\201904151347442_InitialCreate.cs" />
-    <Compile Include="Migrations\201904151347442_InitialCreate.Designer.cs">
-      <DependentUpon>201904151347442_InitialCreate.cs</DependentUpon>
+    <Compile Include="Model\chatCountByTime_vw.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\View\chatCountByTime_vw.cs" />
-    <Compile Include="Model\Table\competitionAnswers.cs" />
-    <Compile Include="Model\Table\competitions.cs" />
-    <Compile Include="Model\View\competitions_vw.cs" />
-    <Compile Include="Model\DbEntities.cs" />
-    <Compile Include="Model\Table\liveBroadcasts.cs" />
-    <Compile Include="Model\Table\liveBroadcastsViewCount.cs" />
-    <Compile Include="Model\Table\liveChatMessages.cs" />
-    <Compile Include="Model\Table\questions.cs" />
-    <Compile Include="Model\View\validAnswers_vw.cs" />
-    <Compile Include="Model\View\viewerCountByTime_vw.cs" />
-    <Compile Include="Model\Table\winnerOfDay_vw.cs" />
+    <Compile Include="Model\competitionAnswers.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\competitions.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\competitions_vw.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DbEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DbEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DbEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\liveBroadcasts.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\liveBroadcastsViewCount.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\liveChatMessages.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\questions.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\validAnswers_vw.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\viewerCountByTime_vw.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\winnerOfDay_vw.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ReportChatModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +199,12 @@
     <Compile Include="ViewModels\WinnerOfDayModel.cs" />
     <Compile Include="YouTubeApi.cs" />
     <Compile Include="ViewModels\VideoModel.cs" />
+    <EmbeddedResource Include="frmCompetitions.resx">
+      <DependentUpon>frmCompetitions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGetChats.resx">
+      <DependentUpon>frmGetChats.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,9 +213,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmShowResult.resx">
       <DependentUpon>FrmShowResult.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904151347442_InitialCreate.resx">
-      <DependentUpon>201904151347442_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -195,6 +242,13 @@
     <None Include="migros_client_secret.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EntityDeploy Include="Model\DbEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DbEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model\DbEntities.edmx.diagram">
+      <DependentUpon>DbEntities.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -218,6 +272,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Denemeler.txt" />
+    <Content Include="Model\DbEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbEntities.edmx</DependentUpon>
+      <LastGenOutput>DbEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\DbEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DbEntities.edmx</DependentUpon>
+      <LastGenOutput>DbEntities.cs</LastGenOutput>
+    </Content>
     <Content Include="Notlar.txt" />
     <None Include="Resources\StopHS.png" />
     <None Include="Resources\FormRunHS.png" />
@@ -230,6 +294,22 @@
     <None Include="Resources\FindHS1.png" />
     <None Include="Resources\CheckBoxHS.png" />
     <None Include="Resources\EditTableHS.png" />
+    <None Include="Resources\button-arrow-left_large%401x.png" />
+    <None Include="Resources\button-arrow-right_large%401x.png" />
+    <None Include="Resources\0.png" />
+    <None Include="Resources\1.png" />
+    <None Include="Resources\2.png" />
+    <None Include="Resources\3.png" />
+    <None Include="Resources\4.png" />
+    <None Include="Resources\5.png" />
+    <None Include="Resources\6.png" />
+    <None Include="Resources\7.png" />
+    <None Include="Resources\8.png" />
+    <None Include="Resources\9.png" />
+    <None Include="Resources\10.png" />
+    <None Include="Resources\grade-01_small%401x.png" />
+    <None Include="Resources\grade-02_small%401x.png" />
+    <None Include="Resources\grade-03_small%401x.png" />
     <Content Include="youtube.ico" />
   </ItemGroup>
   <ItemGroup />

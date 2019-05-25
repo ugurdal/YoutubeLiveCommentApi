@@ -40,8 +40,10 @@
             this.tsButtonNew = new System.Windows.Forms.ToolStripButton();
             this.tsButtonDelete = new System.Windows.Forms.ToolStripButton();
             this.splitContainerQ = new System.Windows.Forms.SplitContainer();
-            this.labelOrder = new System.Windows.Forms.Label();
             this.numOrder = new System.Windows.Forms.NumericUpDown();
+            this.labelOrder = new System.Windows.Forms.Label();
+            this.dtQuestionDate = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgwQ)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerQ)).BeginInit();
@@ -180,6 +182,8 @@
             // 
             // splitContainerQ.Panel1
             // 
+            this.splitContainerQ.Panel1.Controls.Add(this.label1);
+            this.splitContainerQ.Panel1.Controls.Add(this.dtQuestionDate);
             this.splitContainerQ.Panel1.Controls.Add(this.numOrder);
             this.splitContainerQ.Panel1.Controls.Add(this.labelOrder);
             this.splitContainerQ.Panel1.Controls.Add(this.labelCount);
@@ -195,15 +199,6 @@
             this.splitContainerQ.Size = new System.Drawing.Size(746, 433);
             this.splitContainerQ.SplitterDistance = 140;
             this.splitContainerQ.TabIndex = 21;
-            // 
-            // labelOrder
-            // 
-            this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(25, 8);
-            this.labelOrder.Name = "labelOrder";
-            this.labelOrder.Size = new System.Drawing.Size(25, 13);
-            this.labelOrder.TabIndex = 21;
-            this.labelOrder.Text = "Sıra";
             // 
             // numOrder
             // 
@@ -222,6 +217,32 @@
             0,
             0,
             0});
+            // 
+            // labelOrder
+            // 
+            this.labelOrder.AutoSize = true;
+            this.labelOrder.Location = new System.Drawing.Point(25, 8);
+            this.labelOrder.Name = "labelOrder";
+            this.labelOrder.Size = new System.Drawing.Size(25, 13);
+            this.labelOrder.TabIndex = 21;
+            this.labelOrder.Text = "Sıra";
+            // 
+            // dtQuestionDate
+            // 
+            this.dtQuestionDate.Location = new System.Drawing.Point(234, 6);
+            this.dtQuestionDate.Name = "dtQuestionDate";
+            this.dtQuestionDate.Size = new System.Drawing.Size(200, 21);
+            this.dtQuestionDate.TabIndex = 23;
+            this.dtQuestionDate.ValueChanged += new System.EventHandler(this.DtQuestionDate_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(197, 12);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Tarih";
             // 
             // FrmQuestions
             // 
@@ -272,5 +293,7 @@
         private System.Windows.Forms.SplitContainer splitContainerQ;
         private System.Windows.Forms.Label labelOrder;
         private System.Windows.Forms.NumericUpDown numOrder;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DateTimePicker dtQuestionDate;
     }
 }

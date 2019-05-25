@@ -1,4 +1,5 @@
-﻿using System;
+﻿using derinYouTube.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace derinYouTube.ViewModels
         [DisplayName("Saat")]
         public string PublishedAtStr
         {
-            get { return this.PublishedAt?.ToString() ?? ""; }
+            get { return this.PublishedAt.ToTarih(); }
         }
         [DisplayName("Mesaj")]
         public string MessageText { get; set; }

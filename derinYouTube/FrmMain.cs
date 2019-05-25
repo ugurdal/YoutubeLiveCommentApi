@@ -22,7 +22,6 @@ using derinYouTube.Model;
 using derinYouTube.ViewModels;
 using Dapper;
 using System.Data.Entity.Validation;
-using Exception = System.Exception;
 
 namespace derinYouTube
 {
@@ -35,11 +34,15 @@ namespace derinYouTube
         private readonly YouTubeApi _youtubeApi;
         private int _chatCount;
         private int _requestCount;
+        private string _newComment;
+        private frmGetChats _frmGetChats;
+        private frmCompetitions _frmCompetitions;
+        private VideoModel _currentBroadcast;
 
         public FrmMain()
         {
             InitializeComponent();
-            dgw.DoubleBuffered(true);
+            //dgw.DoubleBuffered(true);
             dgwLiveVideos.DoubleBuffered(true);
             dgwAnswers.DoubleBuffered(true);
             dgwCompetitionHeader.DoubleBuffered(true);
@@ -53,15 +56,47 @@ namespace derinYouTube
             MessageHeader = "Dikkat"; //this.Text;
             this.DoubleBuffered = true;
 
-            //_youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "YouTubeCommentAPI");
-            //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
-            //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
-            _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+            //Sol paneli kapat
+            tabControlLeftMenu.Visible = false;
+            //tabControlLeftMenu.TabPages.Remove(tabPageService);
+            splitContainerDikey.SplitterDistance = 5;
 
             dgwWinnerOfDay.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwAnswers.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwCompetitionDetail.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwChats.CellDoubleClick += DataGridViewCellDoubleClick;
+
+            timerCommentAdd.Stop();
+            timerException.Stop();
+            timerQuestion.Stop();
+
+            if (string.IsNullOrEmpty(Properties.Settings.Default.YoutubeHesap))
+            {
+                MessageBox.Show("Config'e YouTube hesap bilgileri girilmeli", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                this.Close();
+            }
+            else
+            {
+                //_youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "YouTubeCommentAPI");
+                //_youtubeApi = new YouTubeApi("client_secret.json", "YouTubeCommentAPI2");
+                //_youtubeApi = new YouTubeApi("migros_client_secret.json", "YouTubeCommentAPI3");
+                //_youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+
+                if (Properties.Settings.Default.YoutubeHesap == "client_secret_izlene@gmail.com.json")
+                {
+                    _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1");
+                }
+                if (Properties.Settings.Default.YoutubeHesap == "ugurrdal@gmail.com.json")
+                {
+                    _youtubeApi = new YouTubeApi("ugurrdal@gmail.com.json", "DerinYoutubeApiV1");
+                }
+
+                if (_youtubeApi == null)
+                {
+                    MessageBox.Show("Tanımsız YouTube hesabı", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    this.Close();
+                }
+            }
         }
 
         private void DataGridViewCellDoubleClick(object sender, EventArgs args)
@@ -83,7 +118,7 @@ namespace derinYouTube
             Helper.Cnn = new SqlConnection(Helper.ConnectionString);
             await Temizle();
             pbWorking.Visible = false;
-            buttonGetChats.Enabled = false;
+            //buttonGetChats.Enabled = false; //TODO: Butonun disabled'ı kapatıldı
             comboBoxChartType.SelectedIndex = 7;
             comboBoxChartType.SelectedIndexChanged += new EventHandler(async delegate (object o, EventArgs a)
             {
@@ -104,6 +139,10 @@ namespace derinYouTube
 
         private async void buttonAsync_Click(object sender, EventArgs e)
         {
+            return;
+            _frmGetChats = new frmGetChats(textBoxVideoId.Text, textBoxLiveChatId.Text, _youtubeApi);
+            _frmGetChats.Show();
+            
             if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
             {
                 MessageBox.Show("Live Chat ID okunamadı!", MessageHeader, MessageBoxButtons.OK,
@@ -132,8 +171,8 @@ namespace derinYouTube
                 progress2.ProgressChanged += ReportProgress2;
 
                 _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, textBoxVideoId.Text, _tokenSource.Token, progress1);
-                await Task.Delay(5000);
-                _youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, textBoxVideoId.Text, _tokenSource.Token, progress2);
+                //await Task.Delay(5000);
+                //_youtubeApi.GetLiveChatsAsync(textBoxLiveChatId.Text, textBoxVideoId.Text, _tokenSource.Token, progress2);
 
             }
             catch (OperationCanceledException ox)
@@ -197,16 +236,16 @@ namespace derinYouTube
         private async void ReportProgress(object sender, ReportChatModel e)
         {
             RequestCount++;
-            await SaveChatsToDatabase(e.LiveChats);
+            await SaveChatsToDatabase(e.LiveChats, e.PollingIntervalMillis);
         }
 
         private async void ReportProgress2(object sender, ReportChatModel e)
         {
             RequestCount++;
-            await SaveChatsToDatabase2(e.LiveChats);
+            await SaveChatsToDatabase2(e.LiveChats, e.PollingIntervalMillis);
         }
 
-        private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats)
+        private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats, long? pollingIntervalMillis)
         {
             if (liveChats == null || !liveChats.Any())
                 return;
@@ -216,6 +255,7 @@ namespace derinYouTube
             textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
             textBoxChatCountInPackage.Text = liveChats.Count.ToString();
             textBoxOldChatInPackage.Text = "";
+            textBoxPollingIntervalMillis.Text = pollingIntervalMillis?.ToString() ?? "";
 
             await Task.Run(() =>
             {
@@ -237,7 +277,7 @@ namespace derinYouTube
                         bulkCopy.ColumnMappings.Add("IsMessageNumeric", "IsMessageNumeric");
                         bulkCopy.ColumnMappings.Add("NumericMessage", "NumericMessage");
 
-                        bulkCopy.BatchSize = 1000;
+                        bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "dbo.liveChatMessages";
                         try
                         {
@@ -258,7 +298,7 @@ namespace derinYouTube
             ClearMultipleAnswers();
         }
 
-        private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats)
+        private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats, long? pollingIntervalMillis)
         {
             if (liveChats == null || !liveChats.Any())
                 return;
@@ -268,6 +308,7 @@ namespace derinYouTube
             textBoxLastChatTime.Text = liveChats.Last.Value.PublishedAt;
             textBoxChatCountInPackage.Text = liveChats.Count.ToString();
             textBoxOldChatInPackage.Text = "";
+            textBoxPollingIntervalMillis.Text = pollingIntervalMillis?.ToString() ?? "";
 
             await Task.Run(() =>
             {
@@ -289,7 +330,7 @@ namespace derinYouTube
                         bulkCopy.ColumnMappings.Add("IsMessageNumeric", "IsMessageNumeric");
                         bulkCopy.ColumnMappings.Add("NumericMessage", "NumericMessage");
 
-                        bulkCopy.BatchSize = 1000;
+                        bulkCopy.BatchSize = 5000;
                         bulkCopy.DestinationTableName = "dbo.liveChatMessages";
                         try
                         {
@@ -364,6 +405,7 @@ namespace derinYouTube
                 textBoxFirstChatTime.Text = "";
                 textBoxLastChatTime.Text = "";
                 textBoxChatCountInPackage.Text = "";
+                textBoxPollingIntervalMillis.Text = "";
                 textBoxOldChatInPackage.Text = "";
 
                 timerViewerCount.Stop();
@@ -442,9 +484,6 @@ namespace derinYouTube
                             var video = db.liveBroadcasts.FirstOrDefault(x => x.BroadcastId == data.Id) ??
                                         new liveBroadcasts();
 
-                            if (video.Id != 0)
-                                continue;
-
                             video.BroadcastId = data.Id;
                             video.Title = data.Title ?? "";
                             video.ChannelId = data.ChannelId ?? "";
@@ -457,7 +496,8 @@ namespace derinYouTube
                             video.ActualEndTime = data.ActualEndTime;
                             video.ScheduledStartTime = data.ScheduledStartTime;
 
-                            db.liveBroadcasts.Add(video);
+                            if (video.Id == 0)
+                                db.liveBroadcasts.Add(video);
                             db.SaveChanges();
                         }
                     }
@@ -495,12 +535,25 @@ namespace derinYouTube
                 VideoBilgileriniOku(e.RowIndex);
         }
 
+        private VideoModel CurrentBroadcast
+        {
+            get
+            {
+                return _currentBroadcast;
+            }
+            set
+            {
+                _currentBroadcast = value;
+            }
+        }
+
         private async void VideoBilgileriniOku(int rowIndex)
         {
             try
             {
                 if (dgwLiveVideos.Rows[rowIndex].DataBoundItem is VideoModel model)
                 {
+                    _currentBroadcast = model;
                     textBoxVideoId.Text = model.Id;
                     textBoxLiveChatId.Text = model.LiveChatId;
                     richTextBoxTitle.Text = model.Title;
@@ -561,7 +614,8 @@ namespace derinYouTube
 
         private void textBoxLiveChatId_TextChanged(object sender, EventArgs e)
         {
-            buttonGetChats.Enabled = !string.IsNullOrEmpty(textBoxLiveChatId.Text.Trim());
+            //buttonGetChats.Enabled = !string.IsNullOrEmpty(textBoxLiveChatId.Text.Trim());
+            //TODO: Butonun disabled'ı kapatıldı
         }
 
         private void textBoxAnswer_KeyPress(object sender, KeyPressEventArgs e)
@@ -609,8 +663,6 @@ namespace derinYouTube
             labelQuestionCount.Visible = false;
             labelQuestionCount.Text = "0";
             await SaveCompetition();
-
-            //TODO: Yeni yorum ekleyip sorunun bittiğini belirtebiliriz.
         }
 
         private async Task SaveCompetition()
@@ -717,6 +769,26 @@ namespace derinYouTube
                 dgwAnswers.DataSource = result;
                 dgwAnswers.FormatGrid(true);
                 rightAnswers = result.Count(x => x.Gap == 0m);
+
+                var ix = 1;
+                _newComment = "";
+                _newComment = $"Sıra: {textBoxQuestionOrder.Text}\r\n";
+                _newComment += $"Soru: {richTextBoxQuestion.Text}\r\n";
+                _newComment += $"Cevap: {textBoxAnswers.Text}\r\n";
+                _newComment += "____________________________________\r\n";
+                _newComment += "İlk 20\r\n";
+                _newComment += "____________________________________\r\n";
+
+                foreach (var item in result.OrderByDescending(x => x.Score))
+                {
+                    if (ix > 20)
+                        break;
+
+                    _newComment += $"{ix} - {item.DisplayName} - Cevabı: {item.MessageText} - Saat/Dakika: {item.PublishedAt.ToString("HH:mm:ss.fff")} - Puan: {item.Score} \r\n";
+                    ix++;
+                }
+
+                timerCommentAdd.Start();
             }
 
 
@@ -750,6 +822,11 @@ namespace derinYouTube
 
         private void buttonNewQuestions_Click(object sender, EventArgs e)
         {
+            return;
+            var frm = new frmCompetitions(textBoxVideoId.Text, textBoxLiveChatId.Text, _youtubeApi);
+            frm.Show();
+
+            //TODO: Yarışma süreçleri yeni forma alındı
             NewQuestion();
         }
 
@@ -774,27 +851,32 @@ namespace derinYouTube
             this.Cursor = Cursors.WaitCursor;
             dgwCompetitionHeader.DataSource = null;
             dgwCompetitionDetail.DataSource = null;
-            await Task.Delay(100);
+            labelSelectedComp.Text = "";
 
-            var result = new List<CompetitionModel>();
-            using (var db = new DbEntities())
-            {
-                result = db.competitions_vw
-                    .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
-                    .Select(x =>
-                        new CompetitionModel
-                        {
-                            Id = x.Id,
-                            VideoId = x.VideoId,
-                            Question = x.Question,
-                            Answer = x.Answer,
-                            StartTime = x.StartTime,
-                            EndTime = x.EndTime ?? DateTime.Now,
-                            TotalAnswers = x.TotalAnswers ?? 0,
-                            UserCount = x.TotalUser ?? 0,
-                            ValidAnswers = x.ValidAnswers
-                        }).ToList();
-            }
+            //await Task.Delay(50);
+            //var result = new List<CompetitionModel>();
+            //using (var db = new DbEntities())
+            //{
+            //    result = db.competitions_vw
+            //        .Where(x => DbFunctions.TruncateTime(x.Date) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
+            //        .Select(x =>
+            //            new CompetitionModel
+            //            {
+            //                Id = x.Id,
+            //                VideoId = x.VideoId,
+            //                Question = x.Question,
+            //                Answer = x.Answer,
+            //                StartTime = x.StartTime,
+            //                EndTime = x.EndTime ?? DateTime.Now,
+            //                TotalAnswers = x.TotalAnswers ?? 0,
+            //                UserCount = x.TotalUser ?? 0,
+            //                ValidAnswers = x.ValidAnswers
+            //            }).ToList();
+            //}
+
+            Helper.Cnn.Open();
+            var result = Helper.Cnn.Query<CompetitionModel>($"Select * From dbo.fn_competitions('{dtQAAnalysis.Value.Date}')").ToList();
+            Helper.Cnn.Close();
 
             if (result.Any())
             {
@@ -811,44 +893,47 @@ namespace derinYouTube
             this.Cursor = Cursors.WaitCursor;
             dgwWinnerOfDay.DataSource = null;
             dgwWinnerDetail.DataSource = null;
-            await Task.Delay(100);
-            var dayDetail = new List<WinnerOfDayModel>();
+            labelSelectedUser.Text = "";
 
-            await Task.Run(() =>
-            {
-                using (var db = new DbEntities())
-                {
-                    //dayDetail = db.winnerOfDay_vw
-                    //    .Where(x => DbFunctions.TruncateTime(x.Day) == DbFunctions.TruncateTime(dtWinnerOfDay.Value))
-                    //    //.Where(x => x.TotalScore.Value > 0)
-                    //      .Select(x =>
-                    //    new WinnerOfDayModel
-                    //    {
-                    //        Sequence = x.Sequence.Value,
-                    //        DisplayName = x.AuthorDisplayName,
-                    //        AuthorChannelId = x.AuthorChannelId,
-                    //        AuthorChannelUrl = x.AuthorChannelUrl,
-                    //        Day = x.Day.Value,
-                    //        TotalCompetitions = x.TotalCompetition.Value,
-                    //        TotalScore = x.TotalScore.Value,
-                    //        IsSubscripted = ""
-                    //    }).OrderByDescending(x => x.TotalScore).ToList();
+            //await Task.Delay(100);
+            //var dayDetail = new List<WinnerOfDayModel>();
 
-                    dayDetail = db.winnerOfDay_proc(dtWinnerOfDay.Value)
-                                            .Select(x =>
-                            new WinnerOfDayModel
-                            {
-                                Sequence = x.Sequence.Value,
-                                DisplayName = x.AuthorDisplayName,
-                                AuthorChannelId = x.AuthorChannelId,
-                                AuthorChannelUrl = x.AuthorChannelUrl,
-                                Day = x.Day.Value,
-                                TotalCompetitions = x.TotalCompetition.Value,
-                                TotalScore = x.TotalScore.Value,
-                                IsSubscripted = ""
-                            }).OrderByDescending(x => x.TotalScore).ToList();
-                }
-            });
+            //await Task.Run(() =>
+            //{
+            //    using (var db = new DbEntities())
+            //    {
+            //        dayDetail = db.Database.SqlQuery<WinnerOfDayModel>($@"
+            //                SELECT TOP 20 CAST(PublishedAt AS DATE) Day
+	           //                 ,AuthorChannelId
+	           //                 ,AuthorChannelUrl
+	           //                 ,AuthorDisplayName as DisplayName
+	           //                 ,SUM(Score) TotalScore
+	           //                 ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	           //                 ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
+	           //                 ,'' as IsSubscripted
+            //                FROM ValidAnswers_vw
+            //                WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
+            //                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+            //                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+            //    }
+            //});
+
+            Helper.Cnn.Open();
+            var dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                SELECT TOP 20 CAST(PublishedAt AS DATE) Day
+	                ,AuthorChannelId
+	                ,AuthorChannelUrl
+	                ,AuthorDisplayName as DisplayName
+	                ,SUM(Score) TotalScore
+	                ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
+	                ,'' as IsSubscripted
+                FROM ValidAnswers_vw
+                WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
+                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+
+            Helper.Cnn.Close();
 
             if (dayDetail.Any())
             {
@@ -877,7 +962,7 @@ namespace derinYouTube
                     var ix = 0;
                     foreach (DataGridViewRow row in dgwWinnerOfDay.Rows)
                     {
-                        if (ix >= 20)
+                        if (ix >= 10)
                             break;
 
                         var data = row.DataBoundItem as WinnerOfDayModel;
@@ -900,87 +985,99 @@ namespace derinYouTube
 
         private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
-            dgwCompetitionDetail.DataSource = null;
-            await Task.Delay(100);
-            var result = new List<CompetitionResultModel>();
-            var data = dgwCompetitionHeader.CurrentRow.DataBoundItem as CompetitionModel;
+            //if (dgwCompetitionHeader.CurrentRow == null)
+            //    return;
 
-            await Task.Run(() =>
-            {
-                using (var db = new DbEntities())
-                {
-                    result = db.validAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
-                        new CompetitionResultModel
-                        {
-                            Sequence = x.Sequence.Value,
-                            PublishedAt = x.PublishedAt.Value,
-                            DisplayName = x.AuthorDisplayName,
-                            AuthorChannelUrl = x.AuthorChannelUrl,
-                            Answer = x.Answer,
-                            MessageText = x.MessageText,
-                            Score = x.Score,
-                            Gap = x.Gap.Value,
-                            TotalAnswersOfUser = x.UserAnswerCount,
-                            AuthorChannelId = x.AuthorChannelId
-                        }).OrderByDescending(x => x.Score).ToList();
+            //this.Cursor = Cursors.WaitCursor;
+            //dgwCompetitionDetail.DataSource = null;
+            //var data = dgwCompetitionHeader.CurrentRow.DataBoundItem as CompetitionModel;
+
+            //label17.Text = data.Question;
+            //await Task.Delay(100);
+            //var result = new List<CompetitionResultModel>();
+            //await Task.Run(() =>
+            //{
+            //    using (var db = new DbEntities())
+            //    {
+            //        result = db.validAnswers_vw.Where(x => x.CompetitionId == data.Id).Select(x =>
+            //            new CompetitionResultModel
+            //            {
+            //                Sequence = x.Sequence.Value,
+            //                PublishedAt = x.PublishedAt.Value,
+            //                DisplayName = x.AuthorDisplayName,
+            //                AuthorChannelUrl = x.AuthorChannelUrl,
+            //                Answer = x.Answer,
+            //                MessageText = x.MessageText,
+            //                Score = x.Score,
+            //                Gap = x.Gap.Value,
+            //                TotalAnswersOfUser = x.UserAnswerCount,
+            //                AuthorChannelId = x.AuthorChannelId
+            //            }).OrderByDescending(x => x.Score).ToList();
 
 
-                }
-            });
+            //    }
+            //});
 
-            if (result.Any())
-            {
-                dgwCompetitionDetail.DataSource = result;
-                dgwCompetitionDetail.FormatGrid(true);
-            }
-            this.Cursor = Cursors.Default;
+            //if (result.Any())
+            //{
+            //    dgwCompetitionDetail.DataSource = result;
+            //    dgwCompetitionDetail.FormatGrid(true);
+            //}
+            //this.Cursor = Cursors.Default;
         }
 
         private async void dgwWinnerOfDay_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
-            dgwWinnerDetail.DataSource = null;
-            await Task.Delay(100);
-            var result = new List<WinnerDetailsModel>();
+            //this.Cursor = Cursors.WaitCursor;
+            //dgwWinnerDetail.DataSource = null;
+            //labelSelectedUser.Text = "";
 
-            using (var db = new DbEntities())
-            {
-                if (dgwWinnerOfDay.CurrentRow.DataBoundItem is WinnerOfDayModel data)
-                {
-                    result = db.validAnswers_vw.Where(x => x.AuthorChannelId == data.AuthorChannelId)
-                        .Where(x => DbFunctions.TruncateTime(x.PublishedAt) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
-                        .Select(x =>
-                            new WinnerDetailsModel
-                            {
-                                Sequence = x.Sequence.Value,
-                                PublishedAt = x.PublishedAt.Value,
-                                DisplayName = x.AuthorDisplayName,
-                                AuthorChannelUrl = x.AuthorChannelUrl,
-                                Question = x.Question,
-                                Answer = x.Answer,
-                                MessageText = x.MessageText,
-                                Score = x.Score,
-                                Gap = x.Gap.Value,
-                                TotalAnswersOfUser = x.UserAnswerCount
-                            }).OrderByDescending(x => x.Score).ToList();
-                }
-            }
+            //if (dgwWinnerOfDay.CurrentRow == null)
+            //    return;
+            
+            //await Task.Delay(100);
+            //var result = new List<WinnerDetailsModel>();
 
-            if (result.Any())
-            {
-                dgwWinnerDetail.DataSource = result;
-                dgwWinnerDetail.FormatGrid();
-            }
+            //using (var db = new DbEntities())
+            //{
+            //    if (dgwWinnerOfDay.CurrentRow.DataBoundItem is WinnerOfDayModel data)
+            //    {
+            //        labelSelectedUser.Text = data.DisplayName;
 
-            this.Cursor = Cursors.Default;
+            //        result = db.validAnswers_vw.Where(x => x.AuthorChannelId == data.AuthorChannelId)
+            //            .Where(x => DbFunctions.TruncateTime(x.PublishedAt) == DbFunctions.TruncateTime(dtQAAnalysis.Value))
+            //            .Select(x =>
+            //                new WinnerDetailsModel
+            //                {
+            //                    Sequence = x.Sequence.Value,
+            //                    PublishedAt = x.PublishedAt.Value,
+            //                    DisplayName = x.AuthorDisplayName,
+            //                    AuthorChannelUrl = x.AuthorChannelUrl,
+            //                    Question = x.Question,
+            //                    Answer = x.Answer,
+            //                    MessageText = x.MessageText,
+            //                    Score = x.Score,
+            //                    Gap = x.Gap.Value,
+            //                    TotalAnswersOfUser = x.UserAnswerCount
+            //                }).OrderByDescending(x => x.Score).ToList();
+            //    }
+            //}
+
+            //if (result.Any())
+            //{
+            //    dgwWinnerDetail.DataSource = result;
+            //    dgwWinnerDetail.FormatGrid();
+            //    dgwWinnerDetail.Columns["AuthorChannelUrl"].Visible = false;
+            //}
+
+            //this.Cursor = Cursors.Default;
         }
 
         private async void buttonShowStreams_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
             dgwStreams.DataSource = null;
-            await Task.Delay(100);
+            //await Task.Delay(100);
             var model = new List<VideoModel>();
 
             using (var db = new DbEntities())
@@ -1014,30 +1111,43 @@ namespace derinYouTube
 
         private async void buttonShowChats_Click(object sender, EventArgs e)
         {
+            dgwChats.DataSource = null;
+            labelChatCount.Text = "0";
+            
             if (dgwStreams.SelectedRows.Count != 1)
                 return;
 
             var stream = dgwStreams.SelectedRows[0].DataBoundItem as VideoModel;
             this.Cursor = Cursors.WaitCursor;
-            await Task.Delay(100);
-            dgwChats.DataSource = null;
-            labelChatCount.Text = "0";
-            var model = new List<ChatsViewModel>();
+            //await Task.Delay(100);
+            //var model = new List<ChatsViewModel>();
 
-            await Task.Run(() =>
-            {
-                using (var db = new DbEntities())
-                {
-                    model = db.liveChatMessages.Where(x => x.VideoId == stream.Id).Select(x => new ChatsViewModel
-                    {
-                        AuthorChannelId = x.AuthorChannelId,
-                        PublishedAt = x.PublishedAt,
-                        AuthorChannelUrl = x.AuthorChannelUrl,
-                        AuthorDisplayName = x.AuthorDisplayName,
-                        MessageText = x.MessageText
-                    }).ToList();
-                }
-            });
+            //await Task.Run(() =>
+            //{
+            //    using (var db = new DbEntities())
+            //    {
+            //        model = db.liveChatMessages.Where(x => x.VideoId == stream.Id).Select(x => new ChatsViewModel
+            //        {
+            //            AuthorChannelId = x.AuthorChannelId,
+            //            PublishedAt = x.PublishedAt.Value,
+            //            AuthorChannelUrl = x.AuthorChannelUrl,
+            //            AuthorDisplayName = x.AuthorDisplayName,
+            //            MessageText = x.MessageText
+            //        }).ToList();
+            //    }
+            //});
+
+            var userStr = string.IsNullOrEmpty(textBoxSearchUser.Text.Trim())
+                ? ""
+                : $" AND AuthorDisplayName LIKE '%{textBoxSearchUser.Text.Trim()}%' ";
+
+            Helper.Cnn.Open();
+            var model = Helper.Cnn.Query<ChatsViewModel>($@"
+                Select AuthorChannelId,PublishedAt,AuthorChannelUrl,AuthorDisplayName,MessageText
+                From liveChatMessages
+                Where VideoId=@Id {userStr}", new { Id = stream.Id }, commandTimeout: 3000).ToList();
+
+            Helper.Cnn.Close();
 
             if (model.Any())
             {
@@ -1109,12 +1219,13 @@ namespace derinYouTube
 
         private void buttonQuestionList_Click(object sender, EventArgs e)
         {
-            new FrmQuestions(FrmQuestions.FormTypeEnum.New).ShowDialog();
+            new FrmQuestions(Enumeration.FormTypeEnum.New).ShowDialog();
         }
 
-        private void buttonShowQList_Click(object sender, EventArgs e)
+        private async void buttonShowQList_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxQuestionStartAt.Text))
+            await Task.Delay(100);
+            if (timerQuestion.Enabled && !string.IsNullOrEmpty(textBoxQuestionStartAt.Text))
             {
                 MessageBox.Show(
                     "Önce devam eden soruyu bitirmek için 'Yeni Soru' tuşunu kullanın. Daha sonra soru listesine girebilirsiniz.",
@@ -1122,7 +1233,8 @@ namespace derinYouTube
                 return;
             }
 
-            var frm = new FrmQuestions(FrmQuestions.FormTypeEnum.Select);
+            NewQuestion();
+            var frm = new FrmQuestions(Enumeration.FormTypeEnum.Select);
             if (frm.ShowDialog() == DialogResult.OK)
             {
                 NewQuestion();
@@ -1166,7 +1278,7 @@ namespace derinYouTube
 
             }
         }
-        
+
         private void dtQAAnalysis_ValueChanged(object sender, EventArgs e)
         {
             var date = (sender as DateTimePicker).Value;
@@ -1367,9 +1479,140 @@ namespace derinYouTube
             timerException.Stop();
         }
 
-        private void buttonTest_Click(object sender, EventArgs e)
+        private async void TimerCommentAdd_Tick(object sender, EventArgs e)
         {
+            await Task.Delay(100);
+            if (!string.IsNullOrEmpty(textBoxVideoId.Text) && !string.IsNullOrEmpty(_newComment))
+                await _youtubeApi.AddComment(textBoxVideoId.Text, _newComment);
+            _newComment = "";
+            timerCommentAdd.Stop();
+        }
 
+        private void dgwCompetitionHeader_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            dgwCompetitionDetail.DataSource = null;
+            labelSelectedComp.Text = "";
+            if (e.RowIndex < 0)
+                return;
+
+            this.Cursor = Cursors.WaitCursor;
+            var data = dgwCompetitionHeader.Rows[e.RowIndex].DataBoundItem as CompetitionModel;
+            labelSelectedComp.Text = data.Question;
+
+            Helper.Cnn.Open();
+            var result = Helper.Cnn.Query<CompetitionResultModel>(@"
+                Select Top 100 Sequence
+	                ,PublishedAt 
+	                ,AuthorDisplayName as DisplayName
+	                ,AuthorChannelUrl
+	                ,Answer
+	                ,MessageText
+	                ,Score
+	                ,Gap
+	                ,1 as TotalAnswersOfUser
+	                ,AuthorChannelId
+                From validAnswers_vw 
+                Where CompetitionId=@Id AND Score>0", new { Id = data.Id }, commandTimeout: 300).ToList();
+
+            if (result.Any())
+            {
+                dgwCompetitionDetail.DataSource = result;
+                dgwCompetitionDetail.FormatGrid(true);
+            }
+
+            Helper.Cnn.Close();
+            this.Cursor = Cursors.Default;
+        }
+
+        private void dgwWinnerOfDay_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            dgwWinnerDetail.DataSource = null;
+            labelSelectedUser.Text = "";
+
+            if (e.RowIndex < 0)
+                return;
+
+            var data = dgwWinnerOfDay.Rows[e.RowIndex].DataBoundItem as WinnerOfDayModel;
+            labelSelectedUser.Text = data.DisplayName;
+            
+            Helper.Cnn.Open();
+            var result = Helper.Cnn.Query<WinnerDetailsModel>(@"
+                    Select Sequence
+	                    ,PublishedAt 
+	                    ,AuthorDisplayName as DisplayName
+	                    ,AuthorChannelUrl
+	                    ,Question
+	                    ,Answer
+	                    ,MessageText
+	                    ,Score
+	                    ,Gap
+	                    ,1 as TotalAnswersOfUser
+	                    ,AuthorChannelId
+                    From validAnswers_vw 
+                    Where AuthorChannelId=@Channel
+	                    AND CAST(PublishedAt AS DATE)=CAST(@date AS DATE) "
+                , new { Channel = data.AuthorChannelId, date = dtQAAnalysis.Value.Date }, commandTimeout: 300).ToList();
+
+            Helper.Cnn.Close();
+
+            if (result.Any())
+            {
+                dgwWinnerDetail.DataSource = result;
+                dgwWinnerDetail.FormatGrid();
+                dgwWinnerDetail.Columns["AuthorChannelUrl"].Visible = false;
+            }
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private void textBoxSearchUser_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBoxSearchUser.Text.Trim()))
+                buttonShowChats.PerformClick();
+        }
+
+        private void textBoxSearchUser_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                buttonShowChats.PerformClick();
+        }
+
+        private void buttonSelectBroadcast_Click(object sender, EventArgs e)
+        {
+            if (dgwLiveVideos.CurrentRow == null || CurrentBroadcast == null)
+            {
+                MessageBox.Show("Listeden yayın seçin!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(CurrentBroadcast.LiveChatId))
+            {
+                MessageBox.Show("Seçilen yayının LiveChatId bilgisi boş olamaz!", "", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            //Başka yayın seçilememesi için butonu kapatıyoruz.
+            buttonSelectBroadcast.Enabled = false;
+            buttonGetLiveBroadCasts.Enabled = false;
+            buttonShowService.Enabled = true;
+            buttonShowComp.Enabled = true;
+            labelVideoInfo.Visible = true;
+
+            _frmGetChats = new frmGetChats(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
+            _frmCompetitions = new frmCompetitions(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
+        }
+
+        private void buttonShowService_Click(object sender, EventArgs e)
+        {
+            _frmGetChats.Show();
+            _frmGetChats.BringToFront();
+        }
+
+        private void buttonShowComp_Click(object sender, EventArgs e)
+        {
+            _frmCompetitions.Show();
+            _frmCompetitions.BringToFront();
         }
     }
 }

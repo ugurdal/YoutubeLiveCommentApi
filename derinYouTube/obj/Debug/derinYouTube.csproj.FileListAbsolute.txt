@@ -72,7 +72,6 @@ C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmSh
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.FrmQuestions.resources
 C:\DerinSISRelease\Youtube\ClientJsonFiles\client_secret_izlene@gmail.com.json
 C:\DerinSIS_Proje\youtube\derinYouTube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
-C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmMain.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmQuestions.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmShowResult.resources
@@ -82,4 +81,6 @@ C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.CoreCompile
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.CopyComplete
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.exe
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.pdb
-C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.Migrations.InitialCreate.resources
+C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
+C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.frmGetChats.resources
+C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.frmCompetitions.resources

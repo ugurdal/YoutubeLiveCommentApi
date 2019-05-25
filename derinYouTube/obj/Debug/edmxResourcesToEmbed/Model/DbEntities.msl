@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="YoutubeCommentDbModelStoreContainer" CdmEntityContainer="DbEntities">
+    <EntitySetMapping Name="competitionAnswers">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitionAnswers">
+        <MappingFragment StoreEntitySet="competitionAnswers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fk_Competition" ColumnName="Fk_Competition" />
+          <ScalarProperty Name="Fk_LiveChatMessage" ColumnName="Fk_LiveChatMessage" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="competitions">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions">
+        <MappingFragment StoreEntitySet="competitions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="liveBroadcasts">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveBroadcasts">
+        <MappingFragment StoreEntitySet="liveBroadcasts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="BroadcastId" ColumnName="BroadcastId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="ChannelId" ColumnName="ChannelId" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="LiveStatus" ColumnName="LiveStatus" />
+          <ScalarProperty Name="ChannelTitle" ColumnName="ChannelTitle" />
+          <ScalarProperty Name="PublishedDate" ColumnName="PublishedDate" />
+          <ScalarProperty Name="ActualStartTime" ColumnName="ActualStartTime" />
+          <ScalarProperty Name="ActualEndTime" ColumnName="ActualEndTime" />
+          <ScalarProperty Name="ScheduledStartTime" ColumnName="ScheduledStartTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="liveBroadcastsViewCount">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveBroadcastsViewCount">
+        <MappingFragment StoreEntitySet="liveBroadcastsViewCount">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="liveChatMessages">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.liveChatMessages">
+        <MappingFragment StoreEntitySet="liveChatMessages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="MessageId" ColumnName="MessageId" />
+          <ScalarProperty Name="AuthorChannelId" ColumnName="AuthorChannelId" />
+          <ScalarProperty Name="AuthorChannelUrl" ColumnName="AuthorChannelUrl" />
+          <ScalarProperty Name="AuthorDisplayName" ColumnName="AuthorDisplayName" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="PublishedAt" ColumnName="PublishedAt" />
+          <ScalarProperty Name="HasDisplayContent" ColumnName="HasDisplayContent" />
+          <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
+          <ScalarProperty Name="IsChatOwner" ColumnName="IsChatOwner" />
+          <ScalarProperty Name="IsChatSponsor" ColumnName="IsChatSponsor" />
+          <ScalarProperty Name="IsChatModerator" ColumnName="IsChatModerator" />
+          <ScalarProperty Name="IsMessageNumeric" ColumnName="IsMessageNumeric" />
+          <ScalarProperty Name="NumericMessage" ColumnName="NumericMessage" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="questions">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.questions">
+        <MappingFragment StoreEntitySet="questions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="InsertDate" ColumnName="InsertDate" />
+          <ScalarProperty Name="QuestionDate" ColumnName="QuestionDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="chatCountByTime_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.chatCountByTime_vw">
+        <MappingFragment StoreEntitySet="chatCountByTime_vw">
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="ChatCount" ColumnName="ChatCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="competitions_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.competitions_vw">
+        <MappingFragment StoreEntitySet="competitions_vw">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="ValidAnswers" ColumnName="ValidAnswers" />
+          <ScalarProperty Name="TotalAnswers" ColumnName="TotalAnswers" />
+          <ScalarProperty Name="TotalUser" ColumnName="TotalUser" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="validAnswers_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.validAnswers_vw">
+        <MappingFragment StoreEntitySet="validAnswers_vw">
+          <ScalarProperty Name="CompetitionId" ColumnName="CompetitionId" />
+          <ScalarProperty Name="AuthorChannelId" ColumnName="AuthorChannelId" />
+          <ScalarProperty Name="AuthorChannelUrl" ColumnName="AuthorChannelUrl" />
+          <ScalarProperty Name="AuthorDisplayName" ColumnName="AuthorDisplayName" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="PublishedAt" ColumnName="PublishedAt" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="LiveChatId" ColumnName="LiveChatId" />
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Answer" ColumnName="Answer" />
+          <ScalarProperty Name="MessageText" ColumnName="MessageText" />
+          <ScalarProperty Name="Gap" ColumnName="Gap" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+          <ScalarProperty Name="UserAnswerCount" ColumnName="UserAnswerCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="viewerCountByTime_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.viewerCountByTime_vw">
+        <MappingFragment StoreEntitySet="viewerCountByTime_vw">
+          <ScalarProperty Name="VideoId" ColumnName="VideoId" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="ViewerCount" ColumnName="ViewerCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="winnerOfDay_vw">
+      <EntityTypeMapping TypeName="YoutubeCommentDbModel.winnerOfDay_vw">
+        <MappingFragment StoreEntitySet="winnerOfDay_vw">
+          <ScalarProperty Name="Day" ColumnName="Day" />
+          <ScalarProperty Name="AuthorChannelId" ColumnName="AuthorChannelId" />
+          <ScalarProperty Name="AuthorChannelUrl" ColumnName="AuthorChannelUrl" />
+          <ScalarProperty Name="AuthorDisplayName" ColumnName="AuthorDisplayName" />
+          <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />
+          <ScalarProperty Name="TotalCompetition" ColumnName="TotalCompetition" />
+          <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -20,5 +20,11 @@ namespace derinYouTube
             [Description("Sorgulama Yapılamıyor")]
             NotAllowed = 2
         }
+
+        public enum FormTypeEnum
+        {
+            New = 0,
+            Select = 1
+        }
     }
 }
