@@ -1598,6 +1598,8 @@ namespace derinYouTube
             buttonShowService.Enabled = true;
             buttonShowComp.Enabled = true;
             labelVideoInfo.Visible = true;
+            dgwLiveVideos.Enabled = false;
+            dgwLiveVideos.Cursor = Cursors.No;
 
             _frmGetChats = new frmGetChats(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
             _frmCompetitions = new frmCompetitions(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);

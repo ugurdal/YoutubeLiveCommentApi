@@ -1792,7 +1792,7 @@
             this.labelVideoInfo.Name = "labelVideoInfo";
             this.labelVideoInfo.Size = new System.Drawing.Size(265, 45);
             this.labelVideoInfo.TabIndex = 24;
-            this.labelVideoInfo.Text = "Yayın seçidli. Değiştirmek için modülü kapatıp tekrar açın !!";
+            this.labelVideoInfo.Text = "Yayın seçildi. Değiştirmek için modülü kapatıp tekrar açın !!";
             this.labelVideoInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.labelVideoInfo.Visible = false;
             // 
