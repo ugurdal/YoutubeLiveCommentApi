@@ -40,10 +40,10 @@
             this.tsButtonNew = new System.Windows.Forms.ToolStripButton();
             this.tsButtonDelete = new System.Windows.Forms.ToolStripButton();
             this.splitContainerQ = new System.Windows.Forms.SplitContainer();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dtQuestionDate = new System.Windows.Forms.DateTimePicker();
             this.numOrder = new System.Windows.Forms.NumericUpDown();
             this.labelOrder = new System.Windows.Forms.Label();
-            this.dtQuestionDate = new System.Windows.Forms.DateTimePicker();
-            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgwQ)).BeginInit();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerQ)).BeginInit();
@@ -62,34 +62,34 @@
             this.dgwQ.Location = new System.Drawing.Point(0, 0);
             this.dgwQ.Name = "dgwQ";
             this.dgwQ.ReadOnly = true;
-            this.dgwQ.Size = new System.Drawing.Size(746, 289);
+            this.dgwQ.Size = new System.Drawing.Size(870, 355);
             this.dgwQ.TabIndex = 0;
             this.dgwQ.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwQ_CellDoubleClick);
             this.dgwQ.SelectionChanged += new System.EventHandler(this.dgwQ_SelectionChanged);
             // 
             // richTextBoxAnswers
             // 
-            this.richTextBoxAnswers.Location = new System.Drawing.Point(57, 97);
+            this.richTextBoxAnswers.Location = new System.Drawing.Point(66, 112);
             this.richTextBoxAnswers.Name = "richTextBoxAnswers";
-            this.richTextBoxAnswers.Size = new System.Drawing.Size(101, 21);
+            this.richTextBoxAnswers.Size = new System.Drawing.Size(117, 23);
             this.richTextBoxAnswers.TabIndex = 17;
             this.richTextBoxAnswers.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.richTextBoxAnswers_KeyPress);
             // 
             // labelQ
             // 
             this.labelQ.AutoSize = true;
-            this.labelQ.Location = new System.Drawing.Point(21, 37);
+            this.labelQ.Location = new System.Drawing.Point(24, 43);
             this.labelQ.Name = "labelQ";
-            this.labelQ.Size = new System.Drawing.Size(29, 13);
+            this.labelQ.Size = new System.Drawing.Size(31, 15);
             this.labelQ.TabIndex = 15;
             this.labelQ.Text = "Soru";
             // 
             // labelA
             // 
             this.labelA.AutoSize = true;
-            this.labelA.Location = new System.Drawing.Point(12, 100);
+            this.labelA.Location = new System.Drawing.Point(14, 115);
             this.labelA.Name = "labelA";
-            this.labelA.Size = new System.Drawing.Size(38, 13);
+            this.labelA.Size = new System.Drawing.Size(40, 15);
             this.labelA.TabIndex = 16;
             this.labelA.Text = "Cevap";
             // 
@@ -97,19 +97,19 @@
             // 
             this.richTextBoxQuestion.BackColor = System.Drawing.SystemColors.Window;
             this.richTextBoxQuestion.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBoxQuestion.Location = new System.Drawing.Point(57, 35);
+            this.richTextBoxQuestion.Location = new System.Drawing.Point(66, 40);
             this.richTextBoxQuestion.MaxLength = 1000;
             this.richTextBoxQuestion.Name = "richTextBoxQuestion";
-            this.richTextBoxQuestion.Size = new System.Drawing.Size(377, 56);
+            this.richTextBoxQuestion.Size = new System.Drawing.Size(439, 64);
             this.richTextBoxQuestion.TabIndex = 14;
             this.richTextBoxQuestion.Text = "";
             // 
             // labelCount
             // 
             this.labelCount.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelCount.Location = new System.Drawing.Point(638, 68);
+            this.labelCount.Location = new System.Drawing.Point(744, 78);
             this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(100, 23);
+            this.labelCount.Size = new System.Drawing.Size(117, 27);
             this.labelCount.TabIndex = 19;
             this.labelCount.Text = "0";
             this.labelCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -120,9 +120,9 @@
             this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.buttonClose.Image = global::derinYouTube.Properties.Resources.OK;
             this.buttonClose.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonClose.Location = new System.Drawing.Point(652, 467);
+            this.buttonClose.Location = new System.Drawing.Point(761, 539);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(98, 34);
+            this.buttonClose.Size = new System.Drawing.Size(114, 39);
             this.buttonClose.TabIndex = 1;
             this.buttonClose.Text = "Kapat";
             this.buttonClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -137,7 +137,7 @@
             this.tsButtonDelete});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(754, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(880, 25);
             this.toolStrip1.TabIndex = 20;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -176,7 +176,7 @@
             // 
             this.splitContainerQ.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainerQ.IsSplitterFixed = true;
-            this.splitContainerQ.Location = new System.Drawing.Point(4, 28);
+            this.splitContainerQ.Location = new System.Drawing.Point(5, 32);
             this.splitContainerQ.Name = "splitContainerQ";
             this.splitContainerQ.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -196,21 +196,39 @@
             // splitContainerQ.Panel2
             // 
             this.splitContainerQ.Panel2.Controls.Add(this.dgwQ);
-            this.splitContainerQ.Size = new System.Drawing.Size(746, 433);
+            this.splitContainerQ.Size = new System.Drawing.Size(870, 500);
             this.splitContainerQ.SplitterDistance = 140;
+            this.splitContainerQ.SplitterWidth = 5;
             this.splitContainerQ.TabIndex = 21;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(230, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(33, 15);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "Tarih";
+            // 
+            // dtQuestionDate
+            // 
+            this.dtQuestionDate.Location = new System.Drawing.Point(273, 7);
+            this.dtQuestionDate.Name = "dtQuestionDate";
+            this.dtQuestionDate.Size = new System.Drawing.Size(233, 23);
+            this.dtQuestionDate.TabIndex = 23;
+            this.dtQuestionDate.ValueChanged += new System.EventHandler(this.DtQuestionDate_ValueChanged);
             // 
             // numOrder
             // 
             this.numOrder.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.numOrder.Location = new System.Drawing.Point(57, 6);
+            this.numOrder.Location = new System.Drawing.Point(66, 7);
             this.numOrder.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numOrder.Name = "numOrder";
-            this.numOrder.Size = new System.Drawing.Size(60, 22);
+            this.numOrder.Size = new System.Drawing.Size(70, 22);
             this.numOrder.TabIndex = 22;
             this.numOrder.Value = new decimal(new int[] {
             1,
@@ -221,41 +239,24 @@
             // labelOrder
             // 
             this.labelOrder.AutoSize = true;
-            this.labelOrder.Location = new System.Drawing.Point(25, 8);
+            this.labelOrder.Location = new System.Drawing.Point(29, 9);
             this.labelOrder.Name = "labelOrder";
-            this.labelOrder.Size = new System.Drawing.Size(25, 13);
+            this.labelOrder.Size = new System.Drawing.Size(26, 15);
             this.labelOrder.TabIndex = 21;
             this.labelOrder.Text = "Sıra";
             // 
-            // dtQuestionDate
-            // 
-            this.dtQuestionDate.Location = new System.Drawing.Point(234, 6);
-            this.dtQuestionDate.Name = "dtQuestionDate";
-            this.dtQuestionDate.Size = new System.Drawing.Size(200, 21);
-            this.dtQuestionDate.TabIndex = 23;
-            this.dtQuestionDate.ValueChanged += new System.EventHandler(this.DtQuestionDate_ValueChanged);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(197, 12);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(31, 13);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "Tarih";
-            // 
             // FrmQuestions
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLight;
             this.CancelButton = this.buttonClose;
-            this.ClientSize = new System.Drawing.Size(754, 513);
+            this.ClientSize = new System.Drawing.Size(880, 592);
             this.Controls.Add(this.splitContainerQ);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.buttonClose);
             this.DoubleBuffered = true;
-            this.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

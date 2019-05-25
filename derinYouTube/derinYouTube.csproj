@@ -310,6 +310,7 @@
     <None Include="Resources\grade-01_small%401x.png" />
     <None Include="Resources\grade-02_small%401x.png" />
     <None Include="Resources\grade-03_small%401x.png" />
+    <None Include="Resources\list_small%401x.png" />
     <Content Include="youtube.ico" />
   </ItemGroup>
   <ItemGroup />

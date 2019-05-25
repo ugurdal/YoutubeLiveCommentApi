@@ -60,6 +60,7 @@ namespace derinYouTube
             tabControlLeftMenu.Visible = false;
             //tabControlLeftMenu.TabPages.Remove(tabPageService);
             splitContainerDikey.SplitterDistance = 5;
+            tabControlMain.TabPages.Remove(tabPageQuestion);
 
             dgwWinnerOfDay.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwAnswers.CellDoubleClick += DataGridViewCellDoubleClick;

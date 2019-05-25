@@ -146,9 +146,12 @@
             this.textBoxSearchUser = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
+            this.labelVideoInfo = new System.Windows.Forms.Label();
             this.buttonStop = new System.Windows.Forms.Button();
             this.pbWorking = new System.Windows.Forms.PictureBox();
             this.buttonGetChats = new System.Windows.Forms.Button();
+            this.buttonQuestionList = new System.Windows.Forms.Button();
+            this.buttonShowComp = new System.Windows.Forms.Button();
             this.buttonShowService = new System.Windows.Forms.Button();
             this.buttonSelectBroadcast = new System.Windows.Forms.Button();
             this.buttonGetLiveBroadCasts = new System.Windows.Forms.Button();
@@ -160,8 +163,6 @@
             this.buttonShowStreams = new System.Windows.Forms.Button();
             this.buttonShowChats = new System.Windows.Forms.Button();
             this.buttonShowBroadcastForViewerCount = new System.Windows.Forms.Button();
-            this.buttonShowComp = new System.Windows.Forms.Button();
-            this.labelVideoInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
             this.splitContainerDikey.Panel2.SuspendLayout();
@@ -712,6 +713,7 @@
             // splitContainerYatay.Panel1
             // 
             this.splitContainerYatay.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainerYatay.Panel1.Controls.Add(this.buttonQuestionList);
             this.splitContainerYatay.Panel1.Controls.Add(this.labelVideoInfo);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonShowComp);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonShowService);
@@ -1591,6 +1593,20 @@
             this.label33.Text = "Yalnızca son bir haftanın yayınları alınacak";
             this.label33.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // labelVideoInfo
+            // 
+            this.labelVideoInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelVideoInfo.BackColor = System.Drawing.SystemColors.Info;
+            this.labelVideoInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.labelVideoInfo.ForeColor = System.Drawing.Color.Maroon;
+            this.labelVideoInfo.Location = new System.Drawing.Point(11, 477);
+            this.labelVideoInfo.Name = "labelVideoInfo";
+            this.labelVideoInfo.Size = new System.Drawing.Size(265, 45);
+            this.labelVideoInfo.TabIndex = 24;
+            this.labelVideoInfo.Text = "Yayın seçildi. Değiştirmek için modülü kapatıp tekrar açın !!";
+            this.labelVideoInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelVideoInfo.Visible = false;
+            // 
             // buttonStop
             // 
             this.buttonStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1628,6 +1644,35 @@
             this.buttonGetChats.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.buttonGetChats.UseVisualStyleBackColor = false;
             this.buttonGetChats.Click += new System.EventHandler(this.buttonAsync_Click);
+            // 
+            // buttonQuestionList
+            // 
+            this.buttonQuestionList.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonQuestionList.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.buttonQuestionList.Image = global::derinYouTube.Properties.Resources.list_small_1x;
+            this.buttonQuestionList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonQuestionList.Location = new System.Drawing.Point(491, 396);
+            this.buttonQuestionList.Name = "buttonQuestionList";
+            this.buttonQuestionList.Size = new System.Drawing.Size(191, 38);
+            this.buttonQuestionList.TabIndex = 25;
+            this.buttonQuestionList.Text = "Soru Hazırla";
+            this.buttonQuestionList.UseVisualStyleBackColor = false;
+            this.buttonQuestionList.Click += new System.EventHandler(this.buttonQuestionList_Click);
+            // 
+            // buttonShowComp
+            // 
+            this.buttonShowComp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonShowComp.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.buttonShowComp.Enabled = false;
+            this.buttonShowComp.Image = global::derinYouTube.Properties.Resources.grade_03_small_1x;
+            this.buttonShowComp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.buttonShowComp.Location = new System.Drawing.Point(282, 484);
+            this.buttonShowComp.Name = "buttonShowComp";
+            this.buttonShowComp.Size = new System.Drawing.Size(191, 38);
+            this.buttonShowComp.TabIndex = 23;
+            this.buttonShowComp.Text = "Yarışma Formunu Aç";
+            this.buttonShowComp.UseVisualStyleBackColor = false;
+            this.buttonShowComp.Click += new System.EventHandler(this.buttonShowComp_Click);
             // 
             // buttonShowService
             // 
@@ -1766,35 +1811,6 @@
             this.buttonShowBroadcastForViewerCount.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.buttonShowBroadcastForViewerCount.UseVisualStyleBackColor = true;
             this.buttonShowBroadcastForViewerCount.Click += new System.EventHandler(this.buttonShowBroadcastForViewerCount_Click);
-            // 
-            // buttonShowComp
-            // 
-            this.buttonShowComp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonShowComp.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.buttonShowComp.Enabled = false;
-            this.buttonShowComp.Image = global::derinYouTube.Properties.Resources.grade_03_small_1x;
-            this.buttonShowComp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowComp.Location = new System.Drawing.Point(282, 484);
-            this.buttonShowComp.Name = "buttonShowComp";
-            this.buttonShowComp.Size = new System.Drawing.Size(191, 38);
-            this.buttonShowComp.TabIndex = 23;
-            this.buttonShowComp.Text = "Yarışma Formunu Aç";
-            this.buttonShowComp.UseVisualStyleBackColor = false;
-            this.buttonShowComp.Click += new System.EventHandler(this.buttonShowComp_Click);
-            // 
-            // labelVideoInfo
-            // 
-            this.labelVideoInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.labelVideoInfo.BackColor = System.Drawing.SystemColors.Info;
-            this.labelVideoInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.labelVideoInfo.ForeColor = System.Drawing.Color.Maroon;
-            this.labelVideoInfo.Location = new System.Drawing.Point(11, 477);
-            this.labelVideoInfo.Name = "labelVideoInfo";
-            this.labelVideoInfo.Size = new System.Drawing.Size(265, 45);
-            this.labelVideoInfo.TabIndex = 24;
-            this.labelVideoInfo.Text = "Yayın seçildi. Değiştirmek için modülü kapatıp tekrar açın !!";
-            this.labelVideoInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.labelVideoInfo.Visible = false;
             // 
             // FrmMain
             // 
@@ -2007,5 +2023,6 @@
         private System.Windows.Forms.Button buttonShowService;
         private System.Windows.Forms.Button buttonShowComp;
         private System.Windows.Forms.Label labelVideoInfo;
+        private System.Windows.Forms.Button buttonQuestionList;
     }
 }
