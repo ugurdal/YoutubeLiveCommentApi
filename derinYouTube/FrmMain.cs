@@ -492,7 +492,7 @@ namespace derinYouTube
                             video.Description = data.Description ?? "";
                             video.LiveStatus = data.LiveStatus ?? "";
                             video.ChannelTitle = data.ChannelTitle ?? "";
-                            video.PublishedDate = data.PublishedDate;
+                            video.PublishedDate = data.ScheduledStartTime ?? data.PublishedDate;
                             video.ActualStartTime = data.ActualStartTime;
                             video.ActualEndTime = data.ActualEndTime;
                             video.ScheduledStartTime = data.ScheduledStartTime;

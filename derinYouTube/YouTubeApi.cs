@@ -229,7 +229,7 @@ namespace derinYouTube
                             Description = item.Snippet.Description,
                             LiveStatus = item.Status.LifeCycleStatus,
                             ChannelTitle = "",
-                            PublishedDate = item.Snippet.PublishedAt,
+                            PublishedDate = item.Snippet.ScheduledStartTime ?? item.Snippet.PublishedAt,
                             ActualStartTime = item.Snippet.ActualStartTime,
                             ActualEndTime = item.Snippet.ActualEndTime,
                             ScheduledStartTime = item.Snippet.ScheduledStartTime
