@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -61,5 +62,54 @@ namespace derinYouTube
 
     }
 
-}
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
 
+        public static DateTime GetLastDayOfWeek(this DateTime dayInWeek)
+        {
+            DayOfWeek lastDay = DayOfWeek.Sunday;
+            DateTime lastDayOfWeek = dayInWeek.Date;
+            while (lastDayOfWeek.DayOfWeek != lastDay)
+                lastDayOfWeek = lastDayOfWeek.AddDays(1);
+
+            return lastDayOfWeek;
+        }
+
+        public static DateTime GetLastWorkDayOfWeek(this DateTime dayInWeek)
+        {
+            DayOfWeek lastDay = DayOfWeek.Friday;
+            DateTime lastDayOfWeek = dayInWeek.Date;
+            while (lastDayOfWeek.DayOfWeek != lastDay)
+                lastDayOfWeek = lastDayOfWeek.AddDays(1);
+
+            return lastDayOfWeek;
+        }
+
+        public static DateTime GetFirstDayOfWeek(this DateTime dayInWeek)
+        {
+            CultureInfo defaultCultureInfo = CultureInfo.CurrentCulture;
+            return GetFirstDayOfWeek(dayInWeek, defaultCultureInfo);
+        }
+
+        public static DateTime GetFirstDayOfWeek(this DateTime dayInWeek, CultureInfo cultureInfo)
+        {
+            DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+            DateTime firstDayInWeek = dayInWeek.Date;
+            while (firstDayInWeek.DayOfWeek != firstDay)
+                firstDayInWeek = firstDayInWeek.AddDays(-1);
+
+            return firstDayInWeek;
+        }
+
+        public static int GetYearWeekNumber(this DateTime date)
+        {
+            return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+        }
+
+    }
+}

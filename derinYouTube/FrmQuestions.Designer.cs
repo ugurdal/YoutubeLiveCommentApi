@@ -206,7 +206,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(230, 14);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(33, 15);
+            this.label1.Size = new System.Drawing.Size(32, 15);
             this.label1.TabIndex = 24;
             this.label1.Text = "Tarih";
             // 

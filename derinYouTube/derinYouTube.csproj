@@ -130,6 +130,12 @@
     <Compile Include="FrmQuestions.Designer.cs">
       <DependentUpon>FrmQuestions.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmQuestionSummary.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmQuestionSummary.Designer.cs">
+      <DependentUpon>FrmQuestionSummary.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmShowResult.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,7 @@
     <Compile Include="ViewModels\CompetitionModel.cs" />
     <Compile Include="ViewModels\CompetitionResultModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\ShowResultModel.cs" />
     <Compile Include="ViewModels\WinnerDetailsModel.cs" />
     <Compile Include="ViewModels\WinnerOfDayModel.cs" />
     <Compile Include="YouTubeApi.cs" />
@@ -210,6 +217,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmQuestions.resx">
       <DependentUpon>FrmQuestions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmQuestionSummary.resx">
+      <DependentUpon>FrmQuestionSummary.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmShowResult.resx">
       <DependentUpon>FrmShowResult.cs</DependentUpon>
@@ -311,6 +321,9 @@
     <None Include="Resources\grade-02_small%401x.png" />
     <None Include="Resources\grade-03_small%401x.png" />
     <None Include="Resources\list_small%401x.png" />
+    <None Include="Resources\number-4_small%401x.png" />
+    <None Include="Resources\grade-04_small%401x.png" />
+    <None Include="Resources\SychronizeListHS.png" />
     <Content Include="youtube.ico" />
   </ItemGroup>
   <ItemGroup />

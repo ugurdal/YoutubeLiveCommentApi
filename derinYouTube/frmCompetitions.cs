@@ -27,6 +27,21 @@ namespace derinYouTube
         private readonly string _liveChatId;
         private readonly YouTubeApi _youtubeApi;
 
+        public event EventHandler<ShowResultModel> QuestionCompleted;
+        protected virtual void OnQuestionCompleted(int id, List<CompetitionResultModel> model, List<WinnerOfDayModel> dayDetail)
+        {
+            QuestionCompleted?.Invoke(this, new ShowResultModel
+            {
+                Id = id,
+                Question = textBoxQuestion.Text,
+                Answer = textBoxAnswers.Text,
+                Sequence = CurrentQuestions,
+                Date = DateTime.Today,
+                Results = model,
+                CurrentWinners = dayDetail
+            });
+        }
+
         public frmCompetitions(string videoId, string liveChatId, YouTubeApi api)
         {
             InitializeComponent();
@@ -334,6 +349,7 @@ namespace derinYouTube
             dgwAnswers.DataSource = null;
             richTextBoxAnswerDetails.Text = string.Empty;
             var result = new List<CompetitionResultModel>();
+            var dayDetail = new List<WinnerOfDayModel>();
             var totalUserCount = 0;
             var totalAnswers = 0;
             var validAnswers = 0;
@@ -341,25 +357,6 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                //using (var db = new DbEntities())
-                //{
-                //    
-                //    result = db.validAnswers_vw.Where(x => x.CompetitionId == competitionId).Select(x =>
-                //        new CompetitionResultModel
-                //        {
-                //            Sequence = x.Sequence.Value,
-                //            PublishedAt = x.PublishedAt.Value,
-                //            DisplayName = x.AuthorDisplayName,
-                //            AuthorChannelUrl = x.AuthorChannelUrl,
-                //            Answer = x.Answer,
-                //            MessageText = x.MessageText,
-                //            Score = x.Score,
-                //            Gap = x.Gap.Value,
-                //            TotalAnswersOfUser = x.UserAnswerCount,
-                //            AuthorChannelId = x.AuthorChannelId
-                //        }).OrderByDescending(x => x.Score).ToList();
-                //}
-
                 Helper.Cnn.Open();
                 result = Helper.Cnn.Query<CompetitionResultModel>(@"
                 Select Top 100 Sequence
@@ -378,12 +375,14 @@ namespace derinYouTube
                 Helper.Cnn.Close();
             });
 
+            //TODO: Yorumlara, ilk 20 nin yazılması kaldırıldı
+            /*
             if (result.Any())
             {
                 dgwAnswers.DataSource = result;
                 dgwAnswers.FormatGrid(true);
                 rightAnswers = result.Count(x => x.Gap == 0m);
-
+                
                 var ix = 1;
                 _newComment = "";
                 _newComment = $"Sıra: {CurrentQuestions}\r\n";
@@ -404,21 +403,10 @@ namespace derinYouTube
 
                 timerCommentAdd.Start();
             }
-
+            */
 
             await Task.Run(() =>
             {
-                //using (var db = new DbEntities())
-                //{
-                //    var compDetail = db.competitions_vw.FirstOrDefault(x => x.Id == competitionId);
-                //    if (compDetail != null)
-                //    {
-                //        totalAnswers = compDetail.TotalAnswers.Value;
-                //        totalUserCount = compDetail.TotalUser.Value;
-                //        validAnswers = compDetail.ValidAnswers;
-                //    }
-                //}
-
                 Helper.Cnn.Open();
                 var compDetail = Helper.Cnn.Query<competitions_vw>($"Select * From competitions_vw Where Id={competitionId}").FirstOrDefault();
                 if (compDetail != null)
@@ -430,12 +418,31 @@ namespace derinYouTube
                 Helper.Cnn.Close();
             });
 
+            await Task.Run(() =>
+            {
+                dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                SELECT TOP 5 CAST(PublishedAt AS DATE) Day
+	                ,AuthorChannelId
+	                ,AuthorChannelUrl
+	                ,AuthorDisplayName as DisplayName
+	                ,SUM(Score) TotalScore
+	                ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
+	                ,'' as IsSubscripted
+                FROM ValidAnswers_vw
+                WHERE CAST(PublishedAt AS DATE)=CAST('{DateTime.Today.Date}' as DATE)
+                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+            });
+
+
             richTextBoxAnswerDetails.Text = $"# Toplam {totalUserCount} farklı kullanıcı cevap verdi.\r\n";
             richTextBoxAnswerDetails.Text += $"# Toplam {totalAnswers} cevap verildi.\r\n";
             richTextBoxAnswerDetails.Text += $"# Geçerli cevap sayısı: {validAnswers}\r\n";
             richTextBoxAnswerDetails.Text += $"# Geçersiz cevap sayısı: {totalAnswers - validAnswers}\r\n";
             richTextBoxAnswerDetails.Text += $"# Doğru cevap sayısı: {rightAnswers}";
 
+            OnQuestionCompleted(competitionId, result, dayDetail);
             this.Cursor = Cursors.Default;
         }
 

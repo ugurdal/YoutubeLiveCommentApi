@@ -199,7 +199,7 @@
             this.label21.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label21.Location = new System.Drawing.Point(12, 206);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(91, 13);
+            this.label21.Size = new System.Drawing.Size(92, 13);
             this.label21.TabIndex = 35;
             this.label21.Text = "Son Yorum Tarihi";
             // 
@@ -209,7 +209,7 @@
             this.label15.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label15.Location = new System.Drawing.Point(12, 179);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(83, 13);
+            this.label15.Size = new System.Drawing.Size(84, 13);
             this.label15.TabIndex = 34;
             this.label15.Text = "İlk Yorum Tarihi";
             // 

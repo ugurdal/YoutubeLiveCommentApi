@@ -37,6 +37,7 @@ namespace derinYouTube
         private string _newComment;
         private frmGetChats _frmGetChats;
         private frmCompetitions _frmCompetitions;
+        private FrmQuestionSummary _frmQuestionSummary;
         private VideoModel _currentBroadcast;
 
         public FrmMain()
@@ -52,9 +53,11 @@ namespace derinYouTube
             dgwStreams.DoubleBuffered(true);
             dgwChats.DoubleBuffered(true);
             dgwViewerCountBroadcasts.DoubleBuffered(true);
+            dgwWinnerOfWeek.DoubleBuffered(true);
 
             MessageHeader = "Dikkat"; //this.Text;
             this.DoubleBuffered = true;
+            dtWinnerOfWeek.Value = DateTime.Today;
 
             //Sol paneli kapat
             tabControlLeftMenu.Visible = false;
@@ -63,6 +66,7 @@ namespace derinYouTube
             tabControlMain.TabPages.Remove(tabPageQuestion);
 
             dgwWinnerOfDay.CellDoubleClick += DataGridViewCellDoubleClick;
+            dgwWinnerOfWeek.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwAnswers.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwCompetitionDetail.CellDoubleClick += DataGridViewCellDoubleClick;
             dgwChats.CellDoubleClick += DataGridViewCellDoubleClick;
@@ -143,7 +147,7 @@ namespace derinYouTube
             return;
             _frmGetChats = new frmGetChats(textBoxVideoId.Text, textBoxLiveChatId.Text, _youtubeApi);
             _frmGetChats.Show();
-            
+
             if (string.IsNullOrEmpty(textBoxLiveChatId.Text))
             {
                 MessageBox.Show("Live Chat ID okunamadı!", MessageHeader, MessageBoxButtons.OK,
@@ -896,29 +900,6 @@ namespace derinYouTube
             dgwWinnerDetail.DataSource = null;
             labelSelectedUser.Text = "";
 
-            //await Task.Delay(100);
-            //var dayDetail = new List<WinnerOfDayModel>();
-
-            //await Task.Run(() =>
-            //{
-            //    using (var db = new DbEntities())
-            //    {
-            //        dayDetail = db.Database.SqlQuery<WinnerOfDayModel>($@"
-            //                SELECT TOP 20 CAST(PublishedAt AS DATE) Day
-	           //                 ,AuthorChannelId
-	           //                 ,AuthorChannelUrl
-	           //                 ,AuthorDisplayName as DisplayName
-	           //                 ,SUM(Score) TotalScore
-	           //                 ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
-	           //                 ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
-	           //                 ,'' as IsSubscripted
-            //                FROM ValidAnswers_vw
-            //                WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
-            //                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
-            //                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
-            //    }
-            //});
-
             Helper.Cnn.Open();
             var dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
                 SELECT TOP 20 CAST(PublishedAt AS DATE) Day
@@ -939,29 +920,56 @@ namespace derinYouTube
             if (dayDetail.Any())
             {
                 dgwWinnerOfDay.DataSource = dayDetail.ToSortableGridList();
+                dgwWinnerOfDay.Columns["TotalDays"].Visible = false;
                 dgwWinnerOfDay.FormatGrid(true);
             }
 
             this.Cursor = Cursors.Default;
             dgwWinnerOfDay.Columns.Cast<DataGridViewColumn>().ToList()
                 .ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
-            labelCheckSubscription.Visible = true;
+            labelCheckSubscriptionDay.Visible = true;
 
-            await CheckUsersForSubscription();
+            await CheckUsersForSubscription(dgwWinnerOfDay);
 
-            labelCheckSubscription.Visible = false;
+            labelCheckSubscriptionDay.Visible = false;
             dgwWinnerOfDay.Columns.Cast<DataGridViewColumn>().ToList()
                 .ForEach(f => f.SortMode = DataGridViewColumnSortMode.Automatic);
         }
 
-        private async Task CheckUsersForSubscription()
+        private void buttonShowWinnerOfDayOnScreen_Click(object sender, EventArgs e)
+        {
+            Helper.Cnn.Open();
+            var dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                SELECT TOP 5 CAST(PublishedAt AS DATE) Day
+	                ,AuthorChannelId
+	                ,AuthorChannelUrl
+	                ,AuthorDisplayName as DisplayName
+	                ,SUM(Score) TotalScore
+	                ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
+	                ,'' as IsSubscripted
+                FROM ValidAnswers_vw
+                WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
+                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+
+            Helper.Cnn.Close();
+            if (_frmQuestionSummary != null)
+            {
+                _frmQuestionSummary.Show();
+                _frmQuestionSummary.BringToFront();
+                _frmQuestionSummary.ShowWinners(dayDetail, FrmQuestionSummary.ViewType.Day);
+            }
+        }
+
+        private async Task CheckUsersForSubscription(DataGridView dgw)
         {
             try
             {
                 await Task.Run(async () =>
                 {
                     var ix = 0;
-                    foreach (DataGridViewRow row in dgwWinnerOfDay.Rows)
+                    foreach (DataGridViewRow row in dgw.Rows)
                     {
                         if (ix >= 10)
                             break;
@@ -971,10 +979,10 @@ namespace derinYouTube
                             _youtubeApi.IsUserSucscripted(data.AuthorChannelId, "UCqcOFUC9aroUcaz6k_gtmIg").Result;
 
                         data.IsSubscripted = queryResult.ToDescription();
-                        dgwWinnerOfDay.Rows[row.Index].Cells["IsSubscripted"].Value = queryResult.ToDescription();
+                        dgw.Rows[row.Index].Cells["IsSubscripted"].Value = queryResult.ToDescription();
                         ix++;
 
-                        dgwWinnerOfDay.Refresh();
+                        dgw.Refresh();
                         await Task.Delay(25);
                     }
                 });
@@ -1035,7 +1043,7 @@ namespace derinYouTube
 
             //if (dgwWinnerOfDay.CurrentRow == null)
             //    return;
-            
+
             //await Task.Delay(100);
             //var result = new List<WinnerDetailsModel>();
 
@@ -1114,7 +1122,7 @@ namespace derinYouTube
         {
             dgwChats.DataSource = null;
             labelChatCount.Text = "0";
-            
+
             if (dgwStreams.SelectedRows.Count != 1)
                 return;
 
@@ -1287,6 +1295,7 @@ namespace derinYouTube
             dtQAAnalysis.Value = date;
             dtAllStreams.Value = date;
             dtViewerCount.Value = date;
+            dtWinnerOfWeek.Value = date;
         }
 
         private string ChartType
@@ -1536,7 +1545,7 @@ namespace derinYouTube
 
             var data = dgwWinnerOfDay.Rows[e.RowIndex].DataBoundItem as WinnerOfDayModel;
             labelSelectedUser.Text = data.DisplayName;
-            
+
             Helper.Cnn.Open();
             var result = Helper.Cnn.Query<WinnerDetailsModel>(@"
                     Select Sequence
@@ -1598,12 +1607,20 @@ namespace derinYouTube
             buttonGetLiveBroadCasts.Enabled = false;
             buttonShowService.Enabled = true;
             buttonShowComp.Enabled = true;
+            buttonShowResultForm.Enabled = true;
             labelVideoInfo.Visible = true;
             dgwLiveVideos.Enabled = false;
             dgwLiveVideos.Cursor = Cursors.No;
 
             _frmGetChats = new frmGetChats(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
             _frmCompetitions = new frmCompetitions(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
+            _frmQuestionSummary = new FrmQuestionSummary();
+            _frmCompetitions.QuestionCompleted += _frmCompetitions_QuestionCompleted;
+        }
+
+        private void _frmCompetitions_QuestionCompleted(object sender, ShowResultModel e)
+        {
+            _frmQuestionSummary.ShowResults(e);
         }
 
         private void buttonShowService_Click(object sender, EventArgs e)
@@ -1616,6 +1633,91 @@ namespace derinYouTube
         {
             _frmCompetitions.Show();
             _frmCompetitions.BringToFront();
+        }
+
+        private void dtWinnerOfWeek_ValueChanged(object sender, EventArgs e)
+        {
+            var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
+            var end = dtWinnerOfWeek.Value.GetLastWorkDayOfWeek();
+            labelWeekDays.Text = $"{start.ToLongDateString()} - {end.ToLongDateString()}";
+        }
+
+        private async void buttonShowWinnerOfWeek_Click(object sender, EventArgs e)
+        {
+            this.Cursor = Cursors.WaitCursor;
+            dgwWinnerOfWeek.DataSource = null;
+
+            var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
+            var end = dtWinnerOfWeek.Value.GetLastWorkDayOfWeek();
+
+            Helper.Cnn.Open();
+            var weekDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                     SELECT TOP 20 AuthorChannelId
+	                    ,AuthorChannelUrl
+	                    ,AuthorDisplayName as DisplayName
+	                    ,SUM(Score) TotalScore
+	                    ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                    ,COUNT(DISTINCT(CAST(PublishedAt AS DATE))) TotalDays
+	                    ,ROW_NUMBER() OVER (ORDER BY SUM(Score) DESC) Sequence
+	                    ,'' as IsSubscripted
+                    FROM ValidAnswers_vw
+                    WHERE CAST(PublishedAt AS DATE) BETWEEN CAST('{start}' as DATE) AND CAST('{end}' as DATE)
+                    GROUP BY AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                    ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+
+            Helper.Cnn.Close();
+
+            if (weekDetail.Any())
+            {
+                dgwWinnerOfWeek.DataSource = weekDetail.ToSortableGridList();
+                dgwWinnerOfWeek.FormatGrid(true);
+            }
+
+            this.Cursor = Cursors.Default;
+            dgwWinnerOfWeek.Columns.Cast<DataGridViewColumn>().ToList()
+                .ForEach(f => f.SortMode = DataGridViewColumnSortMode.NotSortable);
+            labelCheckSubscriptionWeek.Visible = true;
+
+            await CheckUsersForSubscription(dgwWinnerOfWeek);
+
+            labelCheckSubscriptionWeek.Visible = false;
+            dgwWinnerOfWeek.Columns.Cast<DataGridViewColumn>().ToList()
+                .ForEach(f => f.SortMode = DataGridViewColumnSortMode.Automatic);
+        }
+
+        private void buttonShowWinnerOfWeekOnScreen_Click(object sender, EventArgs e)
+        {
+            var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
+            var end = dtWinnerOfWeek.Value.GetLastWorkDayOfWeek();
+
+            Helper.Cnn.Open();
+            var weekDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                     SELECT TOP 5 AuthorChannelId
+	                    ,AuthorChannelUrl
+	                    ,AuthorDisplayName as DisplayName
+	                    ,SUM(Score) TotalScore
+	                    ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                    ,COUNT(DISTINCT(CAST(PublishedAt AS DATE))) TotalDays
+	                    ,ROW_NUMBER() OVER (ORDER BY SUM(Score) DESC) Sequence
+	                    ,'' as IsSubscripted
+                    FROM ValidAnswers_vw
+                    WHERE CAST(PublishedAt AS DATE) BETWEEN CAST('{start}' as DATE) AND CAST('{end}' as DATE)
+                    GROUP BY AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                    ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+
+            Helper.Cnn.Close();
+            if (_frmQuestionSummary != null)
+            {
+                _frmQuestionSummary.Show();
+                _frmQuestionSummary.BringToFront();
+                _frmQuestionSummary.ShowWinners(weekDetail, FrmQuestionSummary.ViewType.Week);
+            }
+        }
+
+        private void buttonShowResultForm_Click(object sender, EventArgs e)
+        {
+            _frmQuestionSummary.Show();
+            _frmQuestionSummary.BringToFront();
         }
     }
 }

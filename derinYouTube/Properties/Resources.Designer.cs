@@ -313,9 +313,29 @@ namespace derinYouTube.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap grade_04_small_1x {
+            get {
+                object obj = ResourceManager.GetObject("grade-04_small@1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap list_small_1x {
             get {
                 object obj = ResourceManager.GetObject("list_small@1x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap number_4_small_1x {
+            get {
+                object obj = ResourceManager.GetObject("number-4_small@1x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -346,6 +366,16 @@ namespace derinYouTube.Properties {
         internal static System.Drawing.Bitmap StopHS {
             get {
                 object obj = ResourceManager.GetObject("StopHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap SychronizeListHS {
+            get {
+                object obj = ResourceManager.GetObject("SychronizeListHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
