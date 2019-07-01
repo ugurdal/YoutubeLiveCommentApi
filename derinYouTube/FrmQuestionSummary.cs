@@ -101,7 +101,7 @@ namespace derinYouTube
                     if (ix > 5)
                         break;
 
-                    var lwItm = lwResult.Items.Add(item.Sequence.ToString());
+                    var lwItm = lwDaySummary.Items.Add(item.Sequence.ToString());
                     lwItm.Font = new Font("Segoe UI", 18f, FontStyle.Bold);
                     lwItm.SubItems.Add(item.DisplayName.ToUpperInvariant());
                     lwItm.SubItems.Add(item.TotalScore.ToString());

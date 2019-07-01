@@ -376,7 +376,7 @@ namespace derinYouTube
             });
 
             //TODO: Yorumlara, ilk 20 nin yazılması kaldırıldı
-            /*
+            
             if (result.Any())
             {
                 dgwAnswers.DataSource = result;
@@ -403,7 +403,6 @@ namespace derinYouTube
 
                 timerCommentAdd.Start();
             }
-            */
 
             await Task.Run(() =>
             {
