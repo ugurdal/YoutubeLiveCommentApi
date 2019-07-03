@@ -34,6 +34,18 @@ namespace derinYouTube
 
         public static SqlConnection Cnn;
 
+        public static void CnnOpen()
+        {
+            if (Cnn?.State == ConnectionState.Closed)
+                Cnn.Open();
+        }
+
+        public static void CnnClose()
+        {
+            if (Cnn?.State == ConnectionState.Open)
+                Cnn.Close();
+        }
+
         public static bool IsNumeric(string s)
         {
             return Regex.Match(s, @"^\d+$").Success;
