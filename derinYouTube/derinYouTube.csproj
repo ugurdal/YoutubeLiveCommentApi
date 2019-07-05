@@ -324,6 +324,7 @@
     <None Include="Resources\number-4_small%401x.png" />
     <None Include="Resources\grade-04_small%401x.png" />
     <None Include="Resources\SychronizeListHS.png" />
+    <None Include="Resources\M_YARISMA_BACKGROUND.jpg" />
     <Content Include="youtube.ico" />
   </ItemGroup>
   <ItemGroup />

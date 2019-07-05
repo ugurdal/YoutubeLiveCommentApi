@@ -333,6 +333,16 @@ namespace derinYouTube.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap M_YARISMA_BACKGROUND {
+            get {
+                object obj = ResourceManager.GetObject("M_YARISMA_BACKGROUND", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap number_4_small_1x {
             get {
                 object obj = ResourceManager.GetObject("number-4_small@1x", resourceCulture);

@@ -31,5 +31,53 @@ namespace derinYouTube.Properties {
                 return ((string)(this["YoutubeHesap"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int LwCol1Width {
+            get {
+                return ((int)(this["LwCol1Width"]));
+            }
+            set {
+                this["LwCol1Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int LwCol2Width {
+            get {
+                return ((int)(this["LwCol2Width"]));
+            }
+            set {
+                this["LwCol2Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int LwCol3Width {
+            get {
+                return ((int)(this["LwCol3Width"]));
+            }
+            set {
+                this["LwCol3Width"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public int LwCol4Width {
+            get {
+                return ((int)(this["LwCol4Width"]));
+            }
+            set {
+                this["LwCol4Width"] = value;
+            }
+        }
     }
 }

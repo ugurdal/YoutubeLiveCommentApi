@@ -13,6 +13,8 @@ namespace derinYouTube
 {
     public partial class FrmQuestionSummary : Form
     {
+        private bool _loaded;
+
         public enum ViewType
         {
             Day = 0,
@@ -23,15 +25,41 @@ namespace derinYouTube
         public FrmQuestionSummary()
         {
             InitializeComponent();
-            //this.MinimumSize = this.Size;
+            SetDoubleBuffered(this);
+            SetDoubleBuffered(this.tableLayoutPanel1);
+            SetDoubleBuffered(this.lwDaySummary);
+        }
+
+        public static void SetDoubleBuffered(Control c)
+        {
+            if (SystemInformation.TerminalServerSession)
+                return;
+            var aProp = typeof(Control).GetProperty("DoubleBuffered",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            aProp.SetValue(c, true, null);
+        }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
         }
 
         private void FrmQuestionSummary_Load(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Reload();
+            lwDaySummary.Columns[0].Width = Properties.Settings.Default.LwCol1Width;
+            lwDaySummary.Columns[1].Width = Properties.Settings.Default.LwCol2Width;
+            lwDaySummary.Columns[2].Width = Properties.Settings.Default.LwCol3Width;
+            lwDaySummary.Columns[3].Width = Properties.Settings.Default.LwCol4Width;
         }
 
         private void SetTableLayoutSizes(ViewType layout)
         {
+            /*
             switch (layout)
             {
                 case ViewType.Both:
@@ -61,10 +89,12 @@ namespace derinYouTube
                     break;
             }
             SetListViewSize();
+            */
         }
 
         public void ShowResults(ShowResultModel model)
         {
+            /*
             switch (model.Sequence)
             {
                 case 1:
@@ -98,37 +128,39 @@ namespace derinYouTube
                     pictureBoxOrder.Image = Properties.Resources._10;
                     break;
             }
+            */
 
-            SetTableLayoutSizes(ViewType.Both);
-            labelQuestion.Text = model.Question;
-            lwResult.Items.Clear();
+            //SetTableLayoutSizes(ViewType.Week);
+            //labelQuestion.Text = model.Question;
+            //lwResult.Items.Clear();
             lwDaySummary.Items.Clear();
-            lwDaySummary.Font = new Font("Segoe UI", 26f, FontStyle.Bold);
+            lwDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
             labelDaySummary.Text = "GÜNÜN BİRİNCİSİ SIRALAMASI";
-            labelDaySummary.Font = new Font("Segoe UI", 32f, FontStyle.Bold);
-            pictureBoxOrder.Visible = true;
-            labelQuestion.Visible = true;
-            lwResult.Visible = true;
+            labelDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
+            //pictureBoxOrder.Visible = true;
+            //labelQuestion.Visible = true;
+            //lwResult.Visible = true;
 
             var ix = 1;
-            if (model.Results != null)
-            {
-                foreach (var item in model.Results.OrderByDescending(x => x.Score))
-                {
-                    if (ix > 5)
-                        break;
+            //if (model.Results != null)
+            //{
+            //    foreach (var item in model.Results.OrderByDescending(x => x.Score))
+            //    {
+            //        if (ix > 5)
+            //            break;
 
-                    var lwItm = lwResult.Items.Add(item.Sequence.ToString());
-                    lwItm.Font = new Font("Segoe UI", 30f, FontStyle.Bold);
-                    lwItm.SubItems.Add(item.DisplayName.ToUpper());
-                    lwItm.SubItems.Add(item.Score.ToString());
-                    ix++;
-                }
-            }
+            //        var lwItm = lwResult.Items.Add(item.Sequence.ToString());
+            //        lwItm.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
+            //        lwItm.SubItems.Add(item.Sequence.ToString());
+            //        lwItm.SubItems.Add(item.DisplayName.ToUpper());
+            //        lwItm.SubItems.Add(item.Score.ToString());
+            //        ix++;
+            //    }
+            //}
 
             //Son soruda günün birinliğini kapatıyoruz.
-            labelDaySummary.Visible = model.Sequence != 10;
-            lwDaySummary.Visible = model.Sequence != 10;
+            //labelDaySummary.Visible = model.Sequence != 10;
+            //lwDaySummary.Visible = model.Sequence != 10;
 
             ix = 1;
             if (model.CurrentWinners != null)
@@ -139,7 +171,8 @@ namespace derinYouTube
                         break;
 
                     var lwItm = lwDaySummary.Items.Add(item.Sequence.ToString());
-                    lwItm.Font = new Font("Segoe UI", 30f, FontStyle.Bold);
+                    lwItm.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
+                    lwItm.SubItems.Add(item.Sequence.ToString());
                     lwItm.SubItems.Add(item.DisplayName.ToUpper());
                     lwItm.SubItems.Add(item.TotalScore.ToString());
                     ix++;
@@ -149,14 +182,11 @@ namespace derinYouTube
 
         public void ShowWinners(List<WinnerOfDayModel> model, ViewType type)
         {
-            SetTableLayoutSizes(type);
+            //SetTableLayoutSizes(type);
             lwDaySummary.Items.Clear();
             labelDaySummary.Text = type == ViewType.Day
                 ? "GÜNÜN BİRİNCİSİ SIRALAMASI"
                 : "HAFTANIN BİRİNCİSİ SIRALAMASI";
-            pictureBoxOrder.Visible = false;
-            labelQuestion.Visible = false;
-            lwResult.Visible = false;
             lwDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
             labelDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
 
@@ -170,6 +200,7 @@ namespace derinYouTube
 
                     var lwItm = lwDaySummary.Items.Add(item.Sequence.ToString());
                     lwItm.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
+                    lwItm.SubItems.Add(item.Sequence.ToString());
                     lwItm.SubItems.Add(item.DisplayName.ToUpper());
                     lwItm.SubItems.Add(item.TotalScore.ToString());
                     ix++;
@@ -179,30 +210,23 @@ namespace derinYouTube
 
         private void FrmQuestionSummary_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.LwCol1Width = 0;
+            Properties.Settings.Default.LwCol2Width = lwDaySummary.Columns[1].Width;
+            Properties.Settings.Default.LwCol3Width = lwDaySummary.Columns[2].Width;
+            Properties.Settings.Default.LwCol4Width = lwDaySummary.Columns[3].Width;
+            Properties.Settings.Default.Save();
             this.Hide();
             e.Cancel = true;
         }
 
         private void FrmQuestionSummary_SizeChanged(object sender, EventArgs e)
         {
-            SetListViewSize();
-        }
-
-        private void SetListViewSize()
-        {
-            var width = lwResult.Size.Width - 10;
-            lwResult.Columns[0].Width = Convert.ToInt32(width / 100.0 * 15.0);
-            lwResult.Columns[1].Width = Convert.ToInt32(width / 100.0 * 60.0);
-            lwResult.Columns[2].Width = Convert.ToInt32(width / 100.0 * 25.0);
-
-            lwDaySummary.Columns[0].Width = Convert.ToInt32(width / 100.0 * 15.0);
-            lwDaySummary.Columns[1].Width = Convert.ToInt32(width / 100.0 * 60.0);
-            lwDaySummary.Columns[2].Width = Convert.ToInt32(width / 100.0 * 25.0);
+            
         }
 
         private void FrmQuestionSummary_Shown(object sender, EventArgs e)
         {
-            SetListViewSize();
+            
         }
     }
 }
