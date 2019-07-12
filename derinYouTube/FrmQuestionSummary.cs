@@ -28,6 +28,17 @@ namespace derinYouTube
             SetDoubleBuffered(this);
             SetDoubleBuffered(this.tableLayoutPanel1);
             SetDoubleBuffered(this.lwDaySummary);
+
+            if (Screen.AllScreens.Count() > 1)
+            {
+                var secondaryScreen = Screen.AllScreens.Cast<Screen>().Where(x => !x.Primary).Take(1).FirstOrDefault();
+                if (secondaryScreen != null)
+                {
+                    this.StartPosition = FormStartPosition.Manual;
+                    this.Location = secondaryScreen.WorkingArea.Location;
+                    this.Size = new Size(secondaryScreen.WorkingArea.Width, secondaryScreen.WorkingArea.Height);
+                }
+            }
         }
 
         public static void SetDoubleBuffered(Control c)
@@ -221,12 +232,12 @@ namespace derinYouTube
 
         private void FrmQuestionSummary_SizeChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void FrmQuestionSummary_Shown(object sender, EventArgs e)
         {
-            
+
         }
     }
 }
