@@ -941,36 +941,38 @@ namespace derinYouTube
             buttonShowWinnerOfDayOnScreen.Enabled = false;
             await Task.Delay(20);
             Helper.CnnOpen();
-            CheckSubForms();
-            var dayDetail = new List<WinnerOfDayModel>();
-
-            await Task.Run(() =>
+            if (CheckSubForms())
             {
-                dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
-                SELECT TOP 5 CAST(PublishedAt AS DATE) Day
-	                ,AuthorChannelId
-	                ,AuthorChannelUrl
-	                ,AuthorDisplayName as DisplayName
-	                ,SUM(Score) TotalScore
-	                ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
-	                ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
-	                ,'' as IsSubscripted
-                FROM ValidAnswers_vw
-                WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
-                GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
-                ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
-            });
+                var dayDetail = new List<WinnerOfDayModel>();
 
-            Helper.CnnClose();
-            buttonShowWinnerOfDayOnScreen.Enabled = true;
+                await Task.Run(() =>
+                {
+                    dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                    SELECT TOP 5 CAST(PublishedAt AS DATE) Day
+	                    ,AuthorChannelId
+	                    ,AuthorChannelUrl
+	                    ,AuthorDisplayName as DisplayName
+	                    ,SUM(Score) TotalScore
+	                    ,COUNT(DISTINCT(CompetitionId)) TotalCompetitions
+	                    ,ROW_NUMBER() OVER (PARTITION BY CAST(PublishedAt AS DATE) ORDER BY SUM(Score) DESC) Sequence
+	                    ,'' as IsSubscripted
+                    FROM ValidAnswers_vw
+                    WHERE CAST(PublishedAt AS DATE)=CAST('{dtWinnerOfDay.Value}' as DATE)
+                    GROUP BY CAST(PublishedAt AS DATE),AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
+                    ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
+                });
 
-            if (dayDetail.Any())
-            {
-                _frmQuestionSummary.Activate();
-                _frmQuestionSummary.Show();
-                _frmQuestionSummary.BringToFront();
-                _frmQuestionSummary.ShowWinners(dayDetail, FrmQuestionSummary.ViewType.Day);
+                Helper.CnnClose();
+
+                if (dayDetail.Any())
+                {
+                    _frmQuestionSummary.Activate();
+                    _frmQuestionSummary.Show();
+                    _frmQuestionSummary.BringToFront();
+                    _frmQuestionSummary.ShowWinners(dayDetail, FrmQuestionSummary.ViewType.Day);
+                }
             }
+            buttonShowWinnerOfDayOnScreen.Enabled = true;
         }
 
         private async void buttonShowWinnerOfWeekOnScreen_Click(object sender, EventArgs e)
@@ -978,15 +980,15 @@ namespace derinYouTube
             buttonShowWinnerOfWeekOnScreen.Enabled = false;
             await Task.Delay(20);
             Helper.CnnOpen();
-            CheckSubForms();
-            
-            var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
-            var end = dtWinnerOfWeek.Value.GetLastWorkDayOfWeek();
-            var weekDetail = new List<WinnerOfDayModel>();
-
-            await Task.Run(() =>
+            if (CheckSubForms())
             {
-                weekDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
+                var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
+                var end = dtWinnerOfWeek.Value.GetLastWorkDayOfWeek();
+                var weekDetail = new List<WinnerOfDayModel>();
+
+                await Task.Run(() =>
+                {
+                    weekDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
                      SELECT TOP 5 AuthorChannelId
 	                    ,AuthorChannelUrl
 	                    ,AuthorDisplayName as DisplayName
@@ -999,18 +1001,19 @@ namespace derinYouTube
                     WHERE CAST(PublishedAt AS DATE) BETWEEN CAST('{start}' as DATE) AND CAST('{end}' as DATE)
                     GROUP BY AuthorChannelId,AuthorChannelUrl,AuthorDisplayName
                     ORDER BY TotalScore DESC ").OrderByDescending(x => x.TotalScore).ToList();
-            });
+                });
 
-            Helper.CnnClose();
-            buttonShowWinnerOfWeekOnScreen.Enabled = true;
+                Helper.CnnClose();
 
-            if (weekDetail.Any())
-            {
-                _frmQuestionSummary.Activate();
-                _frmQuestionSummary.Show();
-                _frmQuestionSummary.BringToFront();
-                _frmQuestionSummary.ShowWinners(weekDetail, FrmQuestionSummary.ViewType.Week);
+                if (weekDetail.Any())
+                {
+                    _frmQuestionSummary.Activate();
+                    _frmQuestionSummary.Show();
+                    _frmQuestionSummary.BringToFront();
+                    _frmQuestionSummary.ShowWinners(weekDetail, FrmQuestionSummary.ViewType.Week);
+                }
             }
+            buttonShowWinnerOfWeekOnScreen.Enabled = true;
         }
 
         private async Task CheckUsersForSubscription(DataGridView dgw)
@@ -1667,26 +1670,38 @@ namespace derinYouTube
 
         private void _frmCompetitions_QuestionCompleted(object sender, ShowResultModel e)
         {
-            CheckSubForms();
-            _frmQuestionSummary.ShowResults(e);
+            if (CheckSubForms())
+            {
+                _frmQuestionSummary.ShowResults(e);
+            }
         }
 
         private void buttonShowService_Click(object sender, EventArgs e)
         {
-            CheckSubForms();
-            _frmGetChats.Show();
-            _frmGetChats.BringToFront();
+            if (CheckSubForms())
+            {
+                _frmGetChats.Show();
+                _frmGetChats.BringToFront();
+            }
         }
 
         private void buttonShowComp_Click(object sender, EventArgs e)
         {
-            CheckSubForms();
-            _frmCompetitions.Show();
-            _frmCompetitions.BringToFront();
+            if (CheckSubForms())
+            {
+                _frmCompetitions.Show();
+                _frmCompetitions.BringToFront();
+            }
         }
 
-        private void CheckSubForms()
+        private bool CheckSubForms()
         {
+            if (CurrentBroadcast == null)
+            {
+                MessageBox.Show("Önce bir yayın seçmelisiniz!", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return false;
+            }
+
             if (Application.OpenForms.OfType<frmGetChats>().Count() == 0)
                 _frmGetChats = new frmGetChats(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
 
@@ -1698,6 +1713,8 @@ namespace derinYouTube
                 _frmQuestionSummary = new FrmQuestionSummary();
                 _frmCompetitions.QuestionCompleted += _frmCompetitions_QuestionCompleted;
             }
+
+            return true;
         }
 
         private void buttonShowResultForm_Click(object sender, EventArgs e)
