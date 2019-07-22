@@ -15,6 +15,7 @@ namespace derinYouTube
     public static class Helper
     {
         public static LinkedList<LiveChatModel> LiveChatModels = new LinkedList<LiveChatModel>();
+        public static List<SettingsModel> Settings = new List<SettingsModel>();
         //public static DataTable DtLiveChats = new DataTable();
 
         //public static void GenerateDataTableColumns()

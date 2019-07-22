@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="YoutubeCommentDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="YoutubeCommentDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="competitionAnswers">
           <Key>
             <PropertyRef Name="Id" />
@@ -85,6 +85,13 @@
           <Property Name="Answer" Type="varchar" MaxLength="800" Nullable="false" />
           <Property Name="InsertDate" Type="smalldatetime" Nullable="false" />
           <Property Name="QuestionDate" Type="smalldatetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="smallint" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="1000" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'YoutubeCommentDb.dbo.chatCountByTime_vw' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -210,6 +217,7 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
           <EntitySet Name="liveBroadcastsViewCount" EntityType="Self.liveBroadcastsViewCount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="liveChatMessages" EntityType="Self.liveChatMessages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="questions" EntityType="Self.questions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="settings" EntityType="Self.settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="chatCountByTime_vw" EntityType="Self.chatCountByTime_vw" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [chatCountByTime_vw].[VideoId] AS [VideoId], 
@@ -278,8 +286,7 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
             <End Role="competitionAnswers" EntitySet="competitionAnswers" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="YoutubeCommentDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -495,7 +502,15 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
             <End Role="liveChatMessages" EntitySet="liveChatMessages" />
             <End Role="competitionAnswers" EntitySet="competitionAnswers" />
           </AssociationSet>
+          <EntitySet Name="settings" EntityType="YoutubeCommentDbModel.settings" />
         </EntityContainer>
+        <EntityType Name="settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int16" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -655,6 +670,14 @@ warning 6002: The table/view 'YoutubeCommentDb.dbo.winnerOfDay_vw' does not have
                 <ScalarProperty Name="TotalScore" ColumnName="TotalScore" />
                 <ScalarProperty Name="TotalCompetition" ColumnName="TotalCompetition" />
                 <ScalarProperty Name="Sequence" ColumnName="Sequence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="settings">
+            <EntityTypeMapping TypeName="YoutubeCommentDbModel.settings">
+              <MappingFragment StoreEntitySet="settings">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

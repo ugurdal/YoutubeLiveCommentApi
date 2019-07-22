@@ -36,8 +36,11 @@
             this.labelDaySummary = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.labelSizes = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lwDaySummary
@@ -62,6 +65,7 @@
             this.lwDaySummary.TabIndex = 4;
             this.lwDaySummary.UseCompatibleStateImageBehavior = false;
             this.lwDaySummary.View = System.Windows.Forms.View.Details;
+            this.lwDaySummary.ColumnWidthChanged += new System.Windows.Forms.ColumnWidthChangedEventHandler(this.lwDaySummary_ColumnWidthChanged);
             // 
             // columnHeader4
             // 
@@ -115,12 +119,34 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.labelDaySummary);
+            this.panel3.Controls.Add(this.panel1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(857, 114);
             this.panel3.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.labelSizes);
+            this.panel1.Controls.Add(this.labelDaySummary);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(857, 114);
+            this.panel1.TabIndex = 6;
+            // 
+            // labelSizes
+            // 
+            this.labelSizes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSizes.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(94)))), ((int)(((byte)(18)))));
+            this.labelSizes.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.labelSizes.Location = new System.Drawing.Point(757, 61);
+            this.labelSizes.Name = "labelSizes";
+            this.labelSizes.Size = new System.Drawing.Size(100, 53);
+            this.labelSizes.TabIndex = 6;
+            this.labelSizes.Text = "label1";
+            this.labelSizes.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // FrmQuestionSummary
             // 
@@ -138,6 +164,7 @@
             this.SizeChanged += new System.EventHandler(this.FrmQuestionSummary_SizeChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -151,5 +178,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label labelSizes;
     }
 }

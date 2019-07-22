@@ -62,10 +62,14 @@ namespace derinYouTube
         private void FrmQuestionSummary_Load(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reload();
-            lwDaySummary.Columns[0].Width = Properties.Settings.Default.LwCol1Width;
-            lwDaySummary.Columns[1].Width = Properties.Settings.Default.LwCol2Width;
-            lwDaySummary.Columns[2].Width = Properties.Settings.Default.LwCol3Width;
-            lwDaySummary.Columns[3].Width = Properties.Settings.Default.LwCol4Width;
+            lwDaySummary.Columns[0].Width = 0;
+
+            if (Helper.Settings.FirstOrDefault(x => x.Id == 1)?.IsNumeric ?? false)
+                lwDaySummary.Columns[1].Width = Helper.Settings.FirstOrDefault(x => x.Id == 1).NumericValue;
+            if (Helper.Settings.FirstOrDefault(x => x.Id == 2)?.IsNumeric ?? false)
+                lwDaySummary.Columns[2].Width = Helper.Settings.FirstOrDefault(x => x.Id == 2).NumericValue;
+            if (Helper.Settings.FirstOrDefault(x => x.Id == 3)?.IsNumeric ?? false)
+                lwDaySummary.Columns[3].Width = Helper.Settings.FirstOrDefault(x => x.Id == 3).NumericValue;
         }
 
         private void SetTableLayoutSizes(ViewType layout)
@@ -238,6 +242,13 @@ namespace derinYouTube
         private void FrmQuestionSummary_Shown(object sender, EventArgs e)
         {
 
+        }
+
+        private void lwDaySummary_ColumnWidthChanged(object sender, ColumnWidthChangedEventArgs e)
+        {
+            labelSizes.Text = $"{lwDaySummary.Columns[1].Width}\r\n";
+            labelSizes.Text += $"{lwDaySummary.Columns[2].Width}\r\n";
+            labelSizes.Text += $"{lwDaySummary.Columns[3].Width}\r\n";
         }
     }
 }

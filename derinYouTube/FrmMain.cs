@@ -138,8 +138,8 @@ namespace derinYouTube
                 textBoxLiveChatId.ReadOnly = false;
             }
 
-            //this.textBoxVideoId.Text = "OnwNEYB-hWQ";
-            //this.textBoxLiveChatId.Text = "Cg0KC09ud05FWUItaFdR";
+            Helper.CnnOpen();
+            Helper.Settings = Helper.Cnn.Query<SettingsModel>("SELECT Id,Value FROM settings").ToList();
         }
 
         private async void buttonAsync_Click(object sender, EventArgs e)

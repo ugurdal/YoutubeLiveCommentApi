@@ -36,5 +36,6 @@ namespace derinYouTube.Model
         public virtual DbSet<validAnswers_vw> validAnswers_vw { get; set; }
         public virtual DbSet<viewerCountByTime_vw> viewerCountByTime_vw { get; set; }
         public virtual DbSet<winnerOfDay_vw> winnerOfDay_vw { get; set; }
+        public virtual DbSet<settings> settings { get; set; }
     }
 }

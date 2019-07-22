@@ -212,5 +212,13 @@
       <End Role="liveChatMessages" EntitySet="liveChatMessages" />
       <End Role="competitionAnswers" EntitySet="competitionAnswers" />
     </AssociationSet>
+    <EntitySet Name="settings" EntityType="YoutubeCommentDbModel.settings" />
   </EntityContainer>
+  <EntityType Name="settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int16" Nullable="false" />
+    <Property Name="Value" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

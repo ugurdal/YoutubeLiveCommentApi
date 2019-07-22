@@ -182,6 +182,9 @@
     <Compile Include="Model\questions.cs">
       <DependentUpon>DbEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\settings.cs">
+      <DependentUpon>DbEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\validAnswers_vw.cs">
       <DependentUpon>DbEntities.tt</DependentUpon>
     </Compile>
@@ -201,6 +204,7 @@
     <Compile Include="ViewModels\CompetitionModel.cs" />
     <Compile Include="ViewModels\CompetitionResultModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\SettingsModel.cs" />
     <Compile Include="ViewModels\ShowResultModel.cs" />
     <Compile Include="ViewModels\WinnerDetailsModel.cs" />
     <Compile Include="ViewModels\WinnerOfDayModel.cs" />

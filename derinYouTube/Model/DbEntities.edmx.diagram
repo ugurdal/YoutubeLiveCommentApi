@@ -18,6 +18,7 @@
         <EntityTypeShape EntityType="YoutubeCommentDbModel.winnerOfDay_vw" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
         <AssociationConnector Association="YoutubeCommentDbModel.FK_competitionAnswers_competitions" ManuallyRouted="false" />
         <AssociationConnector Association="YoutubeCommentDbModel.FK_competitionAnswers_liveChatMessages" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="YoutubeCommentDbModel.settings" Width="1.5" PointX="3.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
