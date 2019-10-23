@@ -77,7 +77,6 @@ C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmQuestions.resou
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmShowResult.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.Properties.Resources.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.GenerateResource.cache
-C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.CoreCompileInputs.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.CopyComplete
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.exe
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.pdb

@@ -1565,18 +1565,7 @@ namespace derinYouTube
 
             Helper.CnnOpen();
             var result = Helper.Cnn.Query<CompetitionResultModel>(@"
-                Select Top 100 Sequence
-	                ,PublishedAt 
-	                ,AuthorDisplayName as DisplayName
-	                ,AuthorChannelUrl
-	                ,Answer
-	                ,MessageText
-	                ,Score
-	                ,Gap
-	                ,1 as TotalAnswersOfUser
-	                ,AuthorChannelId
-                From validAnswers_vw 
-                Where CompetitionId=@Id AND Score>0", new { Id = data.Id }, commandTimeout: 300).ToList();
+                Select * FROM dbo.fn_validAnswers (@Id)", new { Id = data.Id }, commandTimeout: 300).ToList();
 
             if (result.Any())
             {
