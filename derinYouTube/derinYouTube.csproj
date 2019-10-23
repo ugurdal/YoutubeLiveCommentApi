@@ -285,7 +285,8 @@
     <None Include="Resources\ajax-loader.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Denemeler.txt" />
+    <Content Include="Dosyalar\db_objects.sql" />
+    <Content Include="Dosyalar\Denemeler.txt" />
     <Content Include="Model\DbEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DbEntities.edmx</DependentUpon>
@@ -296,7 +297,7 @@
       <DependentUpon>DbEntities.edmx</DependentUpon>
       <LastGenOutput>DbEntities.cs</LastGenOutput>
     </Content>
-    <Content Include="Notlar.txt" />
+    <Content Include="Dosyalar\Notlar.txt" />
     <None Include="Resources\StopHS.png" />
     <None Include="Resources\FormRunHS.png" />
     <None Include="Resources\delete.bmp" />
