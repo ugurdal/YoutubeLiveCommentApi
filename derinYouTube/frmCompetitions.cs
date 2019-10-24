@@ -358,20 +358,8 @@ namespace derinYouTube
             await Task.Run(() =>
             {
                 Helper.Cnn.Open();
-                result = Helper.Cnn.Query<CompetitionResultModel>(@"
-                Select Top 100 Sequence
-	                ,PublishedAt 
-	                ,AuthorDisplayName as DisplayName
-	                ,AuthorChannelUrl
-	                ,Answer
-	                ,MessageText
-	                ,Score
-	                ,Gap
-	                ,1 as TotalAnswersOfUser
-	                ,AuthorChannelId
-                From validAnswers_vw 
-                Where CompetitionId=@Id AND Score>0", new { Id = competitionId }, commandTimeout: 300).ToList();
-
+                result = Helper.Cnn.Query<CompetitionResultModel>(
+                    @"Select * FROM dbo.fn_validAnswers (@Id)", new { Id = competitionId }, commandTimeout: 300).ToList();
                 Helper.Cnn.Close();
             });
 
