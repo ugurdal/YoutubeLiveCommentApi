@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.lwDaySummary = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -38,9 +39,17 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.labelSizes = new System.Windows.Forms.Label();
+            this.lwDaySummaryAll = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.timerShowAll = new System.Windows.Forms.Timer(this.components);
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lwDaySummary
@@ -57,11 +66,10 @@
             this.lwDaySummary.Font = new System.Drawing.Font("Segoe UI", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.lwDaySummary.ForeColor = System.Drawing.SystemColors.Window;
             this.lwDaySummary.FullRowSelect = true;
-            this.lwDaySummary.HideSelection = false;
-            this.lwDaySummary.Location = new System.Drawing.Point(3, 123);
+            this.lwDaySummary.Location = new System.Drawing.Point(0, 0);
             this.lwDaySummary.MultiSelect = false;
             this.lwDaySummary.Name = "lwDaySummary";
-            this.lwDaySummary.Size = new System.Drawing.Size(857, 555);
+            this.lwDaySummary.Size = new System.Drawing.Size(857, 535);
             this.lwDaySummary.TabIndex = 4;
             this.lwDaySummary.UseCompatibleStateImageBehavior = false;
             this.lwDaySummary.View = System.Windows.Forms.View.Details;
@@ -106,14 +114,15 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.lwDaySummary, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(863, 681);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
@@ -148,6 +157,65 @@
             this.labelSizes.Text = "label1";
             this.labelSizes.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // lwDaySummaryAll
+            // 
+            this.lwDaySummaryAll.BackColor = System.Drawing.SystemColors.Control;
+            this.lwDaySummaryAll.BackgroundImage = global::derinYouTube.Properties.Resources.M_YARISMA_BACKGROUND;
+            this.lwDaySummaryAll.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lwDaySummaryAll.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3,
+            this.columnHeader7});
+            this.lwDaySummaryAll.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lwDaySummaryAll.Font = new System.Drawing.Font("Segoe UI", 39.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.lwDaySummaryAll.ForeColor = System.Drawing.SystemColors.Window;
+            this.lwDaySummaryAll.FullRowSelect = true;
+            this.lwDaySummaryAll.Location = new System.Drawing.Point(0, 0);
+            this.lwDaySummaryAll.MultiSelect = false;
+            this.lwDaySummaryAll.Name = "lwDaySummaryAll";
+            this.lwDaySummaryAll.Size = new System.Drawing.Size(857, 535);
+            this.lwDaySummaryAll.TabIndex = 5;
+            this.lwDaySummaryAll.UseCompatibleStateImageBehavior = false;
+            this.lwDaySummaryAll.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Sıra";
+            this.columnHeader1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader1.Width = 0;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "SIRA";
+            this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "YARIŞMACI";
+            this.columnHeader3.Width = 531;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "PUAN";
+            this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader7.Width = 143;
+            // 
+            // timerShowAll
+            // 
+            this.timerShowAll.Interval = 1000;
+            this.timerShowAll.Tick += new System.EventHandler(this.timerShowAll_Tick);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lwDaySummary);
+            this.panel2.Controls.Add(this.lwDaySummaryAll);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 123);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(857, 535);
+            this.panel2.TabIndex = 6;
+            // 
             // FrmQuestionSummary
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -165,6 +233,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -180,5 +249,12 @@
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label labelSizes;
+        private System.Windows.Forms.ListView lwDaySummaryAll;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.Timer timerShowAll;
+        private System.Windows.Forms.Panel panel2;
     }
 }

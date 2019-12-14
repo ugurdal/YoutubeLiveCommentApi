@@ -363,7 +363,7 @@ namespace derinYouTube
                 Helper.Cnn.Close();
             });
 
-            //TODO: Yorumlara, ilk 20 nin yazılması kaldırıldı
+            //Yorumlara, ilk 20 nin yazılması kaldırıldı
             
             if (result.Any())
             {

@@ -176,6 +176,11 @@
             this.timerQuestion = new System.Windows.Forms.Timer(this.components);
             this.timerException = new System.Windows.Forms.Timer(this.components);
             this.timerCommentAdd = new System.Windows.Forms.Timer(this.components);
+            this.buttonShowAllWinnersOfWeekOnScreen = new System.Windows.Forms.Button();
+            this.buttonShowAllWinnerOfDayOnScreen = new System.Windows.Forms.Button();
+            this.numTimerInterval = new System.Windows.Forms.NumericUpDown();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
             this.splitContainerDikey.Panel2.SuspendLayout();
@@ -226,6 +231,7 @@
             this.splitContainerViewerCounts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTimerInterval)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -769,6 +775,9 @@
             // splitContainerYatay.Panel1
             // 
             this.splitContainerYatay.Panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.splitContainerYatay.Panel1.Controls.Add(this.label36);
+            this.splitContainerYatay.Panel1.Controls.Add(this.label34);
+            this.splitContainerYatay.Panel1.Controls.Add(this.numTimerInterval);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonShowResultForm);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonQuestionList);
             this.splitContainerYatay.Panel1.Controls.Add(this.labelVideoInfo);
@@ -786,7 +795,7 @@
             // 
             this.splitContainerYatay.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.splitContainerYatay.Size = new System.Drawing.Size(915, 695);
-            this.splitContainerYatay.SplitterDistance = 650;
+            this.splitContainerYatay.SplitterDistance = 649;
             this.splitContainerYatay.SplitterWidth = 5;
             this.splitContainerYatay.TabIndex = 11;
             // 
@@ -797,7 +806,7 @@
             this.buttonShowResultForm.Enabled = false;
             this.buttonShowResultForm.Image = global::derinYouTube.Properties.Resources.grade_04_small_1x;
             this.buttonShowResultForm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowResultForm.Location = new System.Drawing.Point(282, 522);
+            this.buttonShowResultForm.Location = new System.Drawing.Point(282, 521);
             this.buttonShowResultForm.Name = "buttonShowResultForm";
             this.buttonShowResultForm.Size = new System.Drawing.Size(191, 38);
             this.buttonShowResultForm.TabIndex = 26;
@@ -812,7 +821,7 @@
             this.buttonQuestionList.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonQuestionList.Image = global::derinYouTube.Properties.Resources.list_small_1x;
             this.buttonQuestionList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonQuestionList.Location = new System.Drawing.Point(491, 390);
+            this.buttonQuestionList.Location = new System.Drawing.Point(491, 389);
             this.buttonQuestionList.Name = "buttonQuestionList";
             this.buttonQuestionList.Size = new System.Drawing.Size(191, 38);
             this.buttonQuestionList.TabIndex = 25;
@@ -826,7 +835,7 @@
             this.labelVideoInfo.BackColor = System.Drawing.SystemColors.Info;
             this.labelVideoInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelVideoInfo.ForeColor = System.Drawing.Color.Maroon;
-            this.labelVideoInfo.Location = new System.Drawing.Point(11, 471);
+            this.labelVideoInfo.Location = new System.Drawing.Point(11, 470);
             this.labelVideoInfo.Name = "labelVideoInfo";
             this.labelVideoInfo.Size = new System.Drawing.Size(265, 45);
             this.labelVideoInfo.TabIndex = 24;
@@ -841,7 +850,7 @@
             this.buttonShowComp.Enabled = false;
             this.buttonShowComp.Image = global::derinYouTube.Properties.Resources.grade_03_small_1x;
             this.buttonShowComp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowComp.Location = new System.Drawing.Point(282, 478);
+            this.buttonShowComp.Location = new System.Drawing.Point(282, 477);
             this.buttonShowComp.Name = "buttonShowComp";
             this.buttonShowComp.Size = new System.Drawing.Size(191, 38);
             this.buttonShowComp.TabIndex = 23;
@@ -856,7 +865,7 @@
             this.buttonShowService.Enabled = false;
             this.buttonShowService.Image = global::derinYouTube.Properties.Resources.grade_02_small_1x;
             this.buttonShowService.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowService.Location = new System.Drawing.Point(282, 434);
+            this.buttonShowService.Location = new System.Drawing.Point(282, 433);
             this.buttonShowService.Name = "buttonShowService";
             this.buttonShowService.Size = new System.Drawing.Size(191, 38);
             this.buttonShowService.TabIndex = 22;
@@ -870,7 +879,7 @@
             this.buttonSelectBroadcast.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonSelectBroadcast.Image = global::derinYouTube.Properties.Resources.grade_01_small_1x;
             this.buttonSelectBroadcast.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSelectBroadcast.Location = new System.Drawing.Point(282, 390);
+            this.buttonSelectBroadcast.Location = new System.Drawing.Point(282, 389);
             this.buttonSelectBroadcast.Name = "buttonSelectBroadcast";
             this.buttonSelectBroadcast.Size = new System.Drawing.Size(191, 38);
             this.buttonSelectBroadcast.TabIndex = 21;
@@ -884,7 +893,7 @@
             this.label33.BackColor = System.Drawing.SystemColors.Info;
             this.label33.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label33.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label33.Location = new System.Drawing.Point(11, 431);
+            this.label33.Location = new System.Drawing.Point(11, 430);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(265, 33);
             this.label33.TabIndex = 20;
@@ -897,7 +906,7 @@
             this.labelStreamsSaving.BackColor = System.Drawing.Color.DarkRed;
             this.labelStreamsSaving.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelStreamsSaving.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelStreamsSaving.Location = new System.Drawing.Point(741, 393);
+            this.labelStreamsSaving.Location = new System.Drawing.Point(741, 392);
             this.labelStreamsSaving.Name = "labelStreamsSaving";
             this.labelStreamsSaving.Size = new System.Drawing.Size(170, 33);
             this.labelStreamsSaving.TabIndex = 19;
@@ -912,7 +921,7 @@
             this.labelWorkingMessage.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.labelWorkingMessage.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelWorkingMessage.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelWorkingMessage.Location = new System.Drawing.Point(3, 616);
+            this.labelWorkingMessage.Location = new System.Drawing.Point(3, 615);
             this.labelWorkingMessage.Name = "labelWorkingMessage";
             this.labelWorkingMessage.Size = new System.Drawing.Size(908, 32);
             this.labelWorkingMessage.TabIndex = 18;
@@ -923,7 +932,7 @@
             // checkBoxLiveOnly
             // 
             this.checkBoxLiveOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxLiveOnly.Location = new System.Drawing.Point(10, 568);
+            this.checkBoxLiveOnly.Location = new System.Drawing.Point(10, 567);
             this.checkBoxLiveOnly.Name = "checkBoxLiveOnly";
             this.checkBoxLiveOnly.Size = new System.Drawing.Size(125, 37);
             this.checkBoxLiveOnly.TabIndex = 17;
@@ -937,7 +946,7 @@
             this.buttonGetLiveBroadCasts.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonGetLiveBroadCasts.Image = global::derinYouTube.Properties.Resources.Web;
             this.buttonGetLiveBroadCasts.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(10, 390);
+            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(10, 389);
             this.buttonGetLiveBroadCasts.Name = "buttonGetLiveBroadCasts";
             this.buttonGetLiveBroadCasts.Size = new System.Drawing.Size(266, 38);
             this.buttonGetLiveBroadCasts.TabIndex = 16;
@@ -960,7 +969,7 @@
             this.dgwLiveVideos.Name = "dgwLiveVideos";
             this.dgwLiveVideos.ReadOnly = true;
             this.dgwLiveVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwLiveVideos.Size = new System.Drawing.Size(922, 381);
+            this.dgwLiveVideos.Size = new System.Drawing.Size(922, 380);
             this.dgwLiveVideos.TabIndex = 11;
             this.dgwLiveVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwLiveVideos_CellEnter);
             this.dgwLiveVideos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgwLiveVideos_DataBindingComplete);
@@ -1443,6 +1452,7 @@
             // panel6
             // 
             this.panel6.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel6.Controls.Add(this.buttonShowAllWinnerOfDayOnScreen);
             this.panel6.Controls.Add(this.buttonShowWinnerOfDayOnScreen);
             this.panel6.Controls.Add(this.labelCheckSubscriptionDay);
             this.panel6.Controls.Add(this.label26);
@@ -1460,7 +1470,7 @@
             this.buttonShowWinnerOfDayOnScreen.Image = global::derinYouTube.Properties.Resources.SychronizeListHS;
             this.buttonShowWinnerOfDayOnScreen.Location = new System.Drawing.Point(284, 4);
             this.buttonShowWinnerOfDayOnScreen.Name = "buttonShowWinnerOfDayOnScreen";
-            this.buttonShowWinnerOfDayOnScreen.Size = new System.Drawing.Size(183, 27);
+            this.buttonShowWinnerOfDayOnScreen.Size = new System.Drawing.Size(120, 27);
             this.buttonShowWinnerOfDayOnScreen.TabIndex = 41;
             this.buttonShowWinnerOfDayOnScreen.Text = "Ekranda Göster";
             this.buttonShowWinnerOfDayOnScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1473,7 +1483,7 @@
             this.labelCheckSubscriptionDay.BackColor = System.Drawing.Color.DarkRed;
             this.labelCheckSubscriptionDay.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelCheckSubscriptionDay.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelCheckSubscriptionDay.Location = new System.Drawing.Point(473, 10);
+            this.labelCheckSubscriptionDay.Location = new System.Drawing.Point(528, 3);
             this.labelCheckSubscriptionDay.Name = "labelCheckSubscriptionDay";
             this.labelCheckSubscriptionDay.Size = new System.Drawing.Size(380, 33);
             this.labelCheckSubscriptionDay.TabIndex = 40;
@@ -1597,6 +1607,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.buttonShowAllWinnersOfWeekOnScreen);
             this.panel2.Controls.Add(this.buttonShowWinnerOfWeekOnScreen);
             this.panel2.Controls.Add(this.buttonShowWinnerOfWeek);
             this.panel2.Controls.Add(this.label37);
@@ -1615,7 +1626,7 @@
             this.buttonShowWinnerOfWeekOnScreen.Image = global::derinYouTube.Properties.Resources.SychronizeListHS;
             this.buttonShowWinnerOfWeekOnScreen.Location = new System.Drawing.Point(290, 7);
             this.buttonShowWinnerOfWeekOnScreen.Name = "buttonShowWinnerOfWeekOnScreen";
-            this.buttonShowWinnerOfWeekOnScreen.Size = new System.Drawing.Size(183, 27);
+            this.buttonShowWinnerOfWeekOnScreen.Size = new System.Drawing.Size(120, 27);
             this.buttonShowWinnerOfWeekOnScreen.TabIndex = 48;
             this.buttonShowWinnerOfWeekOnScreen.Text = "Ekranda Göster";
             this.buttonShowWinnerOfWeekOnScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1669,7 +1680,7 @@
             this.labelCheckSubscriptionWeek.BackColor = System.Drawing.Color.DarkRed;
             this.labelCheckSubscriptionWeek.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelCheckSubscriptionWeek.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelCheckSubscriptionWeek.Location = new System.Drawing.Point(479, 9);
+            this.labelCheckSubscriptionWeek.Location = new System.Drawing.Point(531, 4);
             this.labelCheckSubscriptionWeek.Name = "labelCheckSubscriptionWeek";
             this.labelCheckSubscriptionWeek.Size = new System.Drawing.Size(380, 33);
             this.labelCheckSubscriptionWeek.TabIndex = 40;
@@ -1939,7 +1950,7 @@
             this.dgwViewerCountBroadcasts.Name = "dgwViewerCountBroadcasts";
             this.dgwViewerCountBroadcasts.ReadOnly = true;
             this.dgwViewerCountBroadcasts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(906, 172);
+            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(906, 171);
             this.dgwViewerCountBroadcasts.TabIndex = 18;
             this.dgwViewerCountBroadcasts.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwViewerCountBroadcasts_RowEnter);
             // 
@@ -1994,6 +2005,74 @@
             this.timerCommentAdd.Interval = 20000;
             this.timerCommentAdd.Tick += new System.EventHandler(this.TimerCommentAdd_Tick);
             // 
+            // buttonShowAllWinnersOfWeekOnScreen
+            // 
+            this.buttonShowAllWinnersOfWeekOnScreen.Image = global::derinYouTube.Properties.Resources.SychronizeListHS;
+            this.buttonShowAllWinnersOfWeekOnScreen.Location = new System.Drawing.Point(416, 7);
+            this.buttonShowAllWinnersOfWeekOnScreen.Name = "buttonShowAllWinnersOfWeekOnScreen";
+            this.buttonShowAllWinnersOfWeekOnScreen.Size = new System.Drawing.Size(175, 27);
+            this.buttonShowAllWinnersOfWeekOnScreen.TabIndex = 49;
+            this.buttonShowAllWinnersOfWeekOnScreen.Text = "Ekranda Tümünü Göster";
+            this.buttonShowAllWinnersOfWeekOnScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonShowAllWinnersOfWeekOnScreen.UseVisualStyleBackColor = true;
+            this.buttonShowAllWinnersOfWeekOnScreen.Click += new System.EventHandler(this.buttonShowAllWinnersOfWeekOnScreen_Click);
+            // 
+            // buttonShowAllWinnerOfDayOnScreen
+            // 
+            this.buttonShowAllWinnerOfDayOnScreen.Image = global::derinYouTube.Properties.Resources.SychronizeListHS;
+            this.buttonShowAllWinnerOfDayOnScreen.Location = new System.Drawing.Point(410, 4);
+            this.buttonShowAllWinnerOfDayOnScreen.Name = "buttonShowAllWinnerOfDayOnScreen";
+            this.buttonShowAllWinnerOfDayOnScreen.Size = new System.Drawing.Size(175, 27);
+            this.buttonShowAllWinnerOfDayOnScreen.TabIndex = 50;
+            this.buttonShowAllWinnerOfDayOnScreen.Text = "Ekranda Tümünü Göster";
+            this.buttonShowAllWinnerOfDayOnScreen.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.buttonShowAllWinnerOfDayOnScreen.UseVisualStyleBackColor = true;
+            this.buttonShowAllWinnerOfDayOnScreen.Click += new System.EventHandler(this.buttonShowAllWinnerOfDayOnScreen_Click);
+            // 
+            // numTimerInterval
+            // 
+            this.numTimerInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numTimerInterval.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numTimerInterval.Location = new System.Drawing.Point(601, 444);
+            this.numTimerInterval.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numTimerInterval.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numTimerInterval.Name = "numTimerInterval";
+            this.numTimerInterval.Size = new System.Drawing.Size(81, 36);
+            this.numTimerInterval.TabIndex = 27;
+            this.numTimerInterval.Value = new decimal(new int[] {
+            3000,
+            0,
+            0,
+            0});
+            this.numTimerInterval.ValueChanged += new System.EventHandler(this.numTimerInterval_ValueChanged);
+            // 
+            // label34
+            // 
+            this.label34.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label34.Location = new System.Drawing.Point(488, 433);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(107, 66);
+            this.label34.TabIndex = 28;
+            this.label34.Text = "Tüm Puan Kazananlar Listesinin Yenilenme Süresi";
+            // 
+            // label36
+            // 
+            this.label36.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(688, 456);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(26, 15);
+            this.label36.TabIndex = 29;
+            this.label36.Text = "ms.";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -2024,6 +2103,7 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPageLive.ResumeLayout(false);
             this.splitContainerYatay.Panel1.ResumeLayout(false);
+            this.splitContainerYatay.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerYatay)).EndInit();
             this.splitContainerYatay.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgwLiveVideos)).EndInit();
@@ -2073,6 +2153,7 @@
             this.splitContainerViewerCounts.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numTimerInterval)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2224,5 +2305,10 @@
         private System.Windows.Forms.Button buttonShowResultForm;
         private System.Windows.Forms.Button buttonShowWinnerOfDayOnScreen;
         private System.Windows.Forms.Button buttonShowWinnerOfWeekOnScreen;
+        private System.Windows.Forms.Button buttonShowAllWinnersOfWeekOnScreen;
+        private System.Windows.Forms.Button buttonShowAllWinnerOfDayOnScreen;
+        private System.Windows.Forms.NumericUpDown numTimerInterval;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label34;
     }
 }

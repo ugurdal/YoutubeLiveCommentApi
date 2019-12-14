@@ -14,12 +14,18 @@ namespace derinYouTube
     public partial class FrmQuestionSummary : Form
     {
         private bool _loaded;
+        private List<WinnerOfDayModel> _listAll;
+        private int _cursor;
+        private const int VisibleItemCount = 10;
+        private ViewType _currentViewType;
 
         public enum ViewType
         {
             Day = 0,
             Week = 1,
-            Both = 2
+            Both = 2,
+            Day_All = 3,
+            Week_All = 4
         }
 
         public FrmQuestionSummary()
@@ -28,6 +34,7 @@ namespace derinYouTube
             SetDoubleBuffered(this);
             SetDoubleBuffered(this.tableLayoutPanel1);
             SetDoubleBuffered(this.lwDaySummary);
+            
 
             if (Screen.AllScreens.Count() > 1)
             {
@@ -61,123 +68,66 @@ namespace derinYouTube
 
         private void FrmQuestionSummary_Load(object sender, EventArgs e)
         {
+            SetScreenType();
             Properties.Settings.Default.Reload();
             lwDaySummary.Columns[0].Width = 0;
 
             if (Helper.Settings.FirstOrDefault(x => x.Id == 1)?.IsNumeric ?? false)
-                lwDaySummary.Columns[1].Width = Helper.Settings.FirstOrDefault(x => x.Id == 1).NumericValue;
-            if (Helper.Settings.FirstOrDefault(x => x.Id == 2)?.IsNumeric ?? false)
-                lwDaySummary.Columns[2].Width = Helper.Settings.FirstOrDefault(x => x.Id == 2).NumericValue;
-            if (Helper.Settings.FirstOrDefault(x => x.Id == 3)?.IsNumeric ?? false)
-                lwDaySummary.Columns[3].Width = Helper.Settings.FirstOrDefault(x => x.Id == 3).NumericValue;
-        }
-
-        private void SetTableLayoutSizes(ViewType layout)
-        {
-            /*
-            switch (layout)
             {
-                case ViewType.Both:
-                    tableLayoutPanel1.RowStyles[0].SizeType = SizeType.Absolute;
-                    tableLayoutPanel1.RowStyles[0].Height = 100F;
-
-                    tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Percent;
-                    tableLayoutPanel1.RowStyles[1].Height = 50F;
-
-                    tableLayoutPanel1.RowStyles[2].SizeType = SizeType.Absolute;
-                    tableLayoutPanel1.RowStyles[2].Height = 80F;
-
-                    tableLayoutPanel1.RowStyles[3].SizeType = SizeType.Percent;
-                    tableLayoutPanel1.RowStyles[3].Height = 50F;
-                    break;
-                case ViewType.Day:
-                case ViewType.Week:
-                    tableLayoutPanel1.RowStyles[0].SizeType = SizeType.Absolute;
-                    tableLayoutPanel1.RowStyles[0].Height = 0F;
-                    tableLayoutPanel1.RowStyles[1].SizeType = SizeType.Absolute;
-                    tableLayoutPanel1.RowStyles[1].Height = 0F;
-
-                    tableLayoutPanel1.RowStyles[2].SizeType = SizeType.Absolute;
-                    tableLayoutPanel1.RowStyles[2].Height = 100F;
-                    tableLayoutPanel1.RowStyles[3].SizeType = SizeType.Percent;
-                    tableLayoutPanel1.RowStyles[3].Height = 100F;
-                    break;
+                lwDaySummary.Columns[1].Width = Helper.Settings.FirstOrDefault(x => x.Id == 1).NumericValue;
+                lwDaySummaryAll.Columns[1].Width = Helper.Settings.FirstOrDefault(x => x.Id == 1).NumericValue;
             }
-            SetListViewSize();
-            */
+
+            if (Helper.Settings.FirstOrDefault(x => x.Id == 2)?.IsNumeric ?? false)
+            {
+                lwDaySummary.Columns[2].Width = Helper.Settings.FirstOrDefault(x => x.Id == 2).NumericValue;
+                lwDaySummaryAll.Columns[2].Width = Helper.Settings.FirstOrDefault(x => x.Id == 2).NumericValue;
+            }
+
+            if (Helper.Settings.FirstOrDefault(x => x.Id == 3)?.IsNumeric ?? false)
+            {
+                lwDaySummary.Columns[3].Width = Helper.Settings.FirstOrDefault(x => x.Id == 3).NumericValue;
+                lwDaySummaryAll.Columns[3].Width = Helper.Settings.FirstOrDefault(x => x.Id == 3).NumericValue;
+            }
         }
 
+        private void SetScreenType(bool showAll = false)
+        {
+            _listAll = new List<WinnerOfDayModel>();
+            _cursor = 0;
+            timerShowAll.Stop();
+            timerShowAll.Enabled = false;
+            timerShowAll.Interval = Helper.TimerInterval;
+
+            if (showAll)
+            {
+                lwDaySummaryAll.Visible = true;
+                lwDaySummaryAll.BringToFront();
+                lwDaySummary.Visible = false;
+                lwDaySummary.SendToBack();
+            }
+            else
+            {
+                lwDaySummaryAll.Visible = false;
+                lwDaySummaryAll.SendToBack();
+                lwDaySummary.Visible = true;
+                lwDaySummary.BringToFront();
+            }
+        }
+
+        /// <summary>
+        /// Her soru bitiminde tetiklenir. Günün birincisi sıralamasını ikinci ekranda yayınlar. 
+        /// </summary>
+        /// <param name="model"></param>
         public void ShowResults(ShowResultModel model)
         {
-            /*
-            switch (model.Sequence)
-            {
-                case 1:
-                    pictureBoxOrder.Image = Properties.Resources._1;
-                    break;
-                case 2:
-                    pictureBoxOrder.Image = Properties.Resources._2;
-                    break;
-                case 3:
-                    pictureBoxOrder.Image = Properties.Resources._3;
-                    break;
-                case 4:
-                    pictureBoxOrder.Image = Properties.Resources._4;
-                    break;
-                case 5:
-                    pictureBoxOrder.Image = Properties.Resources._5;
-                    break;
-                case 6:
-                    pictureBoxOrder.Image = Properties.Resources._6;
-                    break;
-                case 7:
-                    pictureBoxOrder.Image = Properties.Resources._7;
-                    break;
-                case 8:
-                    pictureBoxOrder.Image = Properties.Resources._8;
-                    break;
-                case 9:
-                    pictureBoxOrder.Image = Properties.Resources._9;
-                    break;
-                case 10:
-                    pictureBoxOrder.Image = Properties.Resources._10;
-                    break;
-            }
-            */
-
-            //SetTableLayoutSizes(ViewType.Week);
-            //labelQuestion.Text = model.Question;
-            //lwResult.Items.Clear();
+            SetScreenType();
             lwDaySummary.Items.Clear();
             lwDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
             labelDaySummary.Text = "GÜNÜN BİRİNCİSİ SIRALAMASI";
             labelDaySummary.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
-            //pictureBoxOrder.Visible = true;
-            //labelQuestion.Visible = true;
-            //lwResult.Visible = true;
 
             var ix = 1;
-            //if (model.Results != null)
-            //{
-            //    foreach (var item in model.Results.OrderByDescending(x => x.Score))
-            //    {
-            //        if (ix > 5)
-            //            break;
-
-            //        var lwItm = lwResult.Items.Add(item.Sequence.ToString());
-            //        lwItm.Font = new Font("Segoe UI", 50f, FontStyle.Bold);
-            //        lwItm.SubItems.Add(item.Sequence.ToString());
-            //        lwItm.SubItems.Add(item.DisplayName.ToUpper());
-            //        lwItm.SubItems.Add(item.Score.ToString());
-            //        ix++;
-            //    }
-            //}
-
-            //Son soruda günün birinliğini kapatıyoruz.
-            //labelDaySummary.Visible = model.Sequence != 10;
-            //lwDaySummary.Visible = model.Sequence != 10;
-
-            ix = 1;
             if (model.CurrentWinners != null)
             {
                 foreach (var item in model.CurrentWinners.OrderByDescending(x => x.TotalScore))
@@ -197,7 +147,7 @@ namespace derinYouTube
 
         public void ShowWinners(List<WinnerOfDayModel> model, ViewType type)
         {
-            //SetTableLayoutSizes(type);
+            SetScreenType();
             lwDaySummary.Items.Clear();
             labelDaySummary.Text = type == ViewType.Day
                 ? "GÜNÜN BİRİNCİSİ SIRALAMASI"
@@ -223,8 +173,47 @@ namespace derinYouTube
             }
         }
 
+        public void ShowAllWinners(List<WinnerOfDayModel> model, ViewType type)
+        {
+            SetScreenType(true);
+            lwDaySummaryAll.Items.Clear();
+            _currentViewType = type;
+            _listAll = model;
+            labelDaySummary.Text = type == ViewType.Day_All
+                ? "GÜNÜN BİRİNCİSİ SIRALAMASI ( TÜM LİSTE )"
+                : "HAFTANIN BİRİNCİSİ SIRALAMASI ( TÜM LİSTE) ";
+            lwDaySummaryAll.Font = new Font("Segoe UI", 40f, FontStyle.Bold);
+            labelDaySummary.Font = new Font("Segoe UI", 40f, FontStyle.Bold);
+
+            timerShowAll.Enabled = true;
+            timerShowAll.Start();
+        }
+
+        private void timerShowAll_Tick(object sender, EventArgs e)
+        {
+            lwDaySummaryAll.Items.Clear();
+            if (_listAll.Any())
+            {
+                if (_cursor * VisibleItemCount > _listAll.Count)
+                    _cursor = 0;
+
+                var items = _listAll.Skip(_cursor * VisibleItemCount).Take(VisibleItemCount).ToList();
+                foreach (var item in items.OrderByDescending(x => x.TotalScore))
+                {
+                    var lwItm = lwDaySummaryAll.Items.Add(item.Sequence.ToString());
+                    lwItm.Font = new Font("Segoe UI", 40f, FontStyle.Bold);
+                    lwItm.SubItems.Add(item.Sequence.ToString());
+                    lwItm.SubItems.Add(item.DisplayName.ToUpper());
+                    lwItm.SubItems.Add(item.TotalScore.ToString());
+                }
+
+                _cursor++;
+            }
+        }
+
         private void FrmQuestionSummary_FormClosing(object sender, FormClosingEventArgs e)
         {
+            SetScreenType();
             Properties.Settings.Default.LwCol1Width = 0;
             Properties.Settings.Default.LwCol2Width = lwDaySummary.Columns[1].Width;
             Properties.Settings.Default.LwCol3Width = lwDaySummary.Columns[2].Width;
@@ -250,5 +239,6 @@ namespace derinYouTube
             labelSizes.Text += $"{lwDaySummary.Columns[2].Width}\r\n";
             labelSizes.Text += $"{lwDaySummary.Columns[3].Width}\r\n";
         }
+
     }
 }

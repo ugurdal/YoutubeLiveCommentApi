@@ -16,6 +16,9 @@ namespace derinYouTube
     {
         public static LinkedList<LiveChatModel> LiveChatModels = new LinkedList<LiveChatModel>();
         public static List<SettingsModel> Settings = new List<SettingsModel>();
+
+        public static int TimerInterval;
+
         //public static DataTable DtLiveChats = new DataTable();
 
         //public static void GenerateDataTableColumns()
