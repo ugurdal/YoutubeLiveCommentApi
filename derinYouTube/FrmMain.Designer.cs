@@ -178,9 +178,17 @@
             this.timerCommentAdd = new System.Windows.Forms.Timer(this.components);
             this.buttonShowAllWinnersOfWeekOnScreen = new System.Windows.Forms.Button();
             this.buttonShowAllWinnerOfDayOnScreen = new System.Windows.Forms.Button();
-            this.numTimerInterval = new System.Windows.Forms.NumericUpDown();
+            this.tabPageSettings = new System.Windows.Forms.TabPage();
+            this.labelNumTimerInterval = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
+            this.numTimerInterval = new System.Windows.Forms.NumericUpDown();
+            this.label38 = new System.Windows.Forms.Label();
+            this.numListFont = new System.Windows.Forms.NumericUpDown();
+            this.numListItemCount = new System.Windows.Forms.NumericUpDown();
+            this.label39 = new System.Windows.Forms.Label();
+            this.labelNumListFont = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.labelNumListItemCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerDikey)).BeginInit();
             this.splitContainerDikey.Panel1.SuspendLayout();
             this.splitContainerDikey.Panel2.SuspendLayout();
@@ -231,7 +239,10 @@
             this.splitContainerViewerCounts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).BeginInit();
+            this.tabPageSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimerInterval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numListFont)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numListItemCount)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -745,6 +756,7 @@
             this.tabControlMain.Controls.Add(this.tabPageWeeklyWinners);
             this.tabControlMain.Controls.Add(this.tabPageChats);
             this.tabControlMain.Controls.Add(this.tabPageViewerCount);
+            this.tabControlMain.Controls.Add(this.tabPageSettings);
             this.tabControlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControlMain.ItemSize = new System.Drawing.Size(58, 25);
             this.tabControlMain.Location = new System.Drawing.Point(0, 0);
@@ -775,9 +787,6 @@
             // splitContainerYatay.Panel1
             // 
             this.splitContainerYatay.Panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.splitContainerYatay.Panel1.Controls.Add(this.label36);
-            this.splitContainerYatay.Panel1.Controls.Add(this.label34);
-            this.splitContainerYatay.Panel1.Controls.Add(this.numTimerInterval);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonShowResultForm);
             this.splitContainerYatay.Panel1.Controls.Add(this.buttonQuestionList);
             this.splitContainerYatay.Panel1.Controls.Add(this.labelVideoInfo);
@@ -2029,11 +2038,49 @@
             this.buttonShowAllWinnerOfDayOnScreen.UseVisualStyleBackColor = true;
             this.buttonShowAllWinnerOfDayOnScreen.Click += new System.EventHandler(this.buttonShowAllWinnerOfDayOnScreen_Click);
             // 
+            // tabPageSettings
+            // 
+            this.tabPageSettings.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.tabPageSettings.Controls.Add(this.labelNumListItemCount);
+            this.tabPageSettings.Controls.Add(this.label41);
+            this.tabPageSettings.Controls.Add(this.labelNumListFont);
+            this.tabPageSettings.Controls.Add(this.label39);
+            this.tabPageSettings.Controls.Add(this.numListItemCount);
+            this.tabPageSettings.Controls.Add(this.numListFont);
+            this.tabPageSettings.Controls.Add(this.label38);
+            this.tabPageSettings.Controls.Add(this.labelNumTimerInterval);
+            this.tabPageSettings.Controls.Add(this.label34);
+            this.tabPageSettings.Controls.Add(this.numTimerInterval);
+            this.tabPageSettings.Location = new System.Drawing.Point(4, 29);
+            this.tabPageSettings.Name = "tabPageSettings";
+            this.tabPageSettings.Size = new System.Drawing.Size(921, 701);
+            this.tabPageSettings.TabIndex = 7;
+            this.tabPageSettings.Text = "Ayarlar";
+            // 
+            // labelNumTimerInterval
+            // 
+            this.labelNumTimerInterval.AutoSize = true;
+            this.labelNumTimerInterval.Location = new System.Drawing.Point(236, 74);
+            this.labelNumTimerInterval.Name = "labelNumTimerInterval";
+            this.labelNumTimerInterval.Size = new System.Drawing.Size(26, 15);
+            this.labelNumTimerInterval.TabIndex = 32;
+            this.labelNumTimerInterval.Text = "ms.";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Segoe UI", 11F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.label34.Location = new System.Drawing.Point(22, 27);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(208, 20);
+            this.label34.TabIndex = 31;
+            this.label34.Text = "Tüm Puan Kazananlar Listesi\r\n";
+            this.label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // numTimerInterval
             // 
-            this.numTimerInterval.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numTimerInterval.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.numTimerInterval.Location = new System.Drawing.Point(601, 444);
+            this.numTimerInterval.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numTimerInterval.Location = new System.Drawing.Point(149, 65);
             this.numTimerInterval.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -2045,8 +2092,8 @@
             0,
             0});
             this.numTimerInterval.Name = "numTimerInterval";
-            this.numTimerInterval.Size = new System.Drawing.Size(81, 36);
-            this.numTimerInterval.TabIndex = 27;
+            this.numTimerInterval.Size = new System.Drawing.Size(81, 32);
+            this.numTimerInterval.TabIndex = 30;
             this.numTimerInterval.Value = new decimal(new int[] {
             3000,
             0,
@@ -2054,24 +2101,98 @@
             0});
             this.numTimerInterval.ValueChanged += new System.EventHandler(this.numTimerInterval_ValueChanged);
             // 
-            // label34
+            // label38
             // 
-            this.label34.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label34.Location = new System.Drawing.Point(488, 433);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(107, 66);
-            this.label34.TabIndex = 28;
-            this.label34.Text = "Tüm Puan Kazananlar Listesinin Yenilenme Süresi";
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(23, 75);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(89, 15);
+            this.label38.TabIndex = 33;
+            this.label38.Text = "Yenileme Süresi";
             // 
-            // label36
+            // numListFont
             // 
-            this.label36.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(688, 456);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(26, 15);
-            this.label36.TabIndex = 29;
-            this.label36.Text = "ms.";
+            this.numListFont.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numListFont.Location = new System.Drawing.Point(149, 103);
+            this.numListFont.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.numListFont.Minimum = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            this.numListFont.Name = "numListFont";
+            this.numListFont.Size = new System.Drawing.Size(81, 32);
+            this.numListFont.TabIndex = 34;
+            this.numListFont.Value = new decimal(new int[] {
+            40,
+            0,
+            0,
+            0});
+            this.numListFont.ValueChanged += new System.EventHandler(this.numTimerInterval_ValueChanged);
+            // 
+            // numListItemCount
+            // 
+            this.numListItemCount.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
+            this.numListItemCount.Location = new System.Drawing.Point(149, 141);
+            this.numListItemCount.Maximum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.numListItemCount.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numListItemCount.Name = "numListItemCount";
+            this.numListItemCount.Size = new System.Drawing.Size(81, 32);
+            this.numListItemCount.TabIndex = 35;
+            this.numListItemCount.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numListItemCount.ValueChanged += new System.EventHandler(this.numTimerInterval_ValueChanged);
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(23, 113);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(31, 15);
+            this.label39.TabIndex = 36;
+            this.label39.Text = "Font";
+            // 
+            // labelNumListFont
+            // 
+            this.labelNumListFont.AutoSize = true;
+            this.labelNumListFont.Location = new System.Drawing.Point(236, 113);
+            this.labelNumListFont.Name = "labelNumListFont";
+            this.labelNumListFont.Size = new System.Drawing.Size(23, 15);
+            this.labelNumListFont.TabIndex = 37;
+            this.labelNumListFont.Text = "px.";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(23, 151);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(62, 15);
+            this.label41.TabIndex = 38;
+            this.label41.Text = "Satır Sayısı";
+            // 
+            // labelNumListItemCount
+            // 
+            this.labelNumListItemCount.AutoSize = true;
+            this.labelNumListItemCount.Location = new System.Drawing.Point(236, 151);
+            this.labelNumListItemCount.Name = "labelNumListItemCount";
+            this.labelNumListItemCount.Size = new System.Drawing.Size(23, 15);
+            this.labelNumListItemCount.TabIndex = 39;
+            this.labelNumListItemCount.Text = "ad.";
             // 
             // FrmMain
             // 
@@ -2103,7 +2224,6 @@
             this.tabControlMain.ResumeLayout(false);
             this.tabPageLive.ResumeLayout(false);
             this.splitContainerYatay.Panel1.ResumeLayout(false);
-            this.splitContainerYatay.Panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerYatay)).EndInit();
             this.splitContainerYatay.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgwLiveVideos)).EndInit();
@@ -2153,7 +2273,11 @@
             this.splitContainerViewerCounts.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartViewerCount)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgwViewerCountBroadcasts)).EndInit();
+            this.tabPageSettings.ResumeLayout(false);
+            this.tabPageSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTimerInterval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numListFont)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numListItemCount)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2307,8 +2431,16 @@
         private System.Windows.Forms.Button buttonShowWinnerOfWeekOnScreen;
         private System.Windows.Forms.Button buttonShowAllWinnersOfWeekOnScreen;
         private System.Windows.Forms.Button buttonShowAllWinnerOfDayOnScreen;
-        private System.Windows.Forms.NumericUpDown numTimerInterval;
-        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.TabPage tabPageSettings;
+        private System.Windows.Forms.Label labelNumTimerInterval;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.NumericUpDown numTimerInterval;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.NumericUpDown numListItemCount;
+        private System.Windows.Forms.NumericUpDown numListFont;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.Label labelNumListFont;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Label labelNumListItemCount;
     }
 }

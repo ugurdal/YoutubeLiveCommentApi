@@ -16,7 +16,6 @@ namespace derinYouTube
         private bool _loaded;
         private List<WinnerOfDayModel> _listAll;
         private int _cursor;
-        private const int VisibleItemCount = 10;
         private ViewType _currentViewType;
 
         public enum ViewType
@@ -34,7 +33,7 @@ namespace derinYouTube
             SetDoubleBuffered(this);
             SetDoubleBuffered(this.tableLayoutPanel1);
             SetDoubleBuffered(this.lwDaySummary);
-            
+
 
             if (Screen.AllScreens.Count() > 1)
             {
@@ -182,8 +181,8 @@ namespace derinYouTube
             labelDaySummary.Text = type == ViewType.Day_All
                 ? "GÜNÜN BİRİNCİSİ SIRALAMASI ( TÜM LİSTE )"
                 : "HAFTANIN BİRİNCİSİ SIRALAMASI ( TÜM LİSTE) ";
-            lwDaySummaryAll.Font = new Font("Segoe UI", 40f, FontStyle.Bold);
             labelDaySummary.Font = new Font("Segoe UI", 40f, FontStyle.Bold);
+            lwDaySummaryAll.Font = new Font("Segoe UI", (float)Helper.ListFontSize, FontStyle.Bold);
 
             timerShowAll.Enabled = true;
             timerShowAll.Start();
@@ -194,10 +193,10 @@ namespace derinYouTube
             lwDaySummaryAll.Items.Clear();
             if (_listAll.Any())
             {
-                if (_cursor * VisibleItemCount > _listAll.Count)
+                if (_cursor * Helper.ListItemCount > _listAll.Count)
                     _cursor = 0;
 
-                var items = _listAll.Skip(_cursor * VisibleItemCount).Take(VisibleItemCount).ToList();
+                var items = _listAll.Skip(_cursor * Helper.ListItemCount).Take(Helper.ListItemCount).ToList();
                 foreach (var item in items.OrderByDescending(x => x.TotalScore))
                 {
                     var lwItm = lwDaySummaryAll.Items.Add(item.Sequence.ToString());

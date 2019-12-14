@@ -20,5 +20,11 @@
     <Setting Name="Timer" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3000</Value>
     </Setting>
+    <Setting Name="ListFontSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="ListItemCount" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">10</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

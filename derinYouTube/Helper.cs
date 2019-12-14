@@ -18,6 +18,8 @@ namespace derinYouTube
         public static List<SettingsModel> Settings = new List<SettingsModel>();
 
         public static int TimerInterval;
+        public static int ListItemCount;
+        public static int ListFontSize;
 
         //public static DataTable DtLiveChats = new DataTable();
 

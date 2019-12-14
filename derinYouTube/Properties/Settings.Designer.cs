@@ -91,5 +91,29 @@ namespace derinYouTube.Properties {
                 this["Timer"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        public int ListFontSize {
+            get {
+                return ((int)(this["ListFontSize"]));
+            }
+            set {
+                this["ListFontSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        public int ListItemCount {
+            get {
+                return ((int)(this["ListItemCount"]));
+            }
+            set {
+                this["ListItemCount"] = value;
+            }
+        }
     }
 }

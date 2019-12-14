@@ -75,6 +75,10 @@ namespace derinYouTube
             timerException.Stop();
             timerQuestion.Stop();
 
+            labelNumListFont.Text += $" ({(int)numListFont.Minimum} - {(int)numListFont.Maximum})";
+            labelNumListItemCount.Text += $" ({(int)numListItemCount.Minimum} - {(int)numListItemCount.Maximum})";
+            labelNumTimerInterval.Text += $" ({(int)numTimerInterval.Minimum} - {(int)numTimerInterval.Maximum})";
+
             if (string.IsNullOrEmpty(Properties.Settings.Default.YoutubeHesap))
             {
                 MessageBox.Show("Config'e YouTube hesap bilgileri girilmeli", "", MessageBoxButtons.OK, MessageBoxIcon.Stop);
@@ -139,12 +143,33 @@ namespace derinYouTube
                 dtQAAnalysis.Value = new DateTime(2019, 4, 25);
             }
 
+            ReadSettings();
+        }
+
+        private void ReadSettings()
+        {
             Helper.CnnOpen();
             Helper.Settings = Helper.Cnn.Query<SettingsModel>("SELECT Id,Value FROM settings").ToList();
-            if (Properties.Settings.Default.Timer > 1000)
+
+            if (Properties.Settings.Default.Timer > (int)this.numTimerInterval.Minimum &&
+                Properties.Settings.Default.Timer < (int)this.numTimerInterval.Maximum)
             {
                 this.numTimerInterval.Value = Properties.Settings.Default.Timer;
                 Helper.TimerInterval = (int)this.numTimerInterval.Value;
+            }
+
+            if (Properties.Settings.Default.ListFontSize > (int)this.numListFont.Minimum &&
+                Properties.Settings.Default.ListFontSize < (int)this.numListFont.Maximum)
+            {
+                this.numListFont.Value = Properties.Settings.Default.ListFontSize;
+                Helper.ListFontSize = (int)this.numListFont.Value;
+            }
+
+            if (Properties.Settings.Default.ListItemCount > (int)this.numListItemCount.Minimum &&
+                Properties.Settings.Default.ListItemCount < (int)this.numListItemCount.Maximum)
+            {
+                this.numListItemCount.Value = Properties.Settings.Default.ListItemCount;
+                Helper.ListItemCount = (int)this.numListItemCount.Value;
             }
         }
 
@@ -620,7 +645,9 @@ namespace derinYouTube
 
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.Timer = (int) this.numTimerInterval.Value;
+            Properties.Settings.Default.Timer = (int)this.numTimerInterval.Value;
+            Properties.Settings.Default.ListFontSize = (int)this.numListFont.Value;
+            Properties.Settings.Default.ListItemCount = (int)this.numListItemCount.Value;
             Properties.Settings.Default.Save();
         }
 
@@ -1853,7 +1880,9 @@ namespace derinYouTube
 
         private void numTimerInterval_ValueChanged(object sender, EventArgs e)
         {
-            Helper.TimerInterval = (int)this.numTimerInterval.Value;
+            Helper.TimerInterval = (int)numTimerInterval.Value;
+            Helper.ListFontSize = (int)numListFont.Value;
+            Helper.ListItemCount = (int)numListItemCount.Value;
         }
     }
 }
