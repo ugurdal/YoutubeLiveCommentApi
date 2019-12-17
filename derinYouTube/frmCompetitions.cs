@@ -355,12 +355,11 @@ namespace derinYouTube
             var validAnswers = 0;
             var rightAnswers = 0;
 
+            Helper.CnnOpen();
             await Task.Run(() =>
             {
-                Helper.Cnn.Open();
                 result = Helper.Cnn.Query<CompetitionResultModel>(
                     @"Select * FROM dbo.fn_validAnswers (@Id)", new { Id = competitionId }, commandTimeout: 300).ToList();
-                Helper.Cnn.Close();
             });
 
             //Yorumlara, ilk 20 nin yazılması kaldırıldı
@@ -394,7 +393,6 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
-                Helper.Cnn.Open();
                 var compDetail = Helper.Cnn.Query<competitions_vw>($"Select * From competitions_vw Where Id={competitionId}").FirstOrDefault();
                 if (compDetail != null)
                 {
@@ -402,7 +400,6 @@ namespace derinYouTube
                     totalUserCount = compDetail.TotalUser.Value;
                     validAnswers = compDetail.ValidAnswers;
                 }
-                Helper.Cnn.Close();
             });
 
             await Task.Run(() =>

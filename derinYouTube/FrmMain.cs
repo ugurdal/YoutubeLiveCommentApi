@@ -1811,12 +1811,14 @@ namespace derinYouTube
                 _frmGetChats = new frmGetChats(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
 
             if (Application.OpenForms.OfType<frmCompetitions>().Count() == 0)
+            {
                 _frmCompetitions = new frmCompetitions(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
+                _frmCompetitions.QuestionCompleted += _frmCompetitions_QuestionCompleted;
+            }
 
             if (Application.OpenForms.OfType<FrmQuestionSummary>().Count() == 0)
             {
                 _frmQuestionSummary = new FrmQuestionSummary();
-                _frmCompetitions.QuestionCompleted += _frmCompetitions_QuestionCompleted;
             }
 
             return true;
