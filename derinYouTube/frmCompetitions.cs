@@ -452,7 +452,7 @@ namespace derinYouTube
               {
                   try
                   {
-                      Helper.Cnn.Open();
+                      Helper.CnnOpen();
                       if (!string.IsNullOrEmpty(textBoxQuestionStartAt.Text) && string.IsNullOrEmpty(textBoxQuestionStopAt.Text))
                       {
                           var startAt = DateTime.Parse(textBoxQuestionStartAt.Text);
@@ -461,7 +461,7 @@ namespace derinYouTube
                           .First();
                           labelQuestionCount.Text = count.ToString();
                       }
-                      Helper.Cnn.Close();
+                      //Helper.CnnClose();
                   }
                   catch (Exception ex)
                   {

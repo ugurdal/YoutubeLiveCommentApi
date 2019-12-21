@@ -136,11 +136,11 @@ namespace derinYouTube
 
             NewQuestion();
 
-            if (System.Security.Principal.WindowsIdentity.GetCurrent().Name.Contains("ugurdal"))
+            if (Helper.IsDevelopment)
             {
                 textBoxVideoId.ReadOnly = false;
                 textBoxLiveChatId.ReadOnly = false;
-                dtQAAnalysis.Value = new DateTime(2019, 4, 25);
+                //dtQAAnalysis.Value = new DateTime(2019, 4, 25);
             }
 
             ReadSettings();

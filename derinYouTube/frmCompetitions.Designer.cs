@@ -363,14 +363,13 @@
             // 
             // labelShowError
             // 
-            this.labelShowError.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelShowError.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.labelShowError.BackColor = System.Drawing.Color.DarkRed;
             this.labelShowError.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelShowError.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelShowError.Location = new System.Drawing.Point(3, 244);
+            this.labelShowError.Location = new System.Drawing.Point(474, 244);
             this.labelShowError.Name = "labelShowError";
-            this.labelShowError.Size = new System.Drawing.Size(691, 184);
+            this.labelShowError.Size = new System.Drawing.Size(220, 184);
             this.labelShowError.TabIndex = 14;
             this.labelShowError.Visible = false;
             // 

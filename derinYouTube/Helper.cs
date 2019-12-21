@@ -36,7 +36,13 @@ namespace derinYouTube
         //    DtLiveChats.Columns.Add("IsChatModerator", typeof(bool));
         //}
 
-        public static string ConnectionString = "Data Source=.;Initial Catalog=YoutubeCommentDb;User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
+        public static bool IsDevelopment
+        {
+            get { return System.Security.Principal.WindowsIdentity.GetCurrent().Name.Contains("ugurdal"); }
+        }
+
+        public static string ConnectionString =
+            "Data Source=.;Initial Catalog=YoutubeCommentDb;User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
 
         public static SqlConnection Cnn;
 
@@ -64,6 +70,7 @@ namespace derinYouTube
             {
                 return Convert.ToDecimal(s) > 0;
             }
+
             return false;
         }
 
@@ -77,7 +84,6 @@ namespace derinYouTube
             else
                 return enumObj.ToString();
         }
-
     }
 
     public static class DateTimeExtensions
@@ -128,6 +134,5 @@ namespace derinYouTube
         {
             return CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
-
     }
 }
