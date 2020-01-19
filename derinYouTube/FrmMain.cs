@@ -108,6 +108,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// DataGridView dan direkt Youtube linkine erişiyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         private void DataGridViewCellDoubleClick(object sender, EventArgs args)
         {
             try
@@ -173,6 +178,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonAsync_Click(object sender, EventArgs e)
         {
             return;
@@ -228,6 +238,9 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
         private int RequestCount
         {
             get { return _requestCount; }
@@ -238,6 +251,9 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
         private int ChatCount
         {
             get { return _chatCount; }
@@ -251,6 +267,9 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
         private int CurrentService
         {
             set
@@ -269,18 +288,34 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ReportProgress(object sender, ReportChatModel e)
         {
             RequestCount++;
             await SaveChatsToDatabase(e.LiveChats, e.PollingIntervalMillis);
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ReportProgress2(object sender, ReportChatModel e)
         {
             RequestCount++;
             await SaveChatsToDatabase2(e.LiveChats, e.PollingIntervalMillis);
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="liveChats"></param>
+        /// <param name="pollingIntervalMillis"></param>
+        /// <returns></returns>
         private async Task SaveChatsToDatabase(LinkedList<LiveChatModel> liveChats, long? pollingIntervalMillis)
         {
             if (liveChats == null || !liveChats.Any())
@@ -334,6 +369,12 @@ namespace derinYouTube
             ClearMultipleAnswers();
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="liveChats"></param>
+        /// <param name="pollingIntervalMillis"></param>
+        /// <returns></returns>
         private async Task SaveChatsToDatabase2(LinkedList<LiveChatModel> liveChats, long? pollingIntervalMillis)
         {
             if (liveChats == null || !liveChats.Any())
@@ -386,6 +427,10 @@ namespace derinYouTube
             ClearMultipleAnswers();
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <returns></returns>
         private async Task ClearMultipleAnswers()
         {
             await Task.Run(() =>
@@ -482,6 +527,11 @@ namespace derinYouTube
             Process.Start(channel);
         }
 
+        /// <summary>
+        /// Servisten canlı yayın listesini alıyoruz. Yalnızca son 1 hafta
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonGetLiveBroadCasts_Click(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
@@ -505,6 +555,10 @@ namespace derinYouTube
             Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Canlı yayınları database e kaydediyoruz. Kayıtlı servisin bilgileri güncellenir
+        /// </summary>
+        /// <returns></returns>
         private async Task SaveLiveBroadcasts()
         {
             await Task.Delay(100);
@@ -553,18 +607,33 @@ namespace derinYouTube
             });
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwLiveVideos_SelectionChanged(object sender, EventArgs e)
         {
             if (dgwLiveVideos.SelectedRows.Count > 0)
                 VideoBilgileriniOku(dgwLiveVideos.SelectedRows[0].Index);
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwLiveVideos_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
                 VideoBilgileriniOku(e.RowIndex);
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwLiveVideos_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
@@ -583,6 +652,10 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Seçili yayının bilgilerini alıyoruz
+        /// </summary>
+        /// <param name="rowIndex"></param>
         private async void VideoBilgileriniOku(int rowIndex)
         {
             try
@@ -614,6 +687,11 @@ namespace derinYouTube
                 await Temizle();
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgw_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
             //Task.Delay(500);
@@ -625,6 +703,11 @@ namespace derinYouTube
             //});
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonStop_Click(object sender, EventArgs e)
         {
             if (_tokenSource.IsCancellationRequested)
@@ -643,6 +726,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Ayarları userSettings de saklıyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.Timer = (int)this.numTimerInterval.Value;
@@ -651,12 +739,22 @@ namespace derinYouTube
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBoxLiveChatId_TextChanged(object sender, EventArgs e)
         {
             //buttonGetChats.Enabled = !string.IsNullOrEmpty(textBoxLiveChatId.Text.Trim());
             //TODO: Butonun disabled'ı kapatıldı
         }
 
+        /// <summary>
+        /// Kullanım dışı (Servisten yorumları, ayrı pencerede alıyoruz)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBoxAnswer_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
@@ -665,6 +763,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonQuestionStart_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxVideoId.Text))
@@ -692,6 +795,11 @@ namespace derinYouTube
             await SaveCompetition();
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonQuestionStop_Click(object sender, EventArgs e)
         {
             timerQuestion.Stop();
@@ -704,6 +812,10 @@ namespace derinYouTube
             await SaveCompetition();
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
+        /// <returns></returns>
         private async Task SaveCompetition()
         {
             await Task.Delay(100);
@@ -770,6 +882,11 @@ namespace derinYouTube
                 await ShowValidAnswers(compId);
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
+        /// <param name="competitionId"></param>
+        /// <returns></returns>
         private async Task ShowValidAnswers(int competitionId)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -859,16 +976,22 @@ namespace derinYouTube
             //    !string.IsNullOrEmpty(textBoxQuestionStartAt.Text) && !string.IsNullOrEmpty(textBoxQuestionStopAt.Text);
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonNewQuestions_Click(object sender, EventArgs e)
         {
             return;
-            var frm = new frmCompetitions(textBoxVideoId.Text, textBoxLiveChatId.Text, _youtubeApi);
-            frm.Show();
-
-            //TODO: Yarışma süreçleri yeni forma alındı
-            NewQuestion();
+            //var frm = new frmCompetitions(textBoxVideoId.Text, textBoxLiveChatId.Text, _youtubeApi);
+            //frm.Show();
+            //NewQuestion();
         }
 
+        /// <summary>
+        /// Kullanım dışı.. Soru-cevap işlemleri ayrı forma taşındı
+        /// </summary>
         private void NewQuestion()
         {
             labelQuestionId.Text = "0";
@@ -885,6 +1008,11 @@ namespace derinYouTube
             timerQuestion.Stop();
         }
 
+        /// <summary>
+        /// Soru-cevap analizi bölümü. Seçili gün, sorulan soruların özetini gösterir.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonReport_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -926,7 +1054,11 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
-
+        /// <summary>
+        /// Seçili günün birincisini gösterir. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowWinnerOfDay_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -934,6 +1066,7 @@ namespace derinYouTube
             dgwWinnerDetail.DataSource = null;
             labelSelectedUser.Text = "";
 
+            //TODO: Bu bölümde gün içindeki yayınların bir alandan seçimi sonrası filtre olmalı. CurrentBroadcast null değilse direkt onu kullanabiliriz
             Helper.CnnOpen();
             var dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
                 SELECT TOP 20 CAST(PublishedAt AS DATE) Day
@@ -970,6 +1103,11 @@ namespace derinYouTube
                 .ForEach(f => f.SortMode = DataGridViewColumnSortMode.Automatic);
         }
 
+        /// <summary>
+        /// Seçili günün kazananlar listesinden ilk 5 kişiyi, ikinci ekranda gösterecek formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowWinnerOfDayOnScreen_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
@@ -979,6 +1117,7 @@ namespace derinYouTube
             {
                 var dayDetail = new List<WinnerOfDayModel>();
 
+                //TODO: Bu bölümde gün içindeki yayınların bir alandan seçimi sonrası filtre olmalı. CurrentBroadcast null değilse direkt onu kullanabiliriz
                 await Task.Run(() =>
                 {
                     dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
@@ -1009,6 +1148,11 @@ namespace derinYouTube
             (sender as Button).Enabled = true;
         }
 
+        /// <summary>
+        /// Seçili günün kazananlar listesinin tümünü, ikinci ekranda gösterecek formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowAllWinnerOfDayOnScreen_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
@@ -1018,6 +1162,7 @@ namespace derinYouTube
             {
                 var dayDetail = new List<WinnerOfDayModel>();
 
+                //TODO: Bu bölümde gün içindeki yayınların bir alandan seçimi sonrası filtre olmalı. CurrentBroadcast null değilse direkt onu kullanabiliriz
                 await Task.Run(() =>
                 {
                     dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
@@ -1049,6 +1194,11 @@ namespace derinYouTube
             (sender as Button).Enabled = true;
         }
 
+        /// <summary>
+        /// Seçili haftanın kazananlar listesinden ilk 5 kişiyi, ikinci ekranda gösterecek formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowWinnerOfWeekOnScreen_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
@@ -1090,6 +1240,11 @@ namespace derinYouTube
             (sender as Button).Enabled = true;
         }
 
+        /// <summary>
+        /// Seçili haftanın tüm kazananlar listesini, ikinci ekranda gösterecek formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowAllWinnersOfWeekOnScreen_Click(object sender, EventArgs e)
         {
             (sender as Button).Enabled = false;
@@ -1132,6 +1287,11 @@ namespace derinYouTube
             (sender as Button).Enabled = true;
         }
 
+        /// <summary>
+        /// Günün ve haftanın kazananları listesindeki kullanıcıların, kanala üye olup olmaldığı kontrol ediliyor
+        /// </summary>
+        /// <param name="dgw"></param>
+        /// <returns></returns>
         private async Task CheckUsersForSubscription(DataGridView dgw)
         {
             try
@@ -1162,7 +1322,12 @@ namespace derinYouTube
             }
         }
 
-        private async void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgwCompetitionHeader_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             //if (dgwCompetitionHeader.CurrentRow == null)
             //    return;
@@ -1205,7 +1370,12 @@ namespace derinYouTube
             //this.Cursor = Cursors.Default;
         }
 
-        private async void dgwWinnerOfDay_RowEnter(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dgwWinnerOfDay_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             //this.Cursor = Cursors.WaitCursor;
             //dgwWinnerDetail.DataSource = null;
@@ -1252,7 +1422,12 @@ namespace derinYouTube
             //this.Cursor = Cursors.Default;
         }
 
-        private async void buttonShowStreams_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Tüm yorumları görüntülemek için yayın seçimi
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonShowStreams_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
             dgwStreams.DataSource = null;
@@ -1288,7 +1463,12 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
-        private async void buttonShowChats_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Seçilen yayının tüm yorumlarını gösterir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonShowChats_Click(object sender, EventArgs e)
         {
             dgwChats.DataSource = null;
             labelChatCount.Text = "0";
@@ -1338,6 +1518,11 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Soru cevap analizinde, kullanıcının bir soruya verdiği tüm cevapları gösteren formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwCompetitionDetail_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex != -1 && e.RowIndex != -1)
@@ -1369,6 +1554,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Yayın devam ederken, dakikalık izleyici sayısını servisten alıp kayıt ediyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timerViewerCount_Tick(object sender, EventArgs e)
         {
             try
@@ -1396,11 +1586,21 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Yeni sorular hazırlamak için kullanılacak formu açar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonQuestionList_Click(object sender, EventArgs e)
         {
             new FrmQuestions(Enumeration.FormTypeEnum.New).ShowDialog();
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowQList_Click(object sender, EventArgs e)
         {
             await Task.Delay(100);
@@ -1423,6 +1623,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwAnswers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex != -1 && e.RowIndex != -1 && labelQuestionId.Text != "0")
@@ -1458,6 +1663,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Tarih değişiminde tüm tarihleri eşitliyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dtQAAnalysis_ValueChanged(object sender, EventArgs e)
         {
             var date = (sender as DateTimePicker).Value;
@@ -1468,6 +1678,9 @@ namespace derinYouTube
             dtWinnerOfWeek.Value = date;
         }
 
+        /// <summary>
+        /// Chart tipi 
+        /// </summary>
         private string ChartType
         {
             get
@@ -1477,12 +1690,11 @@ namespace derinYouTube
                 return comboBoxChartType.SelectedItem.ToString();
             }
         }
-
-        private async void buttonShowChart_Click(object sender, EventArgs e)
-        {
-            await ShowChart();
-        }
-
+        
+        /// <summary>
+        /// Chart gösterimi
+        /// </summary>
+        /// <returns></returns>
         private async Task ShowChart()
         {
             await Task.Delay(100);
@@ -1590,6 +1802,11 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// İzlenme oranlarını gösteriyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowBroadcastForViewerCount_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -1629,6 +1846,11 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// İzlenme oranları bölümünde yayın seçimi değişirse Chart yenileniyor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void dgwViewerCountBroadcasts_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
@@ -1637,6 +1859,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void timerQuestion_Tick(object sender, EventArgs e)
         {
             await Task.Delay(100);
@@ -1652,6 +1879,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timerException_Tick(object sender, EventArgs e)
         {
             labelShowError.Text = "";
@@ -1659,6 +1891,11 @@ namespace derinYouTube
             timerException.Stop();
         }
 
+        /// <summary>
+        /// Kullanım dışı
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void TimerCommentAdd_Tick(object sender, EventArgs e)
         {
             await Task.Delay(100);
@@ -1668,6 +1905,11 @@ namespace derinYouTube
             timerCommentAdd.Stop();
         }
 
+        /// <summary>
+        /// Soru cevap analizinde başlık seçilince detayları yüklüyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwCompetitionHeader_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             dgwCompetitionDetail.DataSource = null;
@@ -1693,6 +1935,11 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Günün birincisi listesinde seçilen kişinin, hangi sorulara cevap verdiğini alt bölümde gösterir
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dgwWinnerOfDay_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -1715,19 +1962,20 @@ namespace derinYouTube
 	                    ,Answer
 	                    ,MessageText
 	                    ,Score
+                        ,CompetitionsId
 	                    ,Gap
 	                    ,1 as TotalAnswersOfUser
 	                    ,AuthorChannelId
                     From validAnswers_vw 
                     Where AuthorChannelId=@Channel
 	                    AND CAST(PublishedAt AS DATE)=CAST(@date AS DATE) "
-                , new { Channel = data.AuthorChannelId, date = dtQAAnalysis.Value.Date }, commandTimeout: 300).ToList();
+                , new { Channel = data.AuthorChannelId, date = dtQAAnalysis.Value.Date }, commandTimeout: 300);
 
             Helper.CnnClose();
 
             if (result.Any())
             {
-                dgwWinnerDetail.DataSource = result;
+                dgwWinnerDetail.DataSource = result.OrderBy(x => x.PublishedAt).ToList();
                 dgwWinnerDetail.FormatGrid();
                 dgwWinnerDetail.Columns["AuthorChannelUrl"].Visible = false;
             }
@@ -1735,18 +1983,33 @@ namespace derinYouTube
             this.Cursor = Cursors.Default;
         }
 
+        /// <summary>
+        /// Tüm yorumlarda arama
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBoxSearchUser_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxSearchUser.Text.Trim()))
                 buttonShowChats.PerformClick();
         }
 
+        /// <summary>
+        /// Tüm yorumlarda arama
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBoxSearchUser_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
                 buttonShowChats.PerformClick();
         }
 
+        /// <summary>
+        /// Kullanılacak yayın seçimi
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonSelectBroadcast_Click(object sender, EventArgs e)
         {
             if (dgwLiveVideos.CurrentRow == null || CurrentBroadcast == null)
@@ -1773,7 +2036,13 @@ namespace derinYouTube
             CheckSubForms();
         }
 
-        private void _frmCompetitions_QuestionCompleted(object sender, ShowResultModel e)
+        /// <summary>
+        /// Yarışma formunda soru tamamlanınca tetiklenen Event e kayıt oluyoruz
+        /// Gelen bilgileri ikinci ekrana veriyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FrmCompetitions_QuestionCompleted(object sender, ShowResultModel e)
         {
             if (CheckSubForms())
             {
@@ -1781,6 +2050,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Yorumları almak için ilgili formu açıyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonShowService_Click(object sender, EventArgs e)
         {
             if (CheckSubForms())
@@ -1790,6 +2064,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Yarışma formunu açıyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonShowComp_Click(object sender, EventArgs e)
         {
             if (CheckSubForms())
@@ -1799,6 +2078,10 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Alt ekranların sırasıyla açılıp açılmadığını kontrol ediyoruz.
+        /// </summary>
+        /// <returns></returns>
         private bool CheckSubForms()
         {
             if (CurrentBroadcast == null)
@@ -1813,7 +2096,7 @@ namespace derinYouTube
             if (Application.OpenForms.OfType<frmCompetitions>().Count() == 0)
             {
                 _frmCompetitions = new frmCompetitions(CurrentBroadcast.Id, CurrentBroadcast.LiveChatId, _youtubeApi);
-                _frmCompetitions.QuestionCompleted += _frmCompetitions_QuestionCompleted;
+                _frmCompetitions.QuestionCompleted += FrmCompetitions_QuestionCompleted;
             }
 
             if (Application.OpenForms.OfType<FrmQuestionSummary>().Count() == 0)
@@ -1824,12 +2107,22 @@ namespace derinYouTube
             return true;
         }
 
+        /// <summary>
+        /// Soru cevap formunu açıyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonShowResultForm_Click(object sender, EventArgs e)
         {
             _frmQuestionSummary.Show();
             _frmQuestionSummary.BringToFront();
         }
 
+        /// <summary>
+        /// Hafta seçimi sonrası hafta başı ve sonunu gösteriyoruz
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void dtWinnerOfWeek_ValueChanged(object sender, EventArgs e)
         {
             var start = dtWinnerOfWeek.Value.GetFirstDayOfWeek();
@@ -1837,6 +2130,11 @@ namespace derinYouTube
             labelWeekDays.Text = $"{start.ToLongDateString()} - {end.ToLongDateString()}";
         }
 
+        /// <summary>
+        /// Haftanın kazananlarını göstermek için kullanılır
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void buttonShowWinnerOfWeek_Click(object sender, EventArgs e)
         {
             this.Cursor = Cursors.WaitCursor;
@@ -1880,6 +2178,11 @@ namespace derinYouTube
                 .ForEach(f => f.SortMode = DataGridViewColumnSortMode.Automatic);
         }
 
+        /// <summary>
+        /// Ayarlar değişiyor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void numTimerInterval_ValueChanged(object sender, EventArgs e)
         {
             Helper.TimerInterval = (int)numTimerInterval.Value;

@@ -404,6 +404,7 @@ namespace derinYouTube
 
             await Task.Run(() =>
             {
+                //TODO: Video Id eklenecek
                 dayDetail = Helper.Cnn.Query<WinnerOfDayModel>($@"
                 SELECT TOP 5 CAST(PublishedAt AS DATE) Day
 	                ,AuthorChannelId

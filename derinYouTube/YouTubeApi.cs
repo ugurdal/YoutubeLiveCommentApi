@@ -163,6 +163,11 @@ namespace derinYouTube
 
         }
 
+        /// <summary>
+        /// Video bilgilerini al
+        /// </summary>
+        /// <param name="videoId"></param>
+        /// <returns></returns>
         public VideoModel GetVideInfoById(string videoId)
         {
             try
@@ -195,6 +200,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Canlı yayın listesini al
+        /// </summary>
+        /// <param name="activeOnly"></param>
+        /// <returns></returns>
         public LinkedList<VideoModel> GetLiveBroadCasts(bool activeOnly = false)
         {
             var videos = new LinkedList<VideoModel>();
@@ -300,6 +310,14 @@ namespace derinYouTube
             return comments;
         }
 
+        /// <summary>
+        /// LiveChat mesajlarını al
+        /// </summary>
+        /// <param name="liveChatId"></param>
+        /// <param name="videoId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="progress"></param>
+        /// <returns></returns>
         public async Task GetLiveChatsAsync(string liveChatId, string videoId, CancellationToken cancellationToken, IProgress<ReportChatModel> progress)
         {
             try
@@ -374,6 +392,11 @@ namespace derinYouTube
             }
         }
 
+        /// <summary>
+        /// Videonun anlık izleyici sayısını al
+        /// </summary>
+        /// <param name="videoId"></param>
+        /// <returns></returns>
         public ulong GetCurrentStreamViewCount(string videoId)
         {
             try
@@ -405,6 +428,12 @@ namespace derinYouTube
             return response.Items[0].Status.LifeCycleStatus == "live";
         }
 
+        /// <summary>
+        /// Kullanıcı kanal üye mi? kontrol et
+        /// </summary>
+        /// <param name="userChannelId"></param>
+        /// <param name="channelId"></param>
+        /// <returns></returns>
         public async Task<Enumeration.SucscriberStatus> IsUserSucscripted(string userChannelId, string channelId)
         {
             var result = Enumeration.SucscriberStatus.No;
@@ -427,6 +456,10 @@ namespace derinYouTube
             return result;
         }
 
+        /// <summary>
+        /// Kanalın üye listesini al
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<string>> GetSubscriberList()
         {
             var result = new List<string>();
@@ -448,10 +481,16 @@ namespace derinYouTube
             return result;
         }
 
+        /// <summary>
+        /// Videoya yorum ekle
+        /// </summary>
+        /// <param name="videoId"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         public async Task AddComment(string videoId, string message)
         {
             return;
-            //TODO: Yorumlara bilenlerin yazılması kapatıldı.
+            //Yorumlara bilenlerin yazılması kapatıldı.
 
             try
             {
