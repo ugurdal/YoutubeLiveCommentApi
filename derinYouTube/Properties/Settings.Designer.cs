@@ -115,5 +115,14 @@ namespace derinYouTube.Properties {
                 this["ListItemCount"] = value;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("YoutubeCommentDb")]
+        public string Database {
+            get {
+                return ((string)(this["Database"]));
+            }
+        }
     }
 }

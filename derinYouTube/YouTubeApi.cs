@@ -205,7 +205,7 @@ namespace derinYouTube
         /// </summary>
         /// <param name="activeOnly"></param>
         /// <returns></returns>
-        public LinkedList<VideoModel> GetLiveBroadCasts(bool activeOnly = false)
+        public async Task<LinkedList<VideoModel>> GetLiveBroadCastsAsync(bool activeOnly = false)
         {
             var videos = new LinkedList<VideoModel>();
             try
@@ -220,7 +220,7 @@ namespace derinYouTube
                 while (nextPage != null)
                 {
                     request.PageToken = nextPage;
-                    var response = request.Execute();
+                    var response = await request.ExecuteAsync();
 
                     foreach (var item in response.Items)
                     {

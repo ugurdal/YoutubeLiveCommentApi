@@ -41,8 +41,19 @@ namespace derinYouTube
             get { return System.Security.Principal.WindowsIdentity.GetCurrent().Name.Contains("ugurdal"); }
         }
 
+        public static string Database
+        {
+            get
+            {
+                return Properties.Settings.Default.Database ?? "YoutubeCommentDb";
+            }
+        }
+
         public static string ConnectionString =
-            "Data Source=.;Initial Catalog=YoutubeCommentDb;User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True";
+            $"Data Source=.;Initial Catalog={Database};User ID=drn;Password=sis;Trusted_Connection=False;Persist Security Info=True;MultipleActiveResultSets=True";
+
+        public static string EntityConnectionString =
+            $"metadata=res://*/Model.DbEntities.csdl|res://*/Model.DbEntities.ssdl|res://*/Model.DbEntities.msl;provider=System.Data.SqlClient;provider connection string='{ConnectionString}'";
 
         public static SqlConnection Cnn;
 

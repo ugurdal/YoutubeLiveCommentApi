@@ -56,7 +56,7 @@ namespace derinYouTube
 
             try
             {
-                using (var db = new DbEntities())
+                using (var db = new DbEntities(Helper.EntityConnectionString))
                 {
                     db.questions.Add(new questions
                     {
@@ -87,7 +87,7 @@ namespace derinYouTube
         private void ShowQuestions()
         {
             dgwQ.DataSource = null;
-            using (var db = new DbEntities())
+            using (var db = new DbEntities(Helper.EntityConnectionString))
             {
                 var model = db.questions.Where(x => DbFunctions.TruncateTime(x.QuestionDate) == DbFunctions.TruncateTime(dtQuestionDate.Value))
                     .Select(x => new QuestionViewModel
@@ -151,7 +151,7 @@ namespace derinYouTube
                 {
                     try
                     {
-                        using (var db = new DbEntities())
+                        using (var db = new DbEntities(Helper.EntityConnectionString))
                         {
                             foreach (DataGridViewRow row in dgwQ.SelectedRows)
                             {

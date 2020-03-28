@@ -81,7 +81,7 @@ namespace derinYouTube
                 this.Close();
             }
 
-            using (var db = new DbEntities())
+            using (var db = new DbEntities(Helper.EntityConnectionString))
             {
                 _questions = db.questions.Where(x => DbFunctions.TruncateTime(x.QuestionDate) == DateTime.Today)
                     .Select(x => new QuestionViewModel
@@ -297,7 +297,7 @@ namespace derinYouTube
                             StartTime = DateTime.Now,
                         };
 
-                        using (var db = new DbEntities())
+                        using (var db = new DbEntities(Helper.EntityConnectionString))
                         {
                             db.competitions.Add(comp);
                             db.SaveChanges();
@@ -307,7 +307,7 @@ namespace derinYouTube
                     }
                     else
                     {
-                        using (var db = new DbEntities())
+                        using (var db = new DbEntities(Helper.EntityConnectionString))
                         {
                             var id = Convert.ToInt32(labelQuestionId.Text);
                             compId = id;

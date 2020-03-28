@@ -286,7 +286,7 @@ namespace derinYouTube
                     if (!string.IsNullOrEmpty(textBoxVideoId.Text))
                     {
                         var result = _youtubeApi.GetCurrentStreamViewCount(textBoxVideoId.Text);
-                        using (var db = new DbEntities())
+                        using (var db = new DbEntities(Helper.EntityConnectionString))
                         {
                             var item = new liveBroadcastsViewCount
                             {
