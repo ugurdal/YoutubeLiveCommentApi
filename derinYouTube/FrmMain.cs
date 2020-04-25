@@ -93,7 +93,7 @@ namespace derinYouTube
 
                 if (Properties.Settings.Default.YoutubeHesap == "client_secret_izlene@gmail.com.json")
                 {
-                    _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "DerinYoutubeApiV1Migros");
+                    _youtubeApi = new YouTubeApi("client_secret_izlene@gmail.com.json", "YouTubeCommentAPI");
                 }
                 if (Properties.Settings.Default.YoutubeHesap == "ugurrdal@gmail.com.json")
                 {
