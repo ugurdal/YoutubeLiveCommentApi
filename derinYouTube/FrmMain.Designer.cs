@@ -804,7 +804,7 @@
             // 
             this.splitContainerYatay.Panel2.BackColor = System.Drawing.SystemColors.ControlLight;
             this.splitContainerYatay.Size = new System.Drawing.Size(915, 695);
-            this.splitContainerYatay.SplitterDistance = 648;
+            this.splitContainerYatay.SplitterDistance = 647;
             this.splitContainerYatay.SplitterWidth = 5;
             this.splitContainerYatay.TabIndex = 11;
             // 
@@ -815,7 +815,7 @@
             this.buttonShowResultForm.Enabled = false;
             this.buttonShowResultForm.Image = global::derinYouTube.Properties.Resources.grade_04_small_1x;
             this.buttonShowResultForm.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowResultForm.Location = new System.Drawing.Point(282, 520);
+            this.buttonShowResultForm.Location = new System.Drawing.Point(282, 519);
             this.buttonShowResultForm.Name = "buttonShowResultForm";
             this.buttonShowResultForm.Size = new System.Drawing.Size(191, 38);
             this.buttonShowResultForm.TabIndex = 26;
@@ -830,7 +830,7 @@
             this.buttonQuestionList.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonQuestionList.Image = global::derinYouTube.Properties.Resources.list_small_1x;
             this.buttonQuestionList.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonQuestionList.Location = new System.Drawing.Point(491, 388);
+            this.buttonQuestionList.Location = new System.Drawing.Point(491, 387);
             this.buttonQuestionList.Name = "buttonQuestionList";
             this.buttonQuestionList.Size = new System.Drawing.Size(191, 38);
             this.buttonQuestionList.TabIndex = 25;
@@ -844,7 +844,7 @@
             this.labelVideoInfo.BackColor = System.Drawing.SystemColors.Info;
             this.labelVideoInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelVideoInfo.ForeColor = System.Drawing.Color.Maroon;
-            this.labelVideoInfo.Location = new System.Drawing.Point(11, 469);
+            this.labelVideoInfo.Location = new System.Drawing.Point(11, 468);
             this.labelVideoInfo.Name = "labelVideoInfo";
             this.labelVideoInfo.Size = new System.Drawing.Size(265, 45);
             this.labelVideoInfo.TabIndex = 24;
@@ -859,7 +859,7 @@
             this.buttonShowComp.Enabled = false;
             this.buttonShowComp.Image = global::derinYouTube.Properties.Resources.grade_03_small_1x;
             this.buttonShowComp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowComp.Location = new System.Drawing.Point(282, 476);
+            this.buttonShowComp.Location = new System.Drawing.Point(282, 475);
             this.buttonShowComp.Name = "buttonShowComp";
             this.buttonShowComp.Size = new System.Drawing.Size(191, 38);
             this.buttonShowComp.TabIndex = 23;
@@ -874,7 +874,7 @@
             this.buttonShowService.Enabled = false;
             this.buttonShowService.Image = global::derinYouTube.Properties.Resources.grade_02_small_1x;
             this.buttonShowService.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonShowService.Location = new System.Drawing.Point(282, 432);
+            this.buttonShowService.Location = new System.Drawing.Point(282, 431);
             this.buttonShowService.Name = "buttonShowService";
             this.buttonShowService.Size = new System.Drawing.Size(191, 38);
             this.buttonShowService.TabIndex = 22;
@@ -888,7 +888,7 @@
             this.buttonSelectBroadcast.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonSelectBroadcast.Image = global::derinYouTube.Properties.Resources.grade_01_small_1x;
             this.buttonSelectBroadcast.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.buttonSelectBroadcast.Location = new System.Drawing.Point(282, 388);
+            this.buttonSelectBroadcast.Location = new System.Drawing.Point(282, 387);
             this.buttonSelectBroadcast.Name = "buttonSelectBroadcast";
             this.buttonSelectBroadcast.Size = new System.Drawing.Size(191, 38);
             this.buttonSelectBroadcast.TabIndex = 21;
@@ -902,7 +902,7 @@
             this.label33.BackColor = System.Drawing.SystemColors.Info;
             this.label33.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.label33.ForeColor = System.Drawing.SystemColors.InfoText;
-            this.label33.Location = new System.Drawing.Point(11, 429);
+            this.label33.Location = new System.Drawing.Point(11, 428);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(265, 33);
             this.label33.TabIndex = 20;
@@ -915,7 +915,7 @@
             this.labelStreamsSaving.BackColor = System.Drawing.Color.DarkRed;
             this.labelStreamsSaving.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelStreamsSaving.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelStreamsSaving.Location = new System.Drawing.Point(741, 391);
+            this.labelStreamsSaving.Location = new System.Drawing.Point(741, 390);
             this.labelStreamsSaving.Name = "labelStreamsSaving";
             this.labelStreamsSaving.Size = new System.Drawing.Size(170, 33);
             this.labelStreamsSaving.TabIndex = 19;
@@ -930,7 +930,7 @@
             this.labelWorkingMessage.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.labelWorkingMessage.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelWorkingMessage.ForeColor = System.Drawing.SystemColors.Window;
-            this.labelWorkingMessage.Location = new System.Drawing.Point(3, 614);
+            this.labelWorkingMessage.Location = new System.Drawing.Point(3, 613);
             this.labelWorkingMessage.Name = "labelWorkingMessage";
             this.labelWorkingMessage.Size = new System.Drawing.Size(908, 32);
             this.labelWorkingMessage.TabIndex = 18;
@@ -941,7 +941,7 @@
             // checkBoxLiveOnly
             // 
             this.checkBoxLiveOnly.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.checkBoxLiveOnly.Location = new System.Drawing.Point(10, 566);
+            this.checkBoxLiveOnly.Location = new System.Drawing.Point(10, 565);
             this.checkBoxLiveOnly.Name = "checkBoxLiveOnly";
             this.checkBoxLiveOnly.Size = new System.Drawing.Size(125, 37);
             this.checkBoxLiveOnly.TabIndex = 17;
@@ -955,7 +955,7 @@
             this.buttonGetLiveBroadCasts.BackColor = System.Drawing.SystemColors.ControlLight;
             this.buttonGetLiveBroadCasts.Image = global::derinYouTube.Properties.Resources.Web;
             this.buttonGetLiveBroadCasts.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(10, 388);
+            this.buttonGetLiveBroadCasts.Location = new System.Drawing.Point(10, 387);
             this.buttonGetLiveBroadCasts.Name = "buttonGetLiveBroadCasts";
             this.buttonGetLiveBroadCasts.Size = new System.Drawing.Size(266, 38);
             this.buttonGetLiveBroadCasts.TabIndex = 16;
@@ -978,7 +978,7 @@
             this.dgwLiveVideos.Name = "dgwLiveVideos";
             this.dgwLiveVideos.ReadOnly = true;
             this.dgwLiveVideos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwLiveVideos.Size = new System.Drawing.Size(922, 379);
+            this.dgwLiveVideos.Size = new System.Drawing.Size(922, 378);
             this.dgwLiveVideos.TabIndex = 11;
             this.dgwLiveVideos.CellEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwLiveVideos_CellEnter);
             this.dgwLiveVideos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgwLiveVideos_DataBindingComplete);
@@ -1983,7 +1983,7 @@
             this.dgwViewerCountBroadcasts.Name = "dgwViewerCountBroadcasts";
             this.dgwViewerCountBroadcasts.ReadOnly = true;
             this.dgwViewerCountBroadcasts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(906, 170);
+            this.dgwViewerCountBroadcasts.Size = new System.Drawing.Size(906, 169);
             this.dgwViewerCountBroadcasts.TabIndex = 18;
             this.dgwViewerCountBroadcasts.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgwViewerCountBroadcasts_RowEnter);
             // 
@@ -2103,7 +2103,7 @@
             0,
             0});
             this.numListFont.Minimum = new decimal(new int[] {
-            20,
+            10,
             0,
             0,
             0});

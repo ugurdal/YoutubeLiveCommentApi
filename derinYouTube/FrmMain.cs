@@ -163,8 +163,8 @@ namespace derinYouTube
                 Helper.TimerInterval = (int)this.numTimerInterval.Value;
             }
 
-            if (Properties.Settings.Default.ListFontSize > (int)this.numListFont.Minimum &&
-                Properties.Settings.Default.ListFontSize < (int)this.numListFont.Maximum)
+            if (Properties.Settings.Default.ListFontSize >= (int)this.numListFont.Minimum &&
+                Properties.Settings.Default.ListFontSize <= (int)this.numListFont.Maximum)
             {
                 this.numListFont.Value = Properties.Settings.Default.ListFontSize;
                 Helper.ListFontSize = (int)this.numListFont.Value;
