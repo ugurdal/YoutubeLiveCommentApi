@@ -227,7 +227,7 @@ namespace derinYouTube
                         if (activeOnly && item.Status.LifeCycleStatus != "live")
                             continue;
 
-                        if (item.Snippet.PublishedAt.Value.Date < DateTime.Today.AddDays(-7))
+                        if (item.Snippet.ActualEndTime.HasValue)
                             continue;
 
                         var video = new VideoModel()

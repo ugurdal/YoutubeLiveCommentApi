@@ -83,5 +83,8 @@ C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.pdb
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.frmGetChats.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.frmCompetitions.resources
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.FrmQuestionSummary.resources
-C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csprojAssemblyReference.cache
 C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.csproj.CoreCompileInputs.cache
+C:\DerinSISRelease\Youtube\derinYouTube.exe.manifest
+C:\DerinSISRelease\Youtube\derinYouTube.application
+C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.exe.manifest
+C:\DerinSIS_Proje\youtube\derinYouTube\obj\Debug\derinYouTube.application
